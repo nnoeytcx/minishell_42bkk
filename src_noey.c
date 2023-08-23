@@ -25,7 +25,7 @@ typedef struct s_amd
 	struct	s_amd *next;
 }	t_cmd ;
 
-int ft_initcmd (t_cmd *cmd, char **input)
+t_cmd *ft_initcmd (t_cmd *cmd, char **input, int i, int j)
 {
     cmd->redirect = 0;
     cmd->pipo[0] = 0;
@@ -36,34 +36,47 @@ int ft_initcmd (t_cmd *cmd, char **input)
     //cmd->file_in = ft_getfdin(input);
     //cmd->file_out = ft_getfdout(input);
     //cmd->command = ft_getcommand(input);
+    return (cmd);
 }
 
 void    ft_creatnode (t_cmd *cmd, char **input, int len)
 {
     int i = 0;
     int j = 0;
+    t_cmd   *cmd;
 
     while (i < len)
     {
-        if (input[i] == "|")
+        if (input[i][0] == '|')
         {
             //creat new node use input from j to i
             //set old_node->next = &(new_node)
-            //set new j value
+
+            cmd = ft_initcmd (cmd, input, i, j);
+
+            printf(" (%d) to (%d)\n", j, i - 1);
+            j = i + 1;
         }
+        //printf("[%s] ", input[i]);
         i++;
     }
+    printf(" (%d) to (%d)\n", j, i - 1);
 }
 
 int main(int argc, char *argv[]) 
 {
-    //t_cmd   *cmd;
+    t_cmd   *cmd;
 
     int i = 0;
     char **res;
 
     res = ft_split(argv[1]);
     while (res[i])
-        i++;
-    printf("%d", i);
+    {
+        //printf("[%s] ", res[i]);
+        i++; 
+    }
+    //printf("---%d---", i);
+    ft_creatnode (cmd, res, i);
+    
 }
