@@ -43,7 +43,6 @@ void    ft_creatnode (t_cmd *cmd, char **input, int len)
 {
     int i = 0;
     int j = 0;
-    t_cmd   *cmd;
 
     while (i < len)
     {
@@ -52,12 +51,13 @@ void    ft_creatnode (t_cmd *cmd, char **input, int len)
             //creat new node use input from j to i
             //set old_node->next = &(new_node)
 
-            cmd = ft_initcmd (cmd, input, i, j);
+            //cmd = ft_initcmd (cmd, input, i, j);
 
             printf(" (%d) to (%d)\n", j, i - 1);
             j = i + 1;
         }
-        //printf("[%s] ", input[i]);
+        else
+            printf("[%s] ", input[i]);
         i++;
     }
     printf(" (%d) to (%d)\n", j, i - 1);
