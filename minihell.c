@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int signal;// <<== signal globle
+
 int run_token(t_tok token)
 {
 
@@ -10,7 +12,7 @@ int get_env_token(t_env **t_env, char **env)
 
 }
 
-t_cmd	*make_token(t_tok	token, char	*input)
+void make_token(t_tok	*token, char	*input)
 {
 	
 }
@@ -33,10 +35,13 @@ int main(int ac , char **av, char **env)
 			rl_clear_history(); //<< safety 1st
 			exit(1); // << have to figure out the exit code later
 		}
+		if (SIGNAL == ??)
+			brake;
 		printf("input is [%s]\n", input);
 		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
-		make_token(&token, input); // <<-- lexer parser
+		make_token(token, input); // <<-- lexer parser
 		run_token(token); //<< executor
 		free_input_and_cmd_token(input, &token.command);
 	}
+	free_all_and_exit(token);
 }

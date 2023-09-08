@@ -8,9 +8,17 @@
 #define ARG_STR 1
 #define REDIR_IN 2
 #define REDIR_OUT 3
+
+#define HERE_DOC 9
+#define DOC_CUT 10
+#define FILE_IN 7
+#define FILE_OUT 8
+
 #define DOUBLE_Q 4
 #define SIN_Q_STR 5
 #define EXPAN_STR 6
+
+#define SYNTAX_ERR "syntax error near unexpected token"
 
 typedef struct s_environment // <<-- fot the env glob;e variable 
 {
