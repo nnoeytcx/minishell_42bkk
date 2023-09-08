@@ -5,22 +5,37 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-typedef struct s_environment
+#define ARG_STR 1
+#define REDIR_IN 2
+#define REDIR_OUT 3
+#define DOUBLE_Q 4
+#define SIN_Q_STR 5
+#define EXPAN_STR 6
+
+typedef struct s_environment // <<-- fot the env glob;e variable 
 {
 	char *key;
 	char *value;
 	struct s_environment *next;
 }	t_env;
+
+
+typedef struct s_str_with_mode
+{
+	int		mode;
+	char	*value;
+	s_str_with_mode *next;
+} t_strm;
+
 typedef struct s_amd
 {
-	int redirect; // <----- redirect flag bool 0 is default if have redirect chage to 1
+	t_strm *str_mode; //< the str with mode 
 	int pipo[2];	// <--- for pipe init to [0,0]
 	int fd_in;	// <------ default is 0 set by open after if have file_in;
+	int fd_out;	// default 1 < set by open if have file_out
 	char *file_in; // <--- the file name that user pass in command (command < eiei.txt) want "eiei.txt"
-	char **command;	// <-- the split command {"ls" , "-la", "......"}
 	char *file_out; // <-- file out str for output (command > eiei.txt) want eiei.txt
-	int fd_out;	// default 1 <set by open if have file_out
-	struct	s_amd *next;
+	struct	s_amd *next; // << next str = next node
 }	t_cmd ;
 
 typedef struct s_token
