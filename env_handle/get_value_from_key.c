@@ -1,4 +1,4 @@
-#include "env_handle.h"
+#include "../minishell.h"
 
 char *get_value_from_key(char *key, t_env *token)
 {
@@ -8,7 +8,7 @@ char *get_value_from_key(char *key, t_env *token)
 	tmp = token;
 	while (tmp->next)
 	{
-		if (!strncmp(key, tmp->key, strlen(tmp->key)))
+		if (!ft_strncmp(key, tmp->key, ft_strlen(tmp->key)))
 			return(tmp->value);
 		tmp = tmp->next;
 	}
