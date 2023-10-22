@@ -1,22 +1,5 @@
 #include "minishell.h"
 
-int signal;// <<== signal globle
-
-int run_token(t_tok token)
-{
-
-}
-
-int get_env_token(t_env **t_env, char **env)
-{
-
-}
-
-void make_token(t_tok	*token, char	*input)
-{
-	
-}
-
 int main(int ac , char **av, char **env)
 {
 	(void) av;
@@ -25,7 +8,7 @@ int main(int ac , char **av, char **env)
 		return (1);
 	t_tok token;
 
-	get_env_token(&token.env_token, env); //<<-- assign the env to key : value pair 
+	init_env_token(&token, env); //<<-- assign the env to key : value pair 
 	while (1)
 	{
 		char *input;
@@ -35,13 +18,23 @@ int main(int ac , char **av, char **env)
 			rl_clear_history(); //<< safety 1st
 			exit(1); // << have to figure out the exit code later
 		}
-		if (SIGNAL == ??)
-			brake;
+		// if (SIGNAL == ??)
+		// 	brake;
 		printf("input is [%s]\n", input);
+		if (!ft_strncmp(input, "env", ft_strlen("env")))
+		{
+				t_env *tmp = token.env_token;
+				while (tmp->next)
+				{
+					printf("[%s]=[%s]\n", tmp->key, tmp->value);
+					tmp = tmp->next;
+				}
+					printf("[output = %s]\n",get_value_from_key(av[1], token.env_token));
+		}
 		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
-		make_token(token, input); // <<-- lexer parser
-		run_token(token); //<< executor
-		free_input_and_cmd_token(input, &token.command);
+		// make_token(token, input); // <<-- lexer parser
+		// run_token(token); //<< executor
+		// free_input_and_cmd_token(input, &token.command);
 	}
-	free_all_and_exit(token);
+	// free_all_and_exit(token);
 }
