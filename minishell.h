@@ -2,8 +2,10 @@
 #define MINISHELL_H
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "./libft/libft.h"
 
 #define ARG_STR 1
 #define REDIR_IN 2
@@ -18,7 +20,7 @@
 #define SIN_Q_STR 5
 #define EXPAN_STR 6
 
-#define SYNTAX_ERR "syntax error near unexpected token"
+#define SYNTAX_ERR "syntax error near unexpected token\n"
 
 typedef struct s_environment // <<-- fot the env glob;e variable 
 {
@@ -32,7 +34,7 @@ typedef struct s_str_with_mode
 {
 	int		mode;
 	char	*value;
-	s_str_with_mode *next;
+	struct s_str_with_mode *next;
 } t_strm;
 
 typedef struct s_amd
@@ -48,7 +50,7 @@ typedef struct s_amd
 
 typedef struct s_token
 {
-	struct t_env 	*env_token; // <------ store env argument that pass by main (char **env) to use as minishell env
+	struct s_environment 	*env_token; // <------ store env argument that pass by main (char **env) to use as minishell env
 	char			**env; // <------- env to pass in to execve function must be char ** (join after token)
 	struct t_cmd	*command;
 
@@ -56,4 +58,16 @@ typedef struct s_token
 
 
 #define PROMPT "MINISHELL > "
+// env_handle
+char 	*get_value_from_key(char *key, t_env *token);
+char	*getenv_value(char *env_v);
+char	*getenv_key(char *env_v);
+int		init_env_token(t_tok *token, char **env);
+
+// utill << have to add libft later ////
+// size_t	ft_strlen(const char *s);
+// int		ft_strncmp(const char *s1, const char *s2, size_t n);
+// void	ft_bzero(void *s, size_t n);
+// void	*ft_calloc(size_t count, size_t size);
+
 #endif
