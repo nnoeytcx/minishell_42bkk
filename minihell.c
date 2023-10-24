@@ -18,19 +18,11 @@ int main(int ac , char **av, char **env)
 			rl_clear_history(); //<< safety 1st
 			exit(1); // << have to figure out the exit code later
 		}
-		// if (SIGNAL == ??)
-		// 	brake;
 		printf("input is [%s]\n", input);
+
+		
 		if (!ft_strncmp(input, "env", ft_strlen("env")))
-		{
-				t_env *tmp = token.env_token;
-				while (tmp->next)
-				{
-					printf("[%s]=[%s]\n", tmp->key, tmp->value);
-					tmp = tmp->next;
-				}
-					printf("[output = %s]\n",get_value_from_key(av[1], token.env_token));
-		}
+			print_env(token);
 		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
 		// make_token(token, input); // <<-- lexer parser
 		// run_token(token); //<< executor
