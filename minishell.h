@@ -10,17 +10,17 @@
 #define ARG_STR 1
 #define REDIR_IN 2
 #define REDIR_OUT 3
-
-#define HERE_DOC 9
-#define DOC_CUT 10
-#define FILE_IN 7
-#define FILE_OUT 8
-
 #define DOUBLE_Q 4
 #define SIN_Q_STR 5
 #define EXPAN_STR 6
+#define FILE_IN 7
+#define FILE_OUT 8
+#define HERE_DOC 9
+#define DOC_CUT 10
+
 
 #define SYNTAX_ERR "syntax error near unexpected token\n"
+#define PROMPT "MINISHELL > "
 
 typedef struct s_environment // <<-- fot the env glob;e variable 
 {
@@ -39,7 +39,7 @@ typedef struct s_str_with_mode
 
 typedef struct s_amd
 {
-	t_strm *str_mode; //< the str with mode 
+	struct t_strm *str_mode; //< the str with mode 
 	int pipo[2];	// <--- for pipe init to [0,0]
 	int fd_in;	// <------ default is 0 set by open after if have file_in;
 	int fd_out;	// default 1 < set by open if have file_out
@@ -56,18 +56,11 @@ typedef struct s_token
 
 }	t_tok; // <-- can change later kub
 
-
-#define PROMPT "MINISHELL > "
 // env_handle
 char 	*get_value_from_key(char *key, t_env *token);
 char	*getenv_value(char *env_v);
 char	*getenv_key(char *env_v);
 int		init_env_token(t_tok *token, char **env);
-
-// utill << have to add libft later ////
-// size_t	ft_strlen(const char *s);
-// int		ft_strncmp(const char *s1, const char *s2, size_t n);
-// void	ft_bzero(void *s, size_t n);
-// void	*ft_calloc(size_t count, size_t size);
+void	print_env(t_tok token);
 
 #endif
