@@ -6,14 +6,12 @@ CFLAGS = -Wall -Werror -Wextra
 
 LIB_RL_FLAG = -L/usr/include -lreadline
 
-
-
 RM = rm -rf
 
 #FOR UTIL
 LIBFT_PATH = ./libft/
-LIBFT_FILE = ${lib}
-LIBFT_SRC = ${addprefix ${LIBFT_PATH}, ${LIBFT_FILE}}
+LIBFT_FILE = ${wildcard ${LIBFT_PATH}*.c}
+LIBFT_SRC = ${LIBFT_FILE}
 
 # FOR BUILT-IN
 BUILT_PATH = ./built_in/
@@ -30,16 +28,10 @@ RM = rm -rf
 SRC =  ${LIBFT_SRC} ${ENV_SRC} minihell.c
 OBJ = $(SRC:.c=.o)
 
-$(NAME) : $(HEADER) $(lib) $(OBJ)
+$(NAME) : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
 
 all : $(NAME)
-
-lib :
-	(cd ${LIBFT_PATH} && make)
-
-lib_clean :
-	(cd ${LIBFT_PATH} && make fclean)
 
 clean :
 	$(RM) $(OBJ)
