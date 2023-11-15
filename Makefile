@@ -23,9 +23,14 @@ ENV_PATH = ./env_handle/
 ENV_FILE = env_util.c get_value_from_key.c init_env.c
 ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
+## FOR EXE
+EXE_PATH = ./exe/
+EXE_FILE = parser.c print_tok.c
+EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
+
 RM = rm -rf
 
-SRC =  ${LIBFT_SRC} ${ENV_SRC} minihell.c
+SRC =  ${LIBFT_SRC} ${ENV_SRC} ${EXE_SRC} minihell.c
 OBJ = $(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
