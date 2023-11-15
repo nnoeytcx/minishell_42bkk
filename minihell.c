@@ -8,6 +8,7 @@ int main(int ac , char **av, char **env)
 		return (1);
 	t_tok token;
 
+	token.command = NULL;
 	init_env_token(&token, env); //<<-- assign the env to key : value pair 
 	while (1)
 	{
@@ -18,9 +19,12 @@ int main(int ac , char **av, char **env)
 			rl_clear_history(); //<< safety 1st
 			exit(1); // << have to figure out the exit code later
 		}
-		printf("input is [%s]\n", input);
-
-		
+	//	printf("input is [%s]\n", input);
+		mock_up(&token, input);
+		printf("out mock\n");
+		print_tok(token);
+		// printf("----------out mock-----------\n");
+		// print_tok(token);
 		if (!ft_strncmp(input, "env", ft_strlen("env")))
 			print_env(token);
 		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
