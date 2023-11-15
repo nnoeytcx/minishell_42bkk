@@ -35,11 +35,12 @@ typedef struct s_str_with_mode
 	int		mode;
 	char	*value;
 	struct s_str_with_mode *next;
-} t_strm;
+}	t_strm;
 
 typedef struct s_amd
 {
-	struct t_strm *str_mode; //< the str with mode 
+	struct s_str_with_mode *str_mode; //< the str with mode 
+	int process_id;
 	int pipo[2];	// <--- for pipe init to [0,0]
 	int fd_in;	// <------ default is 0 set by open after if have file_in;
 	int fd_out;	// default 1 < set by open if have file_out
@@ -52,7 +53,7 @@ typedef struct s_token
 {
 	struct s_environment 	*env_token; // <------ store env argument that pass by main (char **env) to use as minishell env
 	char			**env; // <------- env to pass in to execve function must be char ** (join after token)
-	struct t_cmd	*command;
+	struct s_amd	*command;
 
 }	t_tok; // <-- can change later kub
 
@@ -62,5 +63,8 @@ char	*getenv_value(char *env_v);
 char	*getenv_key(char *env_v);
 int		init_env_token(t_tok *token, char **env);
 void	print_env(t_tok token);
+
+int mock_up(t_tok *token, char *input);
+void print_tok(t_tok t);
 
 #endif
