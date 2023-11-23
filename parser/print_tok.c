@@ -8,19 +8,16 @@ void print_command_tab(t_cmd *cmd)
     t_strm *stt;
     while (tmp != NULL)
     {
-        // printf("pipe[%d][%d]\n", cmd->pipo[0], cmd->pipo[1]);
-        // printf("fd in [%d] fd out [%d]\n", cmd->fd_in,cmd->fd_out);
-        // printf("f_in [%s], f_out [%s]\n", cmd->file_in,cmd->file_out);
         stt = tmp->str_mode;
         printf("\n -----  {%d} cmd is [%p] -------\n",k, cmd);
         i = 0;
         while (stt)
         {
-           // printf(" | strm [%d] ", i);
             printf("value [%s] mode [%d] -> ",stt->value, stt->mode);
             stt = stt->next;
             i++;       
         }
+        printf("\nprocess id[%d]\n status[%d]\n", tmp->process_id, tmp->process_status);
         k++;
         tmp = tmp->next;
     }
