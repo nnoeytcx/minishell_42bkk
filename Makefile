@@ -35,7 +35,7 @@ PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 RM = rm -rf
 
-SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minihell.c
+SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
 OBJ = $(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
