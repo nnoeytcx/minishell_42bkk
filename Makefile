@@ -20,12 +20,12 @@ BUILT_SRC = ${addprefix ${BUILT_PATH}, ${BUILT_FILE}}
 
 ## FOR ENV
 ENV_PATH = ./env_handle/
-ENV_FILE = env_util.c get_value_from_key.c init_env.c
+ENV_FILE = env_util.c get_value_from_key.c init_env.c env_join.c
 ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
 EXE_PATH = ./exe/
-EXE_FILE = exe.c
+EXE_FILE = exe.c get_exe_data.c exe_error.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR PARSER
