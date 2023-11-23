@@ -9,6 +9,7 @@
 #include <readline/history.h>
 #include "./libft/libft.h"
 
+#define DEF_VAL 0
 #define ARG_STR 1
 #define REDIR_IN 2
 #define REDIR_OUT 3
