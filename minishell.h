@@ -8,21 +8,29 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "./libft/libft.h"
+#include <errno.h> //<<< to add errno
 
 #define DEF_VAL 0
 #define ARG_STR 1
+
 #define REDIR_IN 2
 #define REDIR_OUT 3
+
 #define DOUBLE_Q 4
 #define SIN_Q_STR 5
-#define EXPAN_STR 6
+
+#define VAR_STR 6
+
 #define FILE_IN 7
 #define FILE_OUT 8
+#define FILE_OUT_APPEND 11
+#define FILE_OUT_APPEND_SY 12
+
 #define HERE_DOC 9
 #define DOC_CUT 10
 
 
-#define SYNTAX_ERR "syntax error near unexpected token\n"
+#define SYNTAX_ERR "Minishell:  syntax error near unexpected token `"
 #define PROMPT "MINISHELL > "
 
 #define FORK_ER "SYS : Can,t Fork\n"
@@ -70,8 +78,15 @@ char	*getenv_key(char *env_v);
 int		init_env_token(t_tok *token, char **env);
 void	print_env(t_tok token);
 
+char    **get_cmd(t_strm *str_list);
+char	*get_cmdpath(char *command, char **env);
+char	**get_envpath(char **ep);
 int mock_up(t_tok *token, char *input);
 void print_tok(t_tok t);
 unsigned int exe_command(t_tok *token);
+char **join_env_token(t_env *env_token);
+
+void	put_errorcmd(char *str, char *cmd_p, char **cmd_a, int errnum);
+int	find_slash(char *str);
 
 #endif
