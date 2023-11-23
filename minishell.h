@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "./libft/libft.h"
@@ -21,6 +23,8 @@
 
 #define SYNTAX_ERR "syntax error near unexpected token\n"
 #define PROMPT "MINISHELL > "
+
+#define FORK_ER "SYS : Can,t Fork\n"
 
 typedef struct s_environment // <<-- fot the env glob;e variable 
 {
@@ -41,6 +45,7 @@ typedef struct s_amd
 {
 	struct s_str_with_mode *str_mode; //< the str with mode 
 	int process_id;
+	int process_status;
 	int pipo[2];	// <--- for pipe init to [0,0]
 	int fd_in;	// <------ default is 0 set by open after if have file_in;
 	int fd_out;	// default 1 < set by open if have file_out
@@ -66,5 +71,6 @@ void	print_env(t_tok token);
 
 int mock_up(t_tok *token, char *input);
 void print_tok(t_tok t);
+unsigned int exe_command(t_tok *token);
 
 #endif
