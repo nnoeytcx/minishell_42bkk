@@ -25,12 +25,17 @@ ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
 EXE_PATH = ./exe/
-EXE_FILE = parser.c print_tok.c
+EXE_FILE = exe.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
+
+## FOR PARSER
+PARSER_PATH = ./parser/
+PARSER_FILE = parser.c print_tok.c
+PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 RM = rm -rf
 
-SRC =  ${LIBFT_SRC} ${ENV_SRC} ${EXE_SRC} minihell.c
+SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minihell.c
 OBJ = $(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
