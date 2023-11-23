@@ -26,9 +26,10 @@ int main(int ac , char **av, char **env)
 		printf("input is [%s]\n", input);
 	//	printf("input is [%s]\n", input);
 		mock_up(&token, input);
-		printf("out mock\n");
 		print_tok(token);
-		exe_command(&token);
+		// printf("out mock\n");
+		// exe_command(&token);
+		// print_tok(token);
 		// printf("----------out mock-----------\n");
 		// print_tok(token);
 		if (!ft_strncmp(input, "env", ft_strlen("env")))
