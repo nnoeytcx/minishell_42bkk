@@ -23,17 +23,17 @@ int main(int ac , char **av, char **env)
 			rl_clear_history(); //<< safety 1st
 			exit(1); // << have to figure out the exit code later
 		}
+		if (!ft_strncmp(input, "env", ft_strlen("env")))
+			print_env(token);
 		printf("input is [%s]\n", input);
 	//	printf("input is [%s]\n", input);
 		mock_up(&token, input);
 		print_tok(token);
 		// printf("out mock\n");
-		exe_command(&token);
+		//exe_command(&token);
 		// print_tok(token);
 		// printf("----------out mock-----------\n");
 		// print_tok(token);
-		if (!ft_strncmp(input, "env", ft_strlen("env")))
-			print_env(token);
 		if (!(0 == ft_strlen(input)))
 			add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
 		// make_token(token, input); // <<-- lexer parser

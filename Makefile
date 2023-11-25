@@ -13,6 +13,11 @@ LIBFT_PATH = ./libft/
 LIBFT_FILE = ${wildcard ${LIBFT_PATH}*.c}
 LIBFT_SRC = ${LIBFT_FILE}
 
+#FOR HEADER
+HEADER_PATH = ./header/
+HEADER_FILE = ${wildcard ${HEADER_PATH}*.h}
+HEADER_SRC = ${LIBFT_FILE}
+
 # FOR BUILT-IN
 BUILT_PATH = ./built_in/
 BUILT_FILE = cd.c echo.c env.c exit.c export.c pwd.c unset.c
@@ -30,23 +35,28 @@ EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR PARSER
 PARSER_PATH = ./parser/
-PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c
+PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 RM = rm -rf
 
 SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
-OBJ = $(SRC:.c=.o)
+OBJ =  $(SRC:.c=.o)
+
+%.o: %.c ${HEADER_FILE}
+	@ echo "compiling object file...."
+	@ ${CC} -c $< -o $@
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
+	@ $(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
+	@ echo "compile finish : RUN ./minishell to run minishell"
 
 all : $(NAME)
 
 clean :
-	$(RM) $(OBJ)
+	@ $(RM) $(OBJ)
 fclean : clean
-	$(RM) $(NAME)
+	@ $(RM) $(NAME)
 
 re : fclean all
 
