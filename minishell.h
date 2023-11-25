@@ -88,5 +88,10 @@ char **join_env_token(t_env *env_token);
 
 void	put_errorcmd(char *str, char *cmd_p, char **cmd_a, int errnum);
 int	find_slash(char *str);
+int expand_from_env(t_strm *str_tab, t_env *env);
+t_cmd   *new_command_tab(char *input, t_env *env);
+int parser_error(char *str);
 
+int set_mode(t_strm *str);
+void	free2d(char	**ptr);
 #endif

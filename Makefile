@@ -30,7 +30,7 @@ EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR PARSER
 PARSER_PATH = ./parser/
-PARSER_FILE = parser.c print_tok.c
+PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 RM = rm -rf
