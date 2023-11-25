@@ -1,5 +1,22 @@
-#ifndef MINIDEFINE_H
-#define MINIDEFINE_H
+#ifndef DEFINE_VAR_H
+#define DEFINE_VAR_H
+
+enum type {
+    def = 0,
+    string,
+    variable,
+    double_quote_str,
+    single_quote_str,
+    file_in_str,
+    file_out_str,
+    file_out_append_str,
+    h_doc_cut_str,
+    h_doc_symbol,
+    append_symbol,
+    redin_symbol,
+    redout_symbol,
+    redin_append_symbol
+};
 
 #define DEF_VAL 0
 #define ARG_STR 1

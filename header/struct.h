@@ -1,5 +1,5 @@
-#ifndef MINI_STRUCT_H
-#define MINI_STRUCT_H
+#ifndef STRUCT_H
+#define STRUCT_H
 
 typedef struct s_environment // <<-- fot the env glob;e variable 
 {
