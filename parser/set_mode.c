@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 int is_sp_symbol(char *str)
 {

@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 int expand_from_env(t_strm *str_tab, t_env *env)
 {

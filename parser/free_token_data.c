@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 void free_command_table(t_cmd *cmd)
 {
