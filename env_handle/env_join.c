@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 char **join_env_token(t_env *env_token)
 {
@@ -16,7 +16,6 @@ char **join_env_token(t_env *env_token)
         i++;
         tmp = tmp->next;
     }
-    //printf("no of token = [%d]", i);
     tmp = env_token;
     res = ft_calloc(sizeof(char *), i);
     i = 0;
@@ -28,12 +27,5 @@ char **join_env_token(t_env *env_token)
         free(key_w_eq);
         tmp = tmp->next;
     }
-    // i = 0;
-    // printf("<-------- output is --------->\n");
-    // while (res[i])
-    // {
-    //     printf("[%s]\n", res[i]);
-    //     i++;
-    // }
     return (res);
 }

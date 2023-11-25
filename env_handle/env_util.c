@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 void	print_env(t_tok token)
 {

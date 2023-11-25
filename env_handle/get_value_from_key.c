@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 char *get_value_from_key(char *key, t_env *token)
 {
