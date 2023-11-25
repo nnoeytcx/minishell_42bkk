@@ -13,7 +13,7 @@ void print_command_tab(t_cmd *cmd)
         i = 0;
         while (stt)
         {
-            printf("value [%s] mode [%d] -> ",stt->value, stt->mode);
+            printf("value [%s] mode [%d] -> ",stt->value, stt->type);
             stt = stt->next;
             i++;       
         }

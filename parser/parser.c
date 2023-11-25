@@ -2,12 +2,14 @@
 
 t_strm *new_str_with_mode(char *str)
 {
+    enum type;
+
     if (!str)
         return (NULL);
     t_strm *new = ft_calloc(sizeof(t_strm), 1);
 
     new->value = ft_strdup(str);
-    new->mode = DEF_VAL;
+    new->type = def;
     new->next = NULL;
     return (new);
     

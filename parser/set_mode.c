@@ -20,6 +20,7 @@ int set_mode(t_strm *str)
 {
     t_strm *stm;
     int len;
+    enum type;
 
     if (!str)
         return (-1);
@@ -27,14 +28,14 @@ int set_mode(t_strm *str)
     while (stm)
     {
         len = ft_strlen(stm->value);
-        if (stm->mode == DEF_VAL)
+        if (stm->type == def)
         {
             if (0 == ft_strncmp(">", stm->value, len))
             {
-                stm->mode = REDIR_OUT;
+                stm->type = redout_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
                 {
-                    stm->next->mode = FILE_OUT;
+                    stm->next->type = file_out_str;
                 }
                 else
                 {
@@ -46,10 +47,10 @@ int set_mode(t_strm *str)
             }
             else if (0 == ft_strncmp("<", stm->value, len))
             {
-                stm->mode = REDIR_IN;
+                stm->type = redin_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
                 {
-                    stm->next->mode = FILE_IN;
+                    stm->next->type = file_in_str;
                 }
                 else
                 {
@@ -61,10 +62,10 @@ int set_mode(t_strm *str)
             }
             else if (0 == ft_strncmp("<<", stm->value, len))
             {
-                stm->mode = HERE_DOC;
+                stm->type = h_doc_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
                 {
-                    stm->next->mode = DOC_CUT;
+                    stm->next->type = h_doc_cut_str;
                 }
                 else
                 {
@@ -76,10 +77,10 @@ int set_mode(t_strm *str)
             }
             else if (0 == ft_strncmp(">>", stm->value, len))
             {
-                stm->mode = FILE_OUT_APPEND_SY;
+                stm->type = append_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
                 {
-                    stm->next->mode = FILE_OUT_APPEND;
+                    stm->next->type = file_out_append_str;
                 }
                 else
                 {
@@ -90,11 +91,11 @@ int set_mode(t_strm *str)
                 }
             }
             else if (0 == ft_strncmp("$", stm->value, 1))
-                stm->mode = VAR_STR;
+                stm->type = variable;
             else
-                stm->mode = ARG_STR;
+                stm->type = string;
         }
-        printf("set [%s] to [%d] mode\n", stm->value, stm->mode);
+        printf("set [%s] to [%d] mode\n", stm->value, stm->type);
         stm = stm->next;
     }
     return (1);
