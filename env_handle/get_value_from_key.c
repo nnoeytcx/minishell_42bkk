@@ -9,7 +9,9 @@ char *get_value_from_key(char *key, t_env *token)
 	while (tmp->next)
 	{
 		if (!ft_strncmp(key, tmp->key, ft_strlen(tmp->key)))
-			return(tmp->value);
+		{
+			return(ft_strdup(tmp->value));
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);
