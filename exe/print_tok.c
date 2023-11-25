@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 void print_command_tab(t_cmd *cmd)
 {

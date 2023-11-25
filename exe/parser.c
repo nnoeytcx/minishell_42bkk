@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 t_strm *new_str_with_mode(char *str)
 {

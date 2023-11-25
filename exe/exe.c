@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../header/minishell.h"
 
 //must set the last cmd path  when use the command !!!!!!! _=[cmd path]
 unsigned int exe_command(t_tok *token)
