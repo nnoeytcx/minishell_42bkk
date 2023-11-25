@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "./header/minishell.h"
 
 
 int g_signal = 0 ;
