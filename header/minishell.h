@@ -25,5 +25,6 @@ t_cmd   *new_command_tab(char *input, t_env *env);
 int parser_error(char *str);
 
 int set_mode(t_strm *str);
+char	**ft_split_sp(char const *s, char c);
 void	free2d(char	**ptr);
 #endif
