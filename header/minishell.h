@@ -2,9 +2,6 @@
 #define MINISHELL_H
 
 #include "./library.h"
-#include "./define_var.h"
-#include "../libft/libft.h"
-#include "./struct.h"
 
 // env_handle
 char 	*get_value_from_key(char *key, t_env *token);

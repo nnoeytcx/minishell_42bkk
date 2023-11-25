@@ -11,8 +11,8 @@ typedef struct s_environment // <<-- fot the env glob;e variable
 
 typedef struct s_str_with_mode
 {
-	int		mode;
-	char	*value;
+	enum type type;
+	char	  *value;
 	struct s_str_with_mode *next;
 }	t_strm;
 

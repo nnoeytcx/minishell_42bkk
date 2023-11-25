@@ -75,6 +75,7 @@ char    **get_cmd(t_strm *str_list)
     char    **res;
     int     count;
     int     i;
+	enum	type;
 
     if (str_list == NULL)
         return (NULL);
@@ -82,7 +83,7 @@ char    **get_cmd(t_strm *str_list)
     count = 0;
     while (tmp)
     {
-        if (tmp->mode == ARG_STR)
+        if (tmp->type == string)
             count++;
         tmp = tmp->next;
     }
@@ -92,7 +93,7 @@ char    **get_cmd(t_strm *str_list)
     i = 0;
     while (tmp)
     {
-        if (tmp->mode == ARG_STR)
+        if (tmp->type == string)
         {
             res[i] = ft_substr(tmp->value, 0, ft_strlen(tmp->value));
             //printf("sub [%s] of res[%d]\n", tmp->value, i);
