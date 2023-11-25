@@ -28,7 +28,7 @@ int main(int ac , char **av, char **env)
 		mock_up(&token, input);
 		print_tok(token);
 		// printf("out mock\n");
-		// exe_command(&token);
+		exe_command(&token);
 		// print_tok(token);
 		// printf("----------out mock-----------\n");
 		// print_tok(token);
