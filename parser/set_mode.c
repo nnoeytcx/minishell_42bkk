@@ -30,13 +30,19 @@ int set_mode(t_strm *str)
         len = ft_strlen(stm->value);
         if (stm->type == def)
         {
-            if (0 == ft_strncmp(">", stm->value, len))
+            if (0 == ft_strncmp("\"", stm->value, 1))
+            {
+                stm->type = double_quote_str;
+            }
+            else if (0 == ft_strncmp("\'", stm->value, 1))
+            {
+                stm->type = single_quote_str;
+            } 
+            else if (0 == ft_strncmp(">", stm->value, len))
             {
                 stm->type = redout_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
-                {
                     stm->next->type = file_out_str;
-                }
                 else
                 {
                     if (str->next)
@@ -49,9 +55,7 @@ int set_mode(t_strm *str)
             {
                 stm->type = redin_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
-                {
                     stm->next->type = file_in_str;
-                }
                 else
                 {
                     if (str->next)
@@ -64,9 +68,7 @@ int set_mode(t_strm *str)
             {
                 stm->type = h_doc_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
-                {
                     stm->next->type = h_doc_cut_str;
-                }
                 else
                 {
                     if (str->next)
@@ -79,9 +81,7 @@ int set_mode(t_strm *str)
             {
                 stm->type = append_symbol;
                 if (stm->next && !is_sp_symbol(stm->next->value))
-                {
                     stm->next->type = file_out_append_str;
-                }
                 else
                 {
                     if (str->next)
