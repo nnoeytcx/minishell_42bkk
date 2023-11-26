@@ -35,7 +35,10 @@ size_t	ccount_on_me(char const *s, char c)
 		}
 		s++;
 	}
-    printf("word = [%d]\n", word);
+	// mean word with "'" are detect but not close thats mean we have one word
+	if (quote_trigger[0] == 1 || quote_trigger[1])
+		word++;
+    //printf("word = [%d]\n", word);
 	return (word);
 }
 
@@ -64,11 +67,14 @@ size_t	hhow_long(char const *s, char c)
                 quote_trigger[0] = 1;
         }
 		if (*s == c && quote_trigger[1] == 0 && quote_trigger[0] == 0)
+		{
+			//printf("trgger count = [%d]\n", count);
 			return (count);
+		}
 		count++;
 		s++;
 	}
-    printf("count = [%d]\n", count);
+    //printf("norm count = [%d]\n", count);
 	return (count);
 }
 
@@ -91,6 +97,7 @@ char	**ft_split_sp(char const *s, char c)
 		if (s[i] != c)
 		{
 			resplit[big_i] = ft_substr(s, i, hhow_long(&s[i], c));
+			//printf(" == [%s]\n", resplit[big_i]);
 			i = i + hhow_long(&s[i], c);
 			big_i++;
 		}
