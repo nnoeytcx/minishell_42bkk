@@ -44,7 +44,7 @@ SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
 OBJ =  $(SRC:.c=.o)
 
 %.o: %.c ${HEADER_FILE}
-	@ echo "compiling object file...."
+	@ echo "compiling $@ object file...."
 	@ ${CC} -c $< -o $@
 
 $(NAME) : $(OBJ)
