@@ -51,7 +51,7 @@ t_cmd   *new_command_tab(char *input, t_env *env)
     printf("out of expan\n");
     if (cmd_arg)
         free2d(cmd_arg);
-    printf("out of free\n");
+    printf("out of free");
     new_table->fd_in = STDIN_FILENO;
     new_table->fd_out = STDOUT_FILENO;
     new_table->str_mode = res;
