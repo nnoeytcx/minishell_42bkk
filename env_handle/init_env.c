@@ -7,7 +7,7 @@ char *getenv_value(char *env_v)
 	while (*env_v != '=')
 		env_v++;
 	env_v++;
-	char *value = calloc(sizeof(char), (1 + strlen(env_v)));
+	char *value = ft_calloc(sizeof(char), (1 + ft_strlen(env_v)));
 	int i = 0;
 	while (env_v[i])
 	{
