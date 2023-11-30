@@ -2,7 +2,10 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+# CFLAGS = -Wall -Werror -Wextra
+
+VALGRIND = valgrind --leak-check=full
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline
 
@@ -46,12 +49,19 @@ OBJ =  $(SRC:.c=.o)
 %.o: %.c ${HEADER_FILE}
 	@ echo "compiling $@ object file...."
 	@ ${CC} -c $< -o $@
+	@ clear
 
 $(NAME) : $(OBJ)
 	@ $(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
-	@ echo "compile finish : RUN ./minishell to run minishell"
+	@ echo "compile with [${CFLAGS}] finish\nRUN ./minishell to run minishell"
 
 all : $(NAME)
+
+valgrind : ${NAME}
+	${VALGRIND} ./${NAME}
+
+leaks :
+	leaks -atExit -- ./${NAME}
 
 clean :
 	@ $(RM) $(OBJ)
