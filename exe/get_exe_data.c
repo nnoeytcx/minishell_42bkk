@@ -87,7 +87,7 @@ char    **get_cmd(t_strm *str_list)
             count++;
         tmp = tmp->next;
     }
-    printf("count is [%d]\n", count);
+    //printf("count is [%d]\n", count);
     tmp = str_list;
     res = ft_calloc(sizeof(char *), count + 1); //must freeeeeee
     i = 0;
