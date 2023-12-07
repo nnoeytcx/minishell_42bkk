@@ -95,7 +95,6 @@ int set_mode(t_strm *str)
             else
                 stm->type = string;
         }
-       // printf("set [%s] to [%d] mode\n", stm->value, stm->type);
         stm = stm->next;
     }
     return (1);

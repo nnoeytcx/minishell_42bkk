@@ -2,10 +2,10 @@ NAME = minishell
 
 CC = cc
 
-# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 VALGRIND = valgrind --leak-check=full
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline
 
@@ -38,7 +38,7 @@ EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR PARSER
 PARSER_PATH = ./parser/
-PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c
+PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c free_token_data.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 RM = rm -rf
@@ -49,7 +49,7 @@ OBJ =  $(SRC:.c=.o)
 %.o: %.c ${HEADER_FILE}
 	@ echo "compiling $@ object file...."
 	@ ${CC} -c $< -o $@
-	@ clear
+	# @ clear
 
 $(NAME) : $(OBJ)
 	@ $(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)

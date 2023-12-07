@@ -87,7 +87,6 @@ char    **get_cmd(t_strm *str_list)
             count++;
         tmp = tmp->next;
     }
-    //printf("count is [%d]\n", count);
     tmp = str_list;
     res = ft_calloc(sizeof(char *), count + 1); //must freeeeeee
     i = 0;
@@ -96,7 +95,6 @@ char    **get_cmd(t_strm *str_list)
         if (tmp->type == string)
         {
             res[i] = ft_substr(tmp->value, 0, ft_strlen(tmp->value));
-            //printf("sub [%s] of res[%d]\n", tmp->value, i);
             i++;
         }
         tmp = tmp->next;
