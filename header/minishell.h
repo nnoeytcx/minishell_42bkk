@@ -13,7 +13,7 @@ void	print_env(t_tok token);
 char    **get_cmd(t_strm *str_list);
 char	*get_cmdpath(char *command, char **env);
 char	**get_envpath(char **ep);
-int mock_up(t_tok *token, char *input);
+int lexer_parser(t_tok *token, char *input);
 void print_tok(t_tok t);
 unsigned int exe_command(t_tok *token);
 char **join_env_token(t_env *env_token);
@@ -27,4 +27,5 @@ int parser_error(char *str);
 int set_mode(t_strm *str);
 char	**ft_split_sp(char const *s, char c);
 void	free2d(char	**ptr);
+void free_command_table(t_cmd *cmd);
 #endif

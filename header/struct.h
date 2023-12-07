@@ -21,7 +21,6 @@ typedef struct s_amd
 	struct s_str_with_mode *str_mode; //< the str with mode 
 	int process_id;
 	int process_status;
-	int pipo[2];	// <--- for pipe init to [0,0]
 	int fd_in;	// <------ default is 0 set by open after if have file_in;
 	int fd_out;	// default 1 < set by open if have file_out
 	char *file_in; // <--- the file name that user pass in command (command < eiei.txt) want "eiei.txt"

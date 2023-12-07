@@ -38,7 +38,7 @@ enum type {
 #define DOC_CUT 10
 
 #define SYNTAX_ERR "Minishell:  syntax error near unexpected token `"
-#define PROMPT "MINISHELL > "
+#define PROMPT "MINISHELL "
 
 #define FORK_ER "SYS : Can,t Fork\n"
 
