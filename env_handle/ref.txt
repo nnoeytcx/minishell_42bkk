@@ -1,0 +1,10 @@
+
+็้้how bash handle when we unset the PATH and PWD before we run bash again??
+https://stackoverflow.com/questions/66324321/where-default-path-environment-variable-is-defined
+https://github.com/bminor/bash/blob/8868edaf2250e09c4e9a1c75ffe3274f28f38581/variables.c#L495
+^ set_if_not function << important thing is PATH and TERM
+
+the default_path value see bash/config.h
+https://github.com/bminor/bash/blob/8868edaf2250e09c4e9a1c75ffe3274f28f38581/config-top.h#L65
+
+when cd PWD is set not PATH
