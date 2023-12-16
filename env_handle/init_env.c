@@ -34,31 +34,30 @@ char *getenv_key(char *env_v)
 	return (key);
 }
 
-int init_env_token(t_tok *token, char **env)
+t_env	*create_env(char **env)
 {
-	t_env *tmp;
-	int	i;
+	t_env 	*env_list;
+	t_env	*res;
+	int		i;
+
 	if (!env)
-		return(printf("env not found take the risk!!!!\n"), 1);
+		return (printf("ENV not found!!!\n"), NULL);
 	i = 0;
-	(*token).env_token = ft_calloc(sizeof(t_env),1);
-	tmp = (*token).env_token;
 	while (env[i])
 	{
-		(*token).env_token->key = getenv_key(env[i]);
-		(*token).env_token->value = getenv_value(env[i]);
-		if (!ft_strncmp((*token).env_token->key,"SHLVL",ft_strlen("SHLVL")))
+		if (i == 0)
 		{
-			int shvl = ft_atoi((*token).env_token->value);
-			shvl = shvl + 1;
-			free((*token).env_token->value);
-			(*token).env_token->value = ft_itoa(shvl);
+			env_list = new_env(env[i], NULL, O_WSTR);
+			res = env_list;
+			i++;
 		}
-		(*token).env_token->next = ft_calloc(sizeof(t_env), 1);
-		(*token).env_token->next->next = NULL;
-		(*token).env_token = (*token).env_token->next;
-		i++;
+		else
+		{
+			env_list->next = new_env(env[i], NULL, O_WSTR);
+			env_list = env_list->next;
+			i++;
+		}
 	}
-	(*token).env_token = tmp;
-	return (0);
+	if_not_define("PATH", DEFAULT_PATH_VALUE, res);
+	return (res);
 }
