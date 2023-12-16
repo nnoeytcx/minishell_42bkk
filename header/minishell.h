@@ -7,7 +7,7 @@
 char 	*get_value_from_key(char *key, t_env *token);
 char	*getenv_value(char *env_v);
 char	*getenv_key(char *env_v);
-int		init_env_token(t_tok *token, char **env);
+// int		init_env_token(t_tok *token, char **env);
 void	print_env(t_tok token);
 
 char    **get_cmd(t_strm *str_list);
@@ -28,4 +28,7 @@ int set_mode(t_strm *str);
 char	**ft_split_sp(char const *s, char c);
 void	free2d(char	**ptr);
 void free_command_table(t_cmd *cmd);
+void	if_not_define(char *env_name, char *value, t_env *env_lst);
+t_env	*new_env(char	*key, char	*value, int	mode);
+t_env	*create_env(char **env);
 #endif
