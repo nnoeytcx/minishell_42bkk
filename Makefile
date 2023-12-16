@@ -2,10 +2,10 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+# CFLAGS = -Wall -Werror -Wextra
 
 VALGRIND = valgrind --leak-check=full
-# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline
 
@@ -28,7 +28,7 @@ BUILT_SRC = ${addprefix ${BUILT_PATH}, ${BUILT_FILE}}
 
 ## FOR ENV
 ENV_PATH = ./env_handle/
-ENV_FILE = env_util.c get_value_from_key.c init_env.c env_join.c
+ENV_FILE = env_util.c get_value_from_key.c init_env.c env_join.c env_edit.c
 ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
