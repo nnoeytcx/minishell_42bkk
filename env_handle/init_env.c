@@ -1,37 +1,24 @@
 #include "../header/minishell.h"
 
-char *getenv_value(char *env_v)
+t_env	*new_env(char	*key, char	*value, int	mode)
 {
-	if (env_v == NULL)
-		return (NULL);
-	while (*env_v != '=')
-		env_v++;
-	env_v++;
-	char *value = ft_calloc(sizeof(char), (1 + ft_strlen(env_v)));
-	int i = 0;
-	while (env_v[i])
-	{
-		value[i] = env_v[i];
-		i++;
-	}
-	return (value);
-}
+	t_env	*new;
 
-char *getenv_key(char *env_v)
-{
-	if (env_v == NULL)
+	if (key == NULL)
 		return (NULL);
-	int i = 0;
-	while(env_v[i] != '=')
-		i++;
-	char *key = ft_calloc(sizeof(char), ft_strlen(env_v));
-	int j = 0;
-	while(env_v[j] != '=')
+	new = ft_calloc(sizeof(t_env), 1);
+	new->next = NULL;
+	if (mode == O_KEYV)
 	{
-		key[j] = env_v[j];
-		j++;
+		new->key = ft_strdup(key);
+		new->value = ft_strdup(value);
 	}
-	return (key);
+	else if (mode == O_WSTR)
+	{
+		new->key = getenv_key(key);
+		new->value = getenv_value(key);
+	}
+	return (new);
 }
 
 t_env	*create_env(char **env)
