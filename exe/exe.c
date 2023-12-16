@@ -42,8 +42,11 @@ void    child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
     cmd_w_arg = get_cmd(t_c->str_mode);
     path_env = get_envpath(env);
     cmd_path = get_cmdpath(t_c->str_mode->value, path_env);
-    if (-1 == execve(cmd_path, cmd_w_arg,env))
+    if (-1 == execve(cmd_path, cmd_w_arg, env))
+    {
+        perror("ERROR");
         put_errorcmd(cmd_w_arg[0], cmd_path, cmd_w_arg, errno);
+    }
 }
 
 //must set the last cmd path  when use the command !!!!!!! _=[cmd path]
