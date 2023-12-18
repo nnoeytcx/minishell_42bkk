@@ -2,10 +2,10 @@ NAME = minishell
 
 CC = cc
 
-# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
-VALGRIND = valgrind --leak-check=full
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
+# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline
 
