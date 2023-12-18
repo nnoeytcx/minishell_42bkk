@@ -1,7 +1,8 @@
 #ifndef DEFINE_VAR_H
 #define DEFINE_VAR_H
 
-enum e_type {
+enum    e_type 
+{
     def = 0,
     string,
     variable,
@@ -24,6 +25,12 @@ enum e_type {
 
 #define SYNTAX_ERR "Minishell:  syntax error near unexpected token `"
 #define PROMPT "MINISHELL "
+
+#define SP_TOKEN "< > << >> $ |" //<< will split to check what ever it dose ex . setmode or sp split
+
+#define QUOTE_TOKEN "\"\'"
+
+#define BUILT_IN "echo ECHO cd pwd PWD env ENV export unset exit"
 
 #define FORK_ER "SYS : Can,t Fork\n"
 #define O_WSTR 0
