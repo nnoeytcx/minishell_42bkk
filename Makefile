@@ -2,12 +2,12 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+# CFLAGS = -Wall -Werror -Wextra
 
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
-# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+VALGRIND = callgrind --leak-check=full --show-leak-kinds=all -s
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
-LIB_RL_FLAG = -L/usr/include -lreadline
+LIB_RL_FLAG = -L/usr/include -lreadline 
 
 RM = rm -rf
 
@@ -36,14 +36,21 @@ EXE_PATH = ./exe/
 EXE_FILE = exe.c get_exe_data.c exe_error.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
+## FOR FREE
+FREE_PATH = ./free/
+FREE_FILE = free_token.c
+FREE_SRC  = ${addprefix ${FREE_PATH}, ${FREE_FILE}}
+
 ## FOR PARSER
 PARSER_PATH = ./parser/
-PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c free_token_data.c
+PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
+
+
 
 RM = rm -rf
 
-SRC =  ${LIBFT_SRC} ${ENV_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
+SRC =  ${LIBFT_SRC} ${ENV_SRC} ${FREE_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
 OBJ =  $(SRC:.c=.o)
 
 %.o: %.c ${HEADER_FILE}

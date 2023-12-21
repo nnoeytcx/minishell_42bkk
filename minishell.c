@@ -39,12 +39,13 @@ int main(int ac , char **av, char **env)
 		lexer_parser(&token, input);
 		if (0 == ft_strncmp("env", input, 3))
 			print_env(token);
+		print_tok(token);
 		g_signal = exe_command(&token);
 		// free_input_and_cmd_token(input, &token.command);
 		free(input);
 		input = NULL;
-		free_command_table(token.command);
+		free_cmd_tab(&token.command);
 		token.command = NULL;
 	}
-	// free_all_and_exit(token);
+	free_token(&token);
 }

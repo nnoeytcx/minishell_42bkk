@@ -1,32 +1,5 @@
 #include "../header/minishell.h"
 
-void	free2d(char	**ptr)
-{
-	int	i;
-
-	i = 0;
-	if (!ptr)
-		return ;
-	while (ptr[i])
-	{
-		free(ptr[i]);
-		ptr[i] = NULL;
-		i++;
-	}
-	free(ptr);
-	ptr = NULL;
-}
-// void	p_error2_butexit1(int errornum, t_p *var, char *file)
-// {
-// 	putstr_fd("pipex42: ", 2);
-// 	putstr_fd(strerror(errornum), 2);
-// 	putstr_fd(": ", 2);
-// 	putstr_fd(file, 2);
-// 	putstr_fd(" \n", 2);
-// 	free_st(var);
-// 	exit(1);
-// }
-
 void	putstr_fd(char *str, int fd)
 {
 	if (!str)
@@ -34,17 +7,6 @@ void	putstr_fd(char *str, int fd)
 	write(fd, str, ft_strlen(str));
 }
 
-// void	put_error(char *str, int errornum, t_p *var)
-// {
-// 	putstr_fd("pipex42: ", 2);
-// 	putstr_fd(strerror(errornum), 2);
-// 	putstr_fd(": ", 2);
-// 	if (str)
-// 		putstr_fd(str, 2);
-// 	putstr_fd("\n", 2);
-// 	free_st(var);
-// 	exit(errornum);
-// }
 void	err_cmd(int	*ecode, int errnum, char *cmd)
 {
 	if (errnum == 13 && find_slash(cmd))
