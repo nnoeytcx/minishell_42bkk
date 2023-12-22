@@ -27,5 +27,6 @@ char **join_env_token(t_env *env_token)
         free(key_w_eq);
         tmp = tmp->next;
     }
+    res[i] = NULL;
     return (res);
 }
