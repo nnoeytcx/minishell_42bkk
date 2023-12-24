@@ -19,4 +19,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "./define_var.h"
+#include "../libft/libft.h"
+#include "./struct.h"
+#include "../exe/exe.h"
+#include "../parser/parser.h"
+#include "../free/free.h"
+#include "../env_handle/env.h"
+
 #endif
