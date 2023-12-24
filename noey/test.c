@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "../libft/libft.h"
 
+#define META_CHAR "> >> < << <<< | && & $ "
 int	is_redirect(char c)
 {
 	if (c == '>' || c == '<')
@@ -17,6 +18,8 @@ size_t	ccount_on_me(char const *s, char c)
 	int		word;
 	int		skip;
 	char	quote_trigger;
+	char	*next;
+	char	*third;
 
 	quote_trigger = 0;
 	skip = 0;
@@ -47,11 +50,17 @@ size_t	ccount_on_me(char const *s, char c)
 			if (skip == 1)
 				skip = 0;
 			word++;
-			s++;
-			if (*s && is_redirect(*s))
-				word--;
-			//printf("[%c]\n", *s);
-			s--;
+
+			next = (char *)s+1;
+			third = (char *)s+2;
+			if (*next && is_redirect(*next) && (*next == *s))
+			{
+				if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
+					s+=2;
+				else
+					s++;
+			}
+			//printf("[%c]\n", *next);
 		}
 		s++;
 	}
@@ -64,6 +73,8 @@ size_t	hhow_long(char const *s, char c)
 {
 	size_t	count;
 	char	quote_trigger;
+	char	*next;
+	char	*third;
 
 	quote_trigger = 0;
 	count = 0;
@@ -85,15 +96,22 @@ size_t	hhow_long(char const *s, char c)
 			return (count);
 		if (is_redirect(*s) && quote_trigger == 0)
 		{
-			s++;
-			if (*s && is_redirect(*s))
+			next = (char *)s+1;
+			third = (char *)s+2;
+			if (*next && is_redirect(*next) && (*next == *s))
 			{
+				if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
+				{
+					if (count == 0)
+						return (3);
+				else
+					return (count);
+				}
 				if (count == 0)
 					return (2);
 				else
 					return (count);
 			}
-			s--;
 			if (count == 0)
 				return (1);
 			else
@@ -117,7 +135,7 @@ char	**ft_split_sp(char const *s, char c)
 	i = 0;
 	big_i = 0;
 	word = ccount_on_me(s, c);
-	printf("-------(%d)", word);
+	printf("(%d)-------", word);
 	if (word == -1)
 		return (printf("fatal error the quote must close properly!!!!! thx\n"), NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
@@ -144,6 +162,7 @@ int	main(void)
 	char	**res;
 
 	i = 0;
+	printf("---------------BASIC TEST---------------\n");
 	printf("yayyou i know\n");
 	res = ft_split_sp("yayyou i know", ' ');
 	while (res[i])
@@ -180,7 +199,7 @@ int	main(void)
 	}
 
 	i = 0;
-	printf("\n");
+	printf("\n---------------SECOND TEST---------------\n");
 	printf("yay>>you i know\n");
 	res = ft_split_sp("yay>>you i know", ' ');
 	while (res[i])
@@ -201,6 +220,146 @@ int	main(void)
 	printf("\n");
 	printf("yay>> i know\n");
 	res = ft_split_sp("yay>> i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+
+	i = 0;
+	printf("\n---------------THIRD TEST---------------\n");
+	printf("yay>>>you i know\n");
+	res = ft_split_sp("yay>>>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf(">>>you i know\n");
+	res = ft_split_sp(">>>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("yay>>> i know\n");
+	res = ft_split_sp("yay>>> i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+
+	i = 0;
+	printf("\n---------------N MORE TEST---------------\n");
+	printf("yay>>>>>you i know\n");
+	res = ft_split_sp("yay>>>>>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf(">>>>you i know\n");
+	res = ft_split_sp(">>>>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("yay>>>>>> i know\n");
+	res = ft_split_sp("yay>>>>>> i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+
+	i = 0;
+	printf("\n---------------BASIC MIX TEST---------------\n");
+	printf("yay<>you i know\n");
+	res = ft_split_sp("yay<>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("><you i know\n");
+	res = ft_split_sp("><you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("yay<> i know\n");
+	res = ft_split_sp("yay<> i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+
+	i = 0;
+	printf("\n---------------MORE MIX TEST---------------\n");
+	printf("yay><<>you i know\n");
+	res = ft_split_sp("yay><<>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("><<you i know\n");
+	res = ft_split_sp("><<you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("yay<<> i know\n");
+	res = ft_split_sp("yay<<> i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+
+	i = 0;
+	printf("\n---------------CRAZY MIX TEST---------------\n");
+	printf("yay><<<><>you i know\n");
+	res = ft_split_sp("yay><<<><>you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("><><<you i know\n");
+	res = ft_split_sp("><><<you i know", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	printf("yay><<<<><<> i know\n");
+	res = ft_split_sp("yay><<<<><<> i know", ' ');
 	while (res[i])
 	{
 		printf("[%s] ", res[i]);

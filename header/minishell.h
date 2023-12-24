@@ -3,6 +3,8 @@
 
 #include "./library.h"
 
+t_strm      	*new_str_with_mode(char *str);
+int         	in_value_split(t_strm *str);
 // env_handle
 char 	        *get_value_from_key(char *key, t_env *token);
 char	        *getenv_value(char *env_v);

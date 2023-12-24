@@ -6,8 +6,9 @@ enum    e_type
     def = 0,
     string,
     variable,
-    double_quote_str,
-    single_quote_str,
+    double_quote_str, //trim + expand
+    single_quote_str, //trim
+    here_str, /// '<<<'
     file_in_str,
     file_out_str,
     file_out_append_str,
