@@ -28,13 +28,16 @@ int	do_doctype(char *cutoffstr)
 	return (fd[0]);
 }
 
-int loop_open_file(t_strm *strm, int mode)
+int loop_open_file(t_cmd *t, int mode)
 {
     int	fd;
     t_strm *lst;
 
-
-    lst = strm;
+    if (mode == OUT_FILE)
+        fd = t->fd_out;
+    if (mode == IN_FILE)
+        fd = t->fd_in;
+    lst = t->str_mode;
     while (lst)
     {
         if (mode == OUT_FILE)

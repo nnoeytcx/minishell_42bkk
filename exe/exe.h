@@ -7,7 +7,7 @@ char            **get_cmd(t_strm *str_list);
 char	        *get_cmdpath(char *command, char **env);
 char	        **get_envpath(char **ep);
 unsigned int    exe_command(t_tok *token);
-int             loop_open_file(t_strm *strm, int mode);
+int				loop_open_file(t_cmd *t, int mode);
 char	        *get_next_line(int fd);
 int	            find_slash(char *str);
 
