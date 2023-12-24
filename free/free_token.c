@@ -33,6 +33,7 @@ int free_str_mode(t_strm **str_mode)
         current = next;
     }
     *str_mode = NULL;
+    return (0);
 }
 
 int free_cmd_tab(t_cmd **cmd_tab)
@@ -51,6 +52,7 @@ int free_cmd_tab(t_cmd **cmd_tab)
         current = next;
     }
     *cmd_tab = NULL;
+    return (0);
 }
 
 int free_env_list(t_env **env_lst)
@@ -70,6 +72,7 @@ int free_env_list(t_env **env_lst)
         current = next;
     }
     *env_lst = NULL;
+    return (0);
 }
 
 void free_token(t_tok *token)
