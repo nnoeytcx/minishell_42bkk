@@ -5,6 +5,9 @@
 
 t_strm      	*new_str_with_mode(char *str);
 int         	in_value_split(t_strm *str);
+int	            is_redirect(char c);
+char const	    *count_for_redirect(char const *s);
+char	        get_quote_trigger(char quote_trigger, char const *s);
 // env_handle
 char 	        *get_value_from_key(char *key, t_env *token);
 char	        *getenv_value(char *env_v);
@@ -28,6 +31,7 @@ int             parser_error(char *str);
 
 int             set_mode(t_strm *str);
 char	        **ft_split_sp(char const *s, char c);
+char	        **ft_split_pipe(char const *s, char c);
 void	        free2d(char	**ptr);
 void            free_token(t_tok *token);
 int             free_cmd_tab(t_cmd **cmd_tab);
