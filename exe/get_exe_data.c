@@ -47,7 +47,7 @@ char	*get_cmdpath(char *command, char **env)
 	char	*prepath;
 	char	*path_and_command;
 	char	*ready_cmd;
-
+	
 	i = 0;
 	if (!command)
 		return (NULL);

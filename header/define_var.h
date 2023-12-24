@@ -36,5 +36,8 @@ enum    e_type
 #define FORK_ER "SYS : Can,t Fork\n"
 #define O_WSTR 0
 #define O_KEYV 1
+#define IN_FILE 1
+#define OUT_FILE 2
+#define BUFFER_SIZE 1
 
 #endif

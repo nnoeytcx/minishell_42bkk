@@ -1,6 +1,6 @@
 #include "../header/minishell.h"
 
-size_t	ccount_on_me(char const *s, char c)
+static size_t	count_on_me(char const *s, char c)
 {
 	int		word;
 	int		skip;
@@ -26,7 +26,7 @@ size_t	ccount_on_me(char const *s, char c)
 	return (word);
 }
 
-size_t	hhow_long(char const *s, char c)
+static size_t	how_long(char const *s, char c)
 {
 	size_t	count;
 	char	quote_trigger;
@@ -55,7 +55,7 @@ char	**ft_split_pipe(char const *s, char c)
 		return (0);
 	i = 0;
 	big_i = 0;
-	word = ccount_on_me(s, c);
+	word = count_on_me(s, c);
 	if (word == -1)
 		return (printf("fatal error the quote must close properly!!!!! thx\n"), NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
@@ -65,8 +65,8 @@ char	**ft_split_pipe(char const *s, char c)
 	{
 		if (s[i] != c)
 		{
-			resplit[big_i] = ft_substr(s, i, hhow_long(&s[i], c));
-			i = i + hhow_long(&s[i], c);
+			resplit[big_i] = ft_substr(s, i, how_long(&s[i], c));
+			i = i + how_long(&s[i], c);
 			big_i++;
 		}
 		if (s[i] == c)

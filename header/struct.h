@@ -23,8 +23,6 @@ typedef struct s_amd
 	int					 		process_status;
 	int 						fd_in;	// <------ default is 0 set by open after if have file_in;
 	int 						fd_out;	// default 1 < set by open if have file_out
-	// char 						*file_in; // <--- the file name that user pass in command (command < eiei.txt) want "eiei.txt"
-	// char 						*file_out; // <-- file out str for output (command > eiei.txt) want eiei.txt
 	struct	s_amd 				*next; // << next str = next node
 }	t_cmd ;
 

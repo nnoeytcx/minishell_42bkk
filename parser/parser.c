@@ -61,7 +61,7 @@ int	lexer_parser(t_tok *token, char *input)
 	t_cmd	*res;
 	t_cmd	*new;
 
-	split_cmd = ft_split_sp(input, '|');
+	split_cmd = ft_split_pipe(input, '|');
 	if (split_cmd == NULL)
 		return (1);
 	i = 0;

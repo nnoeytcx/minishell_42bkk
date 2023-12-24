@@ -40,4 +40,6 @@ int             free_str_mode(t_strm **str_mode);
 void	        if_not_define(char *env_name, char *value, t_env *env_lst);
 t_env	        *new_env(char	*key, char	*value, int	mode);
 t_env	        *create_env(char **env);
+int             loop_open_file(t_strm *strm, int mode);
+char	        *get_next_line(int fd);
 #endif

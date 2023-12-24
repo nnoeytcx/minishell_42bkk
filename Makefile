@@ -2,10 +2,10 @@ NAME = minishell
 
 CC = cc
 
-# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 
 VALGRIND = callgrind --leak-check=full --show-leak-kinds=all -s
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline 
 
@@ -33,7 +33,7 @@ ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
 EXE_PATH = ./exe/
-EXE_FILE = exe.c get_exe_data.c exe_error.c
+EXE_FILE = exe.c get_exe_data.c exe_error.c open_file.c get_next_line.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR FREE
