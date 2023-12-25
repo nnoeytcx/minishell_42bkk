@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
+/*   Updated: 2023/12/25 02:26:39 by tpoungla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 t_strm	*new_str_with_mode(char *str)
 {
 	t_strm	*new;
-	enum	type;
 
 	if (!str)
 		return (NULL);
 	new = ft_calloc(sizeof(t_strm), 1);
-
 	new->value = ft_strdup(str);
 	new->type = def;
 	new->next = NULL;
@@ -43,7 +53,6 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 		}
 		i++;
 	}
-	//in_value_split(set[1]);
 	set_mode(set[1]);
 	expand_from_env(set[1], env);
 	if (cmd_arg)

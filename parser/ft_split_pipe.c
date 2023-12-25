@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_pipe.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/25 00:04:28 by tpoungla          #+#    #+#             */
+/*   Updated: 2023/12/25 00:09:39 by tpoungla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 static size_t	count_on_me(char const *s, char c)
@@ -57,7 +69,7 @@ char	**ft_split_pipe(char const *s, char c)
 	big_i = 0;
 	word = count_on_me(s, c);
 	if (word == -1)
-		return (printf("fatal error the quote must close properly!!!!! thx\n"), NULL);
+		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
 	if (!resplit)
 		return (0);

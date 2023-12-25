@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
+/*   Updated: 2023/12/25 00:28:48 by tpoungla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 int	expand_from_env(t_strm *str_tab, t_env *env)
@@ -5,7 +17,6 @@ int	expand_from_env(t_strm *str_tab, t_env *env)
 	t_strm	*s;
 	t_env	*e;
 	char	*env_str;
-	enum	type;
 
 	e = env;
 	s = str_tab;

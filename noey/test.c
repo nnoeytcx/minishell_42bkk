@@ -4,7 +4,8 @@
 #include <stdint.h>
 #include "../libft/libft.h"
 
-#define META_CHAR "> >> < << <<< | && & $ "
+#define META_CHAR "> >> < << <<< | && & $"
+
 int	is_redirect(char c)
 {
 	if (c == '>' || c == '<')
@@ -13,31 +14,79 @@ int	is_redirect(char c)
 		return (0);
 }
 
+char const	*count_for_redirect(char const *s)
+{
+	char	*next;
+	char	*third;
+
+	next = (char *)s + 1;
+	third = (char *)s + 2;
+	if (*next && is_redirect(*next) && (*next == *s))
+	{
+		if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
+			s += 2;
+		else
+			s++;
+	}
+	return (s);
+}
+
+char	get_quote_trigger(char quote_trigger, char const *s)
+{
+	if (quote_trigger == 0)
+	{
+		if (*s == '\'' || *s == '\"')
+			quote_trigger = *s;
+	}
+	else if (quote_trigger != 0)
+	{
+		if (*s == '\'' && quote_trigger == *s)
+			quote_trigger = 0;
+		if (*s == '\"' && quote_trigger == *s)
+			quote_trigger = 0;
+	}
+	return (quote_trigger);
+}
+
+size_t	how_long_redirect(char const *s, size_t count)
+{
+	char	*next;
+	char	*third;
+
+	next = (char *)s+1;
+	third = (char *)s+2;
+	if (*next && is_redirect(*next) && (*next == *s))
+	{
+		if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
+		{
+			if (count == 0)
+				return (3);
+			else
+				return (count);
+		}
+		if (count == 0)
+			return (2);
+		else
+			return (count);
+	}
+	if (count == 0)
+		return (1);
+	else
+		return (count);
+}
+
 size_t	ccount_on_me(char const *s, char c)
 {
 	int		word;
 	int		skip;
 	char	quote_trigger;
-	char	*next;
-	char	*third;
 
 	quote_trigger = 0;
 	skip = 0;
 	word = 0;
 	while (*s)
 	{
-		if (quote_trigger == 0)
-		{
-			if (*s == '\'' || *s == '\"')
-				quote_trigger = *s;
-		}
-		else if (quote_trigger != 0)
-		{
-			if (*s == '\'' && quote_trigger == *s)
-				quote_trigger = 0;
-			if (*s == '\"' && quote_trigger == *s)
-				quote_trigger = 0;
-		}
+		quote_trigger = get_quote_trigger(quote_trigger, s);
 		if (*s == c && skip == 1 && quote_trigger == 0)
 			skip = 0;
 		if (*s != c && skip == 0 && !is_redirect(*s))
@@ -50,17 +99,7 @@ size_t	ccount_on_me(char const *s, char c)
 			if (skip == 1)
 				skip = 0;
 			word++;
-
-			next = (char *)s+1;
-			third = (char *)s+2;
-			if (*next && is_redirect(*next) && (*next == *s))
-			{
-				if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
-					s+=2;
-				else
-					s++;
-			}
-			//printf("[%c]\n", *next);
+			s = count_for_redirect(s);
 		}
 		s++;
 	}
@@ -73,50 +112,16 @@ size_t	hhow_long(char const *s, char c)
 {
 	size_t	count;
 	char	quote_trigger;
-	char	*next;
-	char	*third;
 
 	quote_trigger = 0;
 	count = 0;
 	while (*s)
 	{
-		if (quote_trigger == 0)
-		{
-			if (*s == '\'' || *s == '\"')
-				quote_trigger = *s;
-		}
-		else if (quote_trigger != 0)
-		{
-			if (*s == '\'' && quote_trigger == *s)
-				quote_trigger = 0;
-			if (*s == '\"' && quote_trigger == *s)
-				quote_trigger = 0;
-		}
+		quote_trigger = get_quote_trigger(quote_trigger, s);
 		if (*s == c && quote_trigger == 0)
 			return (count);
 		if (is_redirect(*s) && quote_trigger == 0)
-		{
-			next = (char *)s+1;
-			third = (char *)s+2;
-			if (*next && is_redirect(*next) && (*next == *s))
-			{
-				if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
-				{
-					if (count == 0)
-						return (3);
-				else
-					return (count);
-				}
-				if (count == 0)
-					return (2);
-				else
-					return (count);
-			}
-			if (count == 0)
-				return (1);
-			else
-				return (count);
-		}
+			return (how_long_redirect(s, count));
 		count++;
 		s++;
 	}
@@ -135,9 +140,8 @@ char	**ft_split_sp(char const *s, char c)
 	i = 0;
 	big_i = 0;
 	word = ccount_on_me(s, c);
-	printf("(%d)-------", word);
 	if (word == -1)
-		return (printf("fatal error the quote must close properly!!!!! thx\n"), NULL);
+		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
 	if (!resplit)
 		return (0);

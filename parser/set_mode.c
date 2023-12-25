@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_mode.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
+/*   Updated: 2023/12/25 00:29:19 by tpoungla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 int	is_sp_symbol(char *str)
@@ -20,7 +32,7 @@ int	set_mode(t_strm *str)
 {
 	t_strm	*stm;
 	int		len;
-	enum	type;
+
 	if (!str)
 		return (-1);
 	stm = str;
@@ -89,32 +101,6 @@ int	set_mode(t_strm *str)
 				stm->type = variable;
 			else
 				stm->type = string;
-		}
-		stm = stm->next;
-	}
-	return (1);
-}
-
-int	in_value_split(t_strm *str)
-{
-	t_strm	*stm;
-	t_strm	*new;
-	int		len;
-	int		i;
-	char	*cmd;
-
-	if (!str)
-		return (-1);
-	stm = str;
-	while (stm)
-	{
-		cmd = stm->value;
-		len = ft_strlen(cmd);
-		i = 1;
-		while (cmd[i])
-		{
-			
-			i++;
 		}
 		stm = stm->next;
 	}

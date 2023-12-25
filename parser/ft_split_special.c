@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_special.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/24 23:38:36 by tpoungla          #+#    #+#             */
+/*   Updated: 2023/12/25 00:03:44 by tpoungla         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 size_t	ccount_on_me(char const *s, char c)
@@ -37,8 +49,6 @@ size_t	hhow_long(char const *s, char c)
 {
 	size_t	count;
 	char	quote_trigger;
-	char	*next;
-	char	*third;
 
 	quote_trigger = 0;
 	count = 0;
@@ -48,28 +58,7 @@ size_t	hhow_long(char const *s, char c)
 		if (*s == c && quote_trigger == 0)
 			return (count);
 		if (is_redirect(*s) && quote_trigger == 0)
-		{
-			next = (char *)s + 1;
-			third = (char *)s + 2;
-			if (*next && is_redirect(*next) && (*next == *s))
-			{
-				if (*third && is_redirect(*third) && (*third == *s) && *third == '<')
-				{
-					if (count == 0)
-						return (3);
-					else
-						return (count);
-				}
-				if (count == 0)
-					return (2);
-				else
-					return (count);
-			}
-			if (count == 0)
-				return (1);
-			else
-				return (count);
-		}
+			return (how_long_redirect(s, count));
 		count++;
 		s++;
 	}
@@ -88,9 +77,8 @@ char	**ft_split_sp(char const *s, char c)
 	i = 0;
 	big_i = 0;
 	word = ccount_on_me(s, c);
-	//printf("(%d)-------", word);
 	if (word == -1)
-		return (printf("fatal error the quote must close properly!!!!! thx\n"), NULL);
+		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
 	if (!resplit)
 		return (0);
