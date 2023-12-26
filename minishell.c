@@ -1,52 +1,34 @@
 #include "./header/minishell.h"
 
-
-int g_signal = 0 ;
-
 char *get_prompt(t_tok token)
 {
-	char *prompt;
-	char *pwd;
-	char *user;
-	char *lst_status;
-	char *tmp;
+	char *temps[3];
 	
-	user = get_value_from_key("USER", token.env_token);
-	pwd = get_value_from_key("PWD", token.env_token);
-	lst_status = ft_itoa(token.return_code);
-
-	prompt = ft_strjoin("\033[1;31m", user);
-	
-	free(user);
-	tmp = prompt;
-
-	prompt = ft_strjoin(prompt, "\033[1;32m -> \033[1;34m");
-	
-	free(tmp);
-	tmp = prompt;
-	
-	prompt = ft_strjoin(prompt, pwd);
-	
-	free(tmp);
-	free(pwd);
-	tmp = prompt;
-	
-	prompt = ft_strjoin(prompt, " \033[1;33m$");
-	
-	free(tmp);
-	tmp = prompt;
-	
-	prompt = ft_strjoin(prompt, lst_status);
-	
-	free(lst_status);
-	free(tmp);
-	tmp = prompt;
-	
-	prompt = ft_strjoin(prompt, "\033[1;37m > \033[0;97m");
-	free(tmp);
-
-	return (prompt);
+	temps[0] = get_value_from_key("USER", token.env_token);
+	temps[2] = ft_strjoin("\033[1;31m", temps[0]);
+	free(temps[0]);
+	temps[0] = get_value_from_key("PWD", token.env_token);
+	temps[1] = temps[2];
+	temps[2] = ft_strjoin(temps[2], "\033[1;32m -> \033[1;34m");
+	free(temps[1]);
+	temps[1] = temps[2];
+	temps[2] = ft_strjoin(temps[2], temps[0]);
+	free(temps[1]);
+	free(temps[0]);
+	temps[0] = ft_itoa(token.return_code);
+	temps[1] = temps[2];
+	temps[2] = ft_strjoin(temps[2], " \033[1;33m$");
+	free(temps[1]);
+	temps[1] = temps[2];
+	temps[2] = ft_strjoin(temps[2], temps[0]);
+	free(temps[0]);
+	free(temps[1]);
+	temps[1] = temps[2];
+	temps[2] = ft_strjoin(temps[2], "\033[1;37m > \033[0;97m");
+	free(temps[1]);
+	return (temps[2]);
 }
+
 char *readline_input(t_tok token)
 {
 	char *input;
@@ -54,9 +36,7 @@ char *readline_input(t_tok token)
 	char *prompt;
 
 	prompt = get_prompt(token);
-	dprintf(2,"\nprompt = [%s]\n", prompt);
 	input = readline(prompt); //<< PROMPT in the header
-	dprintf(2,"\nintput = [%s]\n", input);
 	if (input == NULL) // << check case EOF or ^C kub 
 	{
 		rl_clear_history(); //<< safety 1st
@@ -80,16 +60,23 @@ int main(int ac , char **av, char **env)
 	while (1)
 	{
 		input = readline_input(token);
-		dprintf(2,"\nprompt == [%s]\n", input);
+		dprintf(2,"prompt == [%s]\n", input);
+
+		dprintf(2, "\033[1;33m------- PARSER -------\n");
 		lexer_parser(&token, input);
-		dprintf(2,"\n--------out of parser--------\n");
+		dprintf(2,"----out of parser----\n\033[0;97m");
+		
 		print_tok(token);
+
 		dprintf(2,"\n-----------------------------\n");
+		
 		if (0 == ft_strncmp("env", input, 3))
 			print_env(token);
-		dprintf(2,"\n--------------[exe]--------------\n");
+		
+		dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
 		token.return_code = exe_command(&token);
 		dprintf(2,"\n---------------------------------\n");
+		
 		free(input);
 		input = NULL;
 		free_cmd_tab(&token.command);

@@ -54,7 +54,7 @@ void run_command(t_cmd *t_c, char **env)
         dup2(t_c->fd_out, 1);
         close(t_c->fd_out);
     }
-    dprintf(2, "\n---- output -----\n\n");
+    dprintf(2, "\033[0;97m---- output -----\n\n");
     if (-1 == execve(cmd_w_path, cmd_arg, env))
     {
         perror("ERROR");
