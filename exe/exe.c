@@ -9,8 +9,10 @@ int    wait_all_child(t_cmd *cmd_tab)
     cmd_tab_t = cmd_tab;
     while (cmd_tab_t)
     {
+        dprintf(2,"waiting for [%s][%d]\n",cmd_tab_t->str_mode->value, cmd_tab_t->process_id);
         waitpid(cmd_tab_t->process_id, &status,  WUNTRACED);
         cmd_tab_t->process_status = WEXITSTATUS(status);
+        dprintf(2,"\nwaiting for [%s][%d] finish return [%d]\n",cmd_tab_t->str_mode->value, cmd_tab_t->process_id, cmd_tab_t->process_status);
         cmd_tab_t = cmd_tab_t->next;
     }
     return (WEXITSTATUS(status));
@@ -52,6 +54,7 @@ void run_command(t_cmd *t_c, char **env)
         dup2(t_c->fd_out, 1);
         close(t_c->fd_out);
     }
+    dprintf(2, "\n---- output -----\n\n");
     if (-1 == execve(cmd_w_path, cmd_arg, env))
     {
         perror("ERROR");
@@ -62,14 +65,14 @@ void run_command(t_cmd *t_c, char **env)
 }
 void    child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
 {
-    dprintf(2, "[%s]BF loop open : in [%d] out [%d]\n",t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
+    dprintf(2, "[%d][%s] BF loop open : in [%d] out [%d]\n",t_c->process_id,t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
     t_c->fd_in = loop_open_file(t_c, IN_FILE);
     t_c->fd_out = loop_open_file(t_c, OUT_FILE);
-    dprintf(2, "[%s]AF loop open : in [%d] out [%d]\n", t_c->str_mode->value,t_c->fd_in, t_c->fd_out);
+    dprintf(2, "[%d][%s] AF loop open : in [%d] out [%d]\n",t_c->process_id, t_c->str_mode->value,t_c->fd_in, t_c->fd_out);
     
     if (t_c->next != NULL)
     {
-        dprintf(2, "[%s]have next cmd dup [%d] to [%d]\n",t_c->str_mode->value, pipe[1], 1);
+        dprintf(2, "[%d][%s] have next cmd dup [%d] to [%d]\n",t_c->process_id,t_c->str_mode->value, pipe[1], 1);
         dup2(pipe[1], 1);
         close(pipe[1]);
     }
@@ -86,15 +89,17 @@ unsigned int exe_command(t_tok *token)
     t = token;
     t_c = t->command;
     t->env = join_env_token(t->env_token); // malloc **char // < should do in exe loop
+    // put here doc here
+    loop_and_assign_heredoc(t_c);
     while (t_c != NULL)
     {
         dprintf(2, "[%s]\n", t_c->str_mode->value);
         if (t_c->next != NULL)
         {
-            dprintf(2, "[%s]have next cmd [%s]\n", t_c->str_mode->value,t_c->next->str_mode->value);
+            dprintf(2, "[%s] have next cmd [%s]\n", t_c->str_mode->value,t_c->next->str_mode->value);
             if (pipe(pipo) == -1)
                 return(printf("PIPE FAIL \n"));
-            dprintf(2, "[%s]create : pipe[0] = [%d] pipe[1] = [%d]\n\n",t_c->str_mode->value, pipo[0], pipo[1]);
+            dprintf(2, "[%s] create : pipe[0] = [%d] pipe[1] = [%d]\n\n",t_c->str_mode->value, pipo[0], pipo[1]);
         }
 
         t_c->process_id = fork();

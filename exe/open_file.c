@@ -7,6 +7,7 @@ int	do_doctype(char *cutoffstr)
 	int		cflen;
 
 	cflen = ft_strlen(cutoffstr);
+    dprintf(2, "in here_doc cut set == [%s]\n", cutoffstr);
 	if (-1 == pipe(fd))
 	{
 		ft_putstr_fd("PIPE ERROR", 2);
@@ -16,16 +17,38 @@ int	do_doctype(char *cutoffstr)
 	{
 		write(1, "> ", 2);
 		buff = get_next_line(0);
-		if (0 != cflen && ft_strncmp(buff, cutoffstr, cflen))
+        dprintf(2,"input [%s]\n", buff);
+		if (0 != cflen && str_n_compare(buff, cutoffstr, cflen))
 			break ;
 		else if (buff[0] == '\n' && cflen == 0)
 			break ;
+        dprintf(2, "write to [%d]\n", fd[1]);
 		write(fd[1], buff, ft_strlen(buff));
 		free(buff);
 	}
 	free(buff);
 	close(fd[1]);
 	return (fd[0]);
+}
+
+void loop_and_assign_heredoc(t_cmd *t)
+{
+    t_cmd *tmp;
+    t_strm *s_tmp;
+
+    tmp = t;
+
+    while (t)
+    {
+        s_tmp = t->str_mode;
+        while (s_tmp)
+        {
+            if (s_tmp->type == h_doc_cut_str)
+                t->fd_in = do_doctype(s_tmp->value);
+            s_tmp = s_tmp->next;
+        }
+        t = t->next;
+    }
 }
 
 int loop_open_file(t_cmd *t, int mode)
@@ -51,15 +74,8 @@ int loop_open_file(t_cmd *t, int mode)
                 fd = open(lst->value, O_RDWR | O_CREAT | O_APPEND, 0664);
             }
         }
-        if (mode == IN_FILE)
-        {
-            if (lst->type == file_in_str)
-            {
-                fd = open(lst->value, O_RDONLY);
-            }
-            if (lst->type == h_doc_cut_str)
-                fd = do_doctype(lst->value);
-        }
+        if (mode == IN_FILE && lst->type == file_in_str)
+            fd = open(lst->value, O_RDONLY);
         if (-1 == fd)
 	    {
             perror("ERROR: ");
