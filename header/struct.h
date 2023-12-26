@@ -30,6 +30,7 @@ typedef struct s_token
 {
 	struct s_environment 	*env_token; // <------ store env argument that pass by main (char **env) to use as minishell env
 	char					**env; // <------- env to pass in to execve function must be char ** (join after token)
+	int						return_code;
 	struct s_amd			*command;
 
 }	t_tok; // <-- can change later kub

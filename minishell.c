@@ -13,7 +13,7 @@ char *get_prompt(t_tok token)
 	
 	user = get_value_from_key("USER", token.env_token);
 	pwd = get_value_from_key("PWD", token.env_token);
-	lst_status = ft_itoa(g_signal);
+	lst_status = ft_itoa(token.return_code);
 
 	prompt = ft_strjoin("\033[1;31m", user);
 	
@@ -75,6 +75,7 @@ int main(int ac , char **av, char **env)
 	if (ac != 1 || !env)
 		return (1);
 	token.command = NULL;
+	token.return_code = 0;
 	token.env_token = create_env(env); //<<-- assign the env to key : value pair 
 	while (1)
 	{
@@ -87,9 +88,8 @@ int main(int ac , char **av, char **env)
 		if (0 == ft_strncmp("env", input, 3))
 			print_env(token);
 		dprintf(2,"\n--------------[exe]--------------\n");
-		g_signal = exe_command(&token);
+		token.return_code = exe_command(&token);
 		dprintf(2,"\n---------------------------------\n");
-		// free_input_and_cmd_token(input, &token.command);
 		free(input);
 		input = NULL;
 		free_cmd_tab(&token.command);
