@@ -21,11 +21,6 @@ HEADER_PATH = ./header/
 HEADER_FILE = ${wildcard ${HEADER_PATH}*.h}
 HEADER_SRC = ${LIBFT_FILE}
 
-# FOR BUILT-IN
-BUILT_PATH = ./built_in/
-BUILT_FILE = cd.c echo.c env.c exit.c export.c pwd.c unset.c
-BUILT_SRC = ${addprefix ${BUILT_PATH}, ${BUILT_FILE}}
-
 ## FOR ENV
 ENV_PATH = ./env_handle/
 ENV_FILE = env_util.c get_value_from_key.c init_env.c env_join.c env_edit.c
@@ -46,11 +41,16 @@ PARSER_PATH = ./parser/
 PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c ft_split_pipe.c ft_split_sp_util.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
+## FOR BUILTIN
+BUILTIN_PATH = ./builtin/
+BUILTIN_FILE = pwd.c env.c
+BUILTIN_SRC  = ${addprefix ${BUILTIN_PATH}, ${BUILTIN_FILE}}
+
 
 
 RM = rm -rf
 
-SRC =  ${LIBFT_SRC} ${ENV_SRC} ${FREE_SRC} ${PARSER_SRC} ${EXE_SRC} minishell.c
+SRC =  ${LIBFT_SRC} ${ENV_SRC} ${FREE_SRC} ${PARSER_SRC} ${EXE_SRC} ${BUILTIN_SRC} minishell.c
 OBJ =  $(SRC:.c=.o)
 
 %.o: %.c ${HEADER_FILE}
