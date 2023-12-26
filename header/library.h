@@ -26,5 +26,6 @@
 #include "../parser/parser.h"
 #include "../free/free.h"
 #include "../env_handle/env.h"
+#include "../builtin/builtin.h"
 
 #endif
