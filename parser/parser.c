@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/25 02:26:39 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:34:42 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 		i++;
 	}
 	set_mode(set[1]);
+	//get_value_from_struct(set[1]);
 	expand_from_env(set[1], env);
 	if (cmd_arg)
 		free2d(cmd_arg);

@@ -6,7 +6,7 @@ int	ft_env(t_env *env_list)
 
 	lst = env_list;
 	if (!env_list)
-		dprintf(2, "ENV : env variable is not set\n", 1);
+		dprintf(2, "ENV : env variable is not set\n");
 	lst = env_list;
 	while (lst)
 	{

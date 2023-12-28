@@ -6,11 +6,49 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:38:36 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/25 00:03:44 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:42:06 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	**gget_split(char const *s, char c, char **res)
+{
+	size_t	i;
+	size_t	big_i;
+
+	i = 0;
+	big_i = 0;
+	while (s[i] && i <= ft_strlen(s))
+	{
+		if (s[i] != c)
+		{
+			res[big_i] = ft_substr(s, i, hhow_long(&s[i], c));
+			i = i + hhow_long(&s[i], c);
+			big_i++;
+		}
+		if (s[i] == c)
+			i++;
+	}
+	res[big_i] = NULL;
+	return (res);
+}
+
+int	inside_ccount(char const *s, int skip, char qt, int *word)
+{
+	char	c;
+
+	c = ' ';
+	qt = get_quote_trigger(qt, s);
+	if (*s == c && skip == 1 && qt == 0)
+		return (0);
+	if (*s != c && skip == 0 && !is_redirect(*s))
+	{
+		*word += 1;
+		return (1);
+	}
+	return (skip);
+}
 
 size_t	ccount_on_me(char const *s, char c)
 {
@@ -23,14 +61,7 @@ size_t	ccount_on_me(char const *s, char c)
 	word = 0;
 	while (*s)
 	{
-		quote_trigger = get_quote_trigger(quote_trigger, s);
-		if (*s == c && skip == 1 && quote_trigger == 0)
-			skip = 0;
-		if (*s != c && skip == 0 && !is_redirect(*s))
-		{
-			word++;
-			skip = 1;
-		}
+		skip = inside_ccount(s, skip, quote_trigger, &word);
 		if (is_redirect(*s))
 		{
 			if (skip == 1)
@@ -82,17 +113,6 @@ char	**ft_split_sp(char const *s, char c)
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
 	if (!resplit)
 		return (0);
-	while (s[i] && i <= ft_strlen(s))
-	{
-		if (s[i] != c)
-		{
-			resplit[big_i] = ft_substr(s, i, hhow_long(&s[i], c));
-			i = i + hhow_long(&s[i], c);
-			big_i++;
-		}
-		if (s[i] == c)
-			i++;
-	}
-	resplit[big_i] = NULL;
+	resplit = gget_split(s, c, resplit);
 	return (resplit);
 }

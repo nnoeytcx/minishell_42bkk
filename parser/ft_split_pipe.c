@@ -6,11 +6,33 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:28 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/25 00:09:39 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:10:54 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	**get_split(char const *s, char c, char **res)
+{
+	size_t	i;
+	size_t	big_i;
+
+	i = 0;
+	big_i = 0;
+	while (s[i] && i <= ft_strlen(s))
+	{
+		if (s[i] != c)
+		{
+			res[big_i] = ft_substr(s, i, how_long(&s[i], c));
+			i = i + how_long(&s[i], c);
+			big_i++;
+		}
+		if (s[i] == c)
+			i++;
+	}
+	res[big_i] = NULL;
+	return (res);
+}
 
 static size_t	count_on_me(char const *s, char c)
 {
@@ -68,22 +90,12 @@ char	**ft_split_pipe(char const *s, char c)
 	i = 0;
 	big_i = 0;
 	word = count_on_me(s, c);
-	if (word == -1)
+	//dprintf(2, "word %d\n", word);
+	if (word <= 0 || word == -1)
 		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
 	if (!resplit)
 		return (0);
-	while (s[i] && i <= ft_strlen(s))
-	{
-		if (s[i] != c)
-		{
-			resplit[big_i] = ft_substr(s, i, how_long(&s[i], c));
-			i = i + how_long(&s[i], c);
-			big_i++;
-		}
-		if (s[i] == c)
-			i++;
-	}
-	resplit[big_i] = NULL;
+	resplit = get_split(s, c, resplit);
 	return (resplit);
 }

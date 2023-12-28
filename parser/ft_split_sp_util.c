@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:55:04 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/24 23:55:32 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:16:47 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ int	is_redirect(char c)
 		return (1);
 	else
 		return (0);
+}
+
+int	is_quote(char c)
+{
+	if (c == '\'' || c == '\"')
+		return (1);
+	return (0);
 }
 
 size_t	how_long_redirect(char const *s, size_t count)
