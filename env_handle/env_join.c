@@ -17,7 +17,7 @@ char **join_env_token(t_env *env_token)
         tmp = tmp->next;
     }
     tmp = env_token;
-    res = ft_calloc(sizeof(char *), i);
+    res = ft_calloc(sizeof(char *), i+1); // fix the oeve flow by +1
     i = 0;
     while (tmp)
     {
@@ -30,3 +30,4 @@ char **join_env_token(t_env *env_token)
     res[i] = NULL;
     return (res);
 }
+
