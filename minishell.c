@@ -44,8 +44,10 @@ char *readline_input(t_tok token)
 		rl_clear_history(); //<< safety 1st
 		exit(1); // << have to figure out the exit code later
 	}
+	dprintf(2, "give promt\n");
 	if (!(0 == ft_strlen(input)))
 		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
+	dprintf(2, "giveed promt\n");
 	return (input);	
 }
 
@@ -58,9 +60,11 @@ int main(int ac , char **av, char **env)
 		return (1);
 	token.command = NULL;
 	token.return_code = 0;
+	token.pid = get_pid();
 	token.env_token = create_env(env); //<<-- assign the env to key : value pair 
 	while (1)
 	{
+
 		input = readline_input(token);
 		dprintf(2,"prompt == [%s]\n", input);
 
@@ -71,9 +75,6 @@ int main(int ac , char **av, char **env)
 		print_tok(token);
 
 		dprintf(2,"\n-----------------------------\n");
-		
-		if (0 == ft_strncmp("env", input, 3))
-			print_env(token);
 		
 		dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
 		token.return_code = exe_command(&token);

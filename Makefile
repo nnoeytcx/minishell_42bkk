@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra
 
-VALGRIND = callgrind --leak-check=full --show-leak-kinds=all -s
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all -s
 # CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline 
@@ -43,7 +43,7 @@ PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 ## FOR BUILTIN
 BUILTIN_PATH = ./builtin/
-BUILTIN_FILE = pwd.c env.c
+BUILTIN_FILE = pwd.c env.c cd.c echo.c exit.c export.c unset.c is_builtin.c
 BUILTIN_SRC  = ${addprefix ${BUILTIN_PATH}, ${BUILTIN_FILE}}
 
 
