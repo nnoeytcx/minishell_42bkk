@@ -1,5 +1,29 @@
 #include "../header/minishell.h"
 
+
+char *get_pid()
+{
+    int fd = open("/proc/self/status",O_RDONLY);
+    char *input = ft_calloc(sizeof(char), 2);
+    char *pid;
+
+    while (1)
+    {
+        input = get_next_line(fd);
+        printf("->>> %s", input);
+        if (str_n_compare("Pid", input, 3) || input == NULL)
+            break;
+        free(input);
+    }
+    printf("pid is [%s]\n", input);
+    pid = ft_strrchr(input, '\t');
+    pid = ft_strdup(pid);
+    free(input);
+    printf("pid is [%d]\n", ft_atoi(pid));
+    close(fd);
+    return (pid);
+}
+
 int    wait_all_child(t_cmd *cmd_tab)
 {
     t_cmd   *cmd_tab_t;
@@ -20,6 +44,7 @@ int    wait_all_child(t_cmd *cmd_tab)
 
 void    mom_connect_pipe(t_cmd *t_c, int pipe[2])
 {
+    dprintf(2,"parent after fork id getpid = [%d] -> %d\n",getpid(), t_c->process_id);
     if (t_c->next != NULL)
     {
         close(pipe[1]);
@@ -32,15 +57,13 @@ void    mom_connect_pipe(t_cmd *t_c, int pipe[2])
 
 void run_command(t_cmd *t_c, char **env)
 {
-    char    **cmd_arg;
     char    *cmd_w_path;
     char    **path_env;
 
-    cmd_arg = NULL;
     cmd_w_path = NULL;
-    cmd_arg = get_cmd(t_c->str_mode); // get the string join together
+    // cmd_arg = get_cmd(t_c->str_mode); // get the string join together
     path_env = get_envpath(env); // need to get the path every time cus you can set the new thong to this
-    cmd_w_path = get_cmdpath(cmd_arg[0], path_env); // search for the avalable path and combine with the string 0
+    cmd_w_path = get_cmdpath(t_c->command_line[0], path_env); // search for the avalable path and combine with the string 0
     dprintf(2,"[%s]before : exe [%s]\nfd_in [%d]\nfd_out [%d]\n", t_c->str_mode->value,cmd_w_path,t_c->fd_in,t_c->fd_out);
     if (t_c->fd_in != STDIN_FILENO)
     {
@@ -55,16 +78,17 @@ void run_command(t_cmd *t_c, char **env)
         close(t_c->fd_out);
     }
     dprintf(2, "\033[0;97m---- output -----\n\n");
-    if (-1 == execve(cmd_w_path, cmd_arg, env))
+    if (-1 == execve(cmd_w_path, t_c->command_line, env))
     {
         perror("ERROR");
-        put_errorcmd(cmd_arg[0], cmd_w_path, cmd_arg, errno);
+        put_errorcmd(t_c->command_line[0], cmd_w_path, t_c->command_line, errno);
     }
     exit(1);
-
 }
+
 void    child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
 {
+    dprintf(2,"pid in chile id -> %d\n", getpid());
     dprintf(2, "[%d][%s] BF loop open : in [%d] out [%d]\n",t_c->process_id,t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
     t_c->fd_in = loop_open_file(t_c, IN_FILE);
     t_c->fd_out = loop_open_file(t_c, OUT_FILE);
@@ -88,12 +112,16 @@ unsigned int exe_command(t_tok *token)
 
     t = token;
     t_c = t->command;
-    t->env = join_env_token(t->env_token); // malloc **char // < should do in exe loop
-    // put here doc here
+    dprintf(2, "before join\n");
+    t->env = join_env_token(t->env_token);
+    dprintf(2, "afte join\n");
     loop_and_assign_heredoc(t_c);
+    dprintf(2,"pid in parent id -> %d\n", getpid());
     while (t_c != NULL)
     {
+        t_c->command_line = get_cmd(t_c->str_mode);
         dprintf(2, "[%s]\n", t_c->str_mode->value);
+
         if (t_c->next != NULL)
         {
             dprintf(2, "[%s] have next cmd [%s]\n", t_c->str_mode->value,t_c->next->str_mode->value);
@@ -101,14 +129,21 @@ unsigned int exe_command(t_tok *token)
                 return(printf("PIPE FAIL \n"));
             dprintf(2, "[%s] create : pipe[0] = [%d] pipe[1] = [%d]\n\n",t_c->str_mode->value, pipo[0], pipo[1]);
         }
-
-        t_c->process_id = fork();
-        if (t_c->process_id == -1)
-            return (printf("FORK ERROR\n"));
-        if (t_c->process_id == 0)
-            child_pipe_and_run(t_c, t->env, pipo);
-        if (t_c->process_id > 0)
-            mom_connect_pipe(t_c, pipo);
+        if (is_builtin(t_c->command_line[0]) && t_c->next == NULL)
+        {
+            dprintf(2, "[%s] is _built in\n",t_c->command_line[0]);
+            return (run_builtin(t_c->command_line, t));
+        }
+        else
+        {
+            t_c->process_id = fork();
+            if (t_c->process_id == -1)
+                return (printf("FORK ERROR\n"));
+            if (t_c->process_id == 0)
+                child_pipe_and_run(t_c, t->env, pipo);
+            if (t_c->process_id > 0)
+                mom_connect_pipe(t_c, pipo);
+        }
         t_c = t_c->next;
     }
     t_c = t->command;
