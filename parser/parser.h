@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:11:17 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/26 15:32:22 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:43:42 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int				parser_error(char *str);
 
 //expand.c
 int				expand_from_env(t_strm *str_tab, t_env *env);
-//void			trim_and_expand(char *str_tab);
-//int				get_value_from_struct(t_strm *str_tab);
-//void			get_expand(char *str_tab);
+int				get_value_from_struct(t_strm *str_tab, t_env *env);
+char			*find_dollarsign(char *str, t_env *env);
+char			*get_expand(char *str_tab, t_env *env);
+char			*trim_and_expand(char *str_tab, t_env *env);
 
 //ft_split_pipe.c
 char			**ft_split_pipe(char const *s, char c);
@@ -55,4 +56,10 @@ void			print_command_tab(t_cmd *cmd);
 //set_mode.c
 int				set_mode(t_strm *str);
 int				is_sp_symbol(char *str);
+
+//expand_util.c
+char			*get_new_str(char *str, t_env *env);
+int				is_submeta(char c);
+char			*my_ft_strjoin(char const *s1, char c2);
+char			*ft_strjoy(char const *s1, char const *s2);
 #endif

@@ -38,7 +38,7 @@ FREE_SRC  = ${addprefix ${FREE_PATH}, ${FREE_FILE}}
 
 ## FOR PARSER
 PARSER_PATH = ./parser/
-PARSER_FILE = parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c ft_split_pipe.c ft_split_sp_util.c
+PARSER_FILE = expand_util.c parser.c print_tok.c set_mode.c expand.c error_parser.c ft_split_special.c ft_split_pipe.c ft_split_sp_util.c
 PARSER_SRC  = ${addprefix ${PARSER_PATH}, ${PARSER_FILE}}
 
 ## FOR BUILTIN

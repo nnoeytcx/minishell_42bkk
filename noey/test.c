@@ -147,6 +147,7 @@ char	**gget_split(char const *s, char c, char **res)
 {
 	size_t	i;
 	size_t	big_i;
+	char	*tmpstr;
 
 	i = 0;
 	big_i = 0;
@@ -186,26 +187,15 @@ char	**ft_split_sp(char const *s, char c)
 	return (resplit);
 }
 
-// char	*expand_from_env(char *str, t_env *env)
-// {
-// 	t_env	*e;
-// 	char	*env_str;
-// 	char	*tmp_str;
-// 	int		i;
+char	*get_new_str(char *str)
+{
+	char	*new_str;
 
-// 	i = 0;
-// 	e = env;
-// 	s = str_tab;
-// 	tmp_str = "temp string";
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$')
-// 			env_str = tmp_str;
-// 			//get_value_from_key((s->value + 1), e);
-// 		i++;
-// 	}
-// 	return (env_str);
-// }
+	new_str = "(your new str)";
+	//new_str = get_value_from_key(str, )
+	//if not found return null
+	return (new_str);
+}
 
 int	is_submeta(char c)
 {
@@ -214,26 +204,55 @@ int	is_submeta(char c)
 	return (0);
 }
 
-int	find_dollarsign(char *str)
+char	*my_ft_strjoin(char const *s1, char c2)
 {
-	int	i;
-	int	len;
-	int	k;
-	int	open;
+	char	*j_str;
+	char	*str_joined;
+
+	j_str = malloc(ft_strlen(s1) + 2);
+	if (!j_str)
+		return (0);
+	str_joined = j_str;
+	while (*s1)
+	{
+		*j_str = *s1;
+		s1++;
+		j_str++;
+	}
+	*j_str = c2;
+	j_str++;
+	*j_str = '\0';
+	return (str_joined);
+}
+
+char	*find_dollarsign(char *str)
+{
+	int		i;
+	int		len;
+	int		k;
+	int		open;
+	char	*new_str;
+	char	*substr;
+	char	*tmpstr;
 
 	open = 0;
 	i = 0;
 	k = 0;
 	len = 0;
-	//printf(" word = (%s)", str);
+	new_str = ft_strdup("");
 	while (str[i])
 	{
 		len++;
 		if (str[i] == '$')
 		{
-			if (open == 1)
+			if (open == 1 && len - 1)
 			{
-				printf("|%s|", ft_substr(str, k, len - 1));
+				substr = ft_substr(str, k, len - 1);
+				tmpstr = get_new_str(substr);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoin(substr, tmpstr);
+				free(substr);
 			}
 			open = 1;
 			k = i + 1;
@@ -241,34 +260,55 @@ int	find_dollarsign(char *str)
 		}
 		if (is_submeta(str[i]) && len && open)
 		{
-			printf("|%s|", ft_substr(str, k, len - 1));
+			if (len - 1)
+			{
+				substr = ft_substr(str, k, len - 1);
+				tmpstr = get_new_str(substr);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoin(substr, tmpstr);
+				free(substr);
+			}
 			open = 0;
 			len = 0;
 		}
 		if (open == 0)
-			printf("%c", str[i]);
+		{
+			tmpstr = new_str;
+			new_str = my_ft_strjoin(tmpstr, str[i]);
+			free(tmpstr);
+		}
 		i++;
 	}
 	if (len && open)
 	{
-		printf("|%s|", ft_substr(str, k, len));
+		substr = ft_substr(str, k, len);
+		tmpstr = get_new_str(substr);
+		free(substr);
+		substr = new_str;
+		new_str = ft_strjoin(substr, tmpstr);
+		free(substr);
 	}
-	return (0);
+	return (new_str);
 }
 
-void	get_expand(char *str_tab)
+char	*get_expand(char *str_tab)
 {
 	char	*s;
+	char	*tmpstr;
+	char	*substr;
 	char	tmp;
 	int		i;
 	int		len;
 	int		k;
+	char	*new_str;
 
 	i = 0;
 	k = 0;
 	len = 0;
 	tmp = 0;
 	s = str_tab;
+	new_str = ft_strdup("");
 	while (s[i])
 	{
 		len++;
@@ -276,8 +316,13 @@ void	get_expand(char *str_tab)
 		{
 			if (len)
 			{
-				printf("\n[%s]", ft_substr(s, k, len));
-				find_dollarsign(ft_substr(s, k, len));
+				substr = ft_substr(s, k, len);
+				tmpstr = find_dollarsign(substr);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoin(substr, tmpstr);
+				free(tmpstr);
+				free(substr);
 			}
 			tmp = 0;
 			len = 0;
@@ -293,8 +338,13 @@ void	get_expand(char *str_tab)
 			{
 				if (len)
 				{
-					printf("\n[%s]", ft_substr(s, k, len));
-					find_dollarsign(ft_substr(s, k, len));
+					substr = ft_substr(s, k, len);
+					tmpstr = find_dollarsign(substr);
+					free(substr);
+					substr = new_str;
+					new_str = ft_strjoin(substr, tmpstr);
+					free(tmpstr);
+					free(substr);
 				}
 				tmp = 0;
 				len = 0;
@@ -305,15 +355,24 @@ void	get_expand(char *str_tab)
 	}
 	if (len)
 	{
-		printf("\n[%s]", ft_substr(s, k, len));
-		find_dollarsign(ft_substr(s, k, len));
+		substr = ft_substr(s, k, len);
+		tmpstr = find_dollarsign(substr);
+		free(substr);
+		substr = new_str;
+		new_str = ft_strjoin(substr, tmpstr);
+		free(tmpstr);
+		free(substr);
 	}
+	return (new_str);
 }
 
-void	trim_and_expand(char *str_tab)
+char	*trim_and_expand(char *str_tab)
 {
 	char	*s;
 	char	tmp;
+	char	*new_str;
+	char	*tmpstr;
+	char	*substr;
 	int		i;
 	int		len;
 	int		k;
@@ -323,17 +382,34 @@ void	trim_and_expand(char *str_tab)
 	len = 0;
 	tmp = 0;
 	s = str_tab;
+	new_str = ft_strdup("");
 	while (s[i])
 	{
 		len++;
 		if (is_quote(s[i]) && tmp == s[i])
 		{
 			if (tmp == '\"')
-				get_expand(ft_substr(s, k + 1, len - 2));
+			{
+				substr = ft_substr(s, k + 1, len - 2);
+				tmpstr = get_expand(substr);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoin(substr, tmpstr);
+				free(tmpstr);
+				free(substr);
+			}
 			else
 			{
 				if (len > 2)
-					printf("\n{%s} ", ft_substr(s, k + 1, len - 2));
+				{
+					substr = ft_substr(s, k + 1, len - 2);
+					tmpstr = get_expand(substr);
+					free(substr);
+					substr = new_str;
+					new_str = ft_strjoin(substr, tmpstr);
+					free(substr);
+					free(tmpstr);
+				}
 			}
 			tmp = 0;
 			len = 0;
@@ -347,7 +423,13 @@ void	trim_and_expand(char *str_tab)
 		{
 			if (s[i + 1] && is_quote(s[i + 1]))
 			{
-				get_expand(ft_substr(s, k, len));
+				substr = ft_substr(s, k, len);
+				tmpstr = get_expand(substr);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoin(substr, tmpstr);
+				free(substr);
+				free(tmpstr);
 				tmp = 0;
 				len = 0;
 				k = i + 1;
@@ -356,7 +438,19 @@ void	trim_and_expand(char *str_tab)
 		i++;
 	}
 	if (len)
-		get_expand(ft_substr(s, k, len));
+	{
+		substr = ft_substr(s, k, len);
+		tmpstr = get_expand(substr);
+		free(substr);
+		substr = new_str;
+		new_str = ft_strjoin(substr, tmpstr);
+		free(substr);
+		free(tmpstr);
+	}
+	tmpstr = new_str;
+	new_str = my_ft_strjoin(tmpstr, ' ');
+	free(tmpstr);
+	return (new_str);
 }
 
 int	main(void)
@@ -364,156 +458,425 @@ int	main(void)
 	int		i;
 	int		len;
 	char	**res;
+	char	*substr;
 
 	i = 0;
-	printf("echo \"this is \"$PATH1\"\'$PATH2\'$PATH3\"\n");
-	res = ft_split_sp("echo \"this is \"$PATH1\"\'$PATH2\'$PATH3\"", ' ');
+	printf("<< in cat ls -la << 'ls' < \"infile1\"  > putfile\n");
+	res = ft_split_sp("<< in cat ls -la << 'ls' < \"infile1\"  > putfile", ' ');
+	//"<< in cat ls -la << 'ls' < "infile1"  > putfile"
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'this is \"$PATH1\"\'$PATH2\'$PATH3\'\n");
 	res = ft_split_sp("echo \'this is \"$PATH1\"\'$PATH2\'$PATH3\'", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo for\"this is \'$PATH\' variable >> \"$PATH\"\">output\n");
 	res = ft_split_sp("echo for\"this is \'$PATH\' variable >> \"$PATH\"\">output", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo for space \"this is \'$PATH\' variable >> \"$PATH\"\">output\n");
 	res = ft_split_sp("echo for space \"this is \'$PATH\' variable >> \"$PATH\"\">output", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'this is \'\"\'$PATH\'\"\'\'\n");
 	res = ft_split_sp("echo \'this is \'\"\'$PATH\'\"\'\'", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'this is \'\"\'$PATH\'\"\"\"\n");
 	res = ft_split_sp("echo \'this is \'\"\'$PATH\'\"\"\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'this is \'\"\'$PATH\'\"\"\"$PATH\n");
 	res = ft_split_sp("echo \'this is \'\"\'$PATH\'\"\"\"$PATH", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo $PATHerete$PATH\n");
 	res = ft_split_sp("echo $PATHerete$PATH", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"\'$PATH$PATH\'\"\n");
 	res = ft_split_sp("echo \"\'$PATH$PATH\'\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'\"$PATH$PATH\"\'\n");
 	res = ft_split_sp("echo \'\"$PATH$PATH\"\'", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"\"$PATH$PATH\"\"\n");
 	res = ft_split_sp("echo \"\"$PATH$PATH\"\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \'\'$PATH$PATH\'\'\n");
 	res = ft_split_sp("echo \'\'$PATH$PATH\'\'", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"$PATH\'$PATH\"\n");
 	res = ft_split_sp("echo \"$PATH\'$PATH\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
 	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"$PATH<<<<\"\n");
 	res = ft_split_sp("echo \"$PATH<<<<\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
-		printf("\n--------------------------------------\n");
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"$\?\?<<<<\"\n");
 	res = ft_split_sp("echo \"$\?\?<<<<\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
-		printf("\n--------------------------------------\n");
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"$\?$\?<<<<\"\n");
 	res = ft_split_sp("echo \"$\?$\?<<<<\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
 	i = 0;
 	printf("echo \"$$<<<<\"\n");
 	res = ft_split_sp("echo \"$$<<<<\"", ' ');
 	while (res[i])
 	{
-		trim_and_expand(res[i]);
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
 		i++;
 	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
+	i = 0;
+	printf("echo \"$$PATH<<<<\"\n");
+	res = ft_split_sp("echo \"$$PATH<<<<\"", ' ');
+	while (res[i])
+	{
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
+		i++;
+	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
+	i = 0;
+	printf("echo \"this is $PATH\'\'\"\'\'\n");
+	res = ft_split_sp("echo \"this is $PATH\'\'\"\'\'", ' ');
+	while (res[i])
+	{
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
+		i++;
+	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
+	i = 0;
+	printf("echo \"this is $PATH\'\'\"\n");
+	res = ft_split_sp("echo \"this is $PATH\'\'\"", ' ');
+	while (res[i])
+	{
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
+		i++;
+	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
+
+
+	printf("\n--------------------------------------\n");
+	i = 0;
+	printf("echo \"this is $PATHPATH\"\n");
+	res = ft_split_sp("echo \"this is $PATHPATH\"", ' ');
+	while (res[i])
+	{
+		substr = trim_and_expand(res[i]);
+		printf("%s", substr);
+		free(substr);
+		i++;
+	}
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
 }
