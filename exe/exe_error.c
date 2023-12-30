@@ -27,19 +27,20 @@ void	err_cmd(int	*ecode, int errnum, char *cmd)
 }
 
 
-void	put_errorcmd(char *str, char *cmd_p, char **cmd_a, int errnum)
+void	errorcmd(t_cmd *t_c, char **env, int errnum)
 {
 	int	ecode;
 
 	ecode = 1;
-	putstr_fd("pipex42: ", 2);
-	err_cmd(&ecode, errnum, str);
+	putstr_fd("minishell: ", 2);
+	err_cmd(&ecode, errnum, t_c->command_line[0]);
 	putstr_fd(": ", 2);
-	putstr_fd(str, 2);
+	putstr_fd(t_c->command_line[0], 2);
 	putstr_fd("\n", 2);
-	if (cmd_p)
-		free(cmd_p);
-	free2d(cmd_a);
+	if (env)
+		free2d(env);
+	if (t_c)
+		free_cmd_tab(&t_c);
 	printf("exit with ecode [%d]", ecode);
 	exit(ecode);
 }

@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 09:22:25 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:17:42 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,9 @@ void	mom_connect_pipe(t_cmd *t_c, int pipe[2])
 
 void	run_command(t_cmd *t_c, char **env)
 {
-    char	*cmd_w_path;
-    char	**path_env;
-	
-	cmd_w_path = NULL;
-	path_env = get_envpath(env);
-	cmd_w_path = get_cmdpath(t_c->command_line[0], path_env);
-	dprintf(2,"[%s]before : exe [%s]\nfd_in [%d]\nfd_out [%d]\n", t_c->str_mode->value,cmd_w_path,t_c->fd_in,t_c->fd_out);
+	t_c->path_env = get_envpath(env);
+	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
+	dprintf(2,"[%s]before : exe [%s]\nfd_in [%d]\nfd_out [%d]\n", t_c->str_mode->value,t_c->cmd_path,t_c->fd_in,t_c->fd_out);
 	if (t_c->fd_in != STDIN_FILENO)
 	{
 		dprintf(2, "[%s]dup in [%d] to [%d]\n",t_c->str_mode->value ,t_c->fd_in, 0);
@@ -89,10 +85,10 @@ void	run_command(t_cmd *t_c, char **env)
 		close(t_c->fd_out);
 	}
 	dprintf(2, "\033[0;97m---- output -----\n\n");
-	if (-1 == execve(cmd_w_path, t_c->command_line, env))
+	if (-1 == execve(t_c->cmd_path, t_c->command_line, env))
 	{
-		perror("ERROR");
-	    put_errorcmd(t_c->command_line[0], cmd_w_path, t_c->command_line, errno);
+		perror("ERROR: ");
+		errorcmd(t_c, env, errno);
 	}
 	exit(1);
 }
@@ -136,7 +132,7 @@ unsigned int	exe_command(t_tok *token)
 		{
 			dprintf(2, "[%s] have next cmd [%s]\n", t_c->str_mode->value,t_c->next->str_mode->value);
 			if (pipe(pipo) == -1)
-				return(printf("PIPE FAIL \n"));
+				return (printf("PIPE FAIL \n"));
 			dprintf(2, "[%s] create : pipe[0] = [%d] pipe[1] = [%d]\n\n",t_c->str_mode->value, pipo[0], pipo[1]);
 		}
 		if (is_builtin(t_c->command_line[0]) && t_c->next == NULL)
@@ -145,16 +141,16 @@ unsigned int	exe_command(t_tok *token)
 			return (run_builtin(t_c->command_line, t));
 		}
 		else
-	    {
-	        t_c->process_id = fork();
-	        if (t_c->process_id == -1)
-	            return (printf("FORK ERROR\n"));
-	        if (t_c->process_id == 0)
-	            child_pipe_and_run(t_c, t->env, pipo);
-	        if (t_c->process_id > 0)
-	            mom_connect_pipe(t_c, pipo);
-	    }
-	    t_c = t_c->next;
+		{
+			t_c->process_id = fork();
+			if (t_c->process_id == -1)
+				return (printf("FORK ERROR\n"));
+			if (t_c->process_id == 0)
+				child_pipe_and_run(t_c, t->env, pipo);
+			if (t_c->process_id > 0)
+				mom_connect_pipe(t_c, pipo);
+		}
+		t_c = t_c->next;
 	}
 	t_c = t->command;
 	free2d(t->env);
