@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 18:02:57 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 14:22:05 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,20 @@ int	lexer_parser(t_tok *token, char *input)
 	res = token->command;
 	while (split_cmd[i])
 	{
+		new = new_command_tab(split_cmd[i], token->env_token);
 		if (i == 0)
 		{
-			new = new_command_tab(split_cmd[i], token->env_token);
 			(*token).command = new;
 			res = new;
 		}
 		else
 		{
-			new = new_command_tab(split_cmd[i], token->env_token);
 			(*token).command->next = new;
 			(*token).command = (*token).command->next;
 		}
 		i++;
 	}
+	dprintf(2, "malloc [%d]\n", i);
 	(*token).command = res;
 	free2d(split_cmd);
 	return (0);
