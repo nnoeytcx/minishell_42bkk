@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 09:38:31 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:42:39 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,18 @@ char *readline_input(t_tok token)
 	// prompt = get_prompt(token);
 	// input = readline("minishell > "); //<< PROMPT in the header
 
-	dprintf(2, "IN GNL;\n");
+	// dprintf(2, "IN GNL;\n");
+	int i;
 	input = get_next_line(0);
+	while (input[i] != '\n')
+		i++;
+	input[i] = '\0';
 	// if (input == NULL) // << check case EOF or ^C kub 
 	// {
 	// 	rl_clear_history(); //<< safety 1st
 	// 	exit(1); // << have to figure out the exit code later
 	// }
-	dprintf(2, "give promt\n");
+	dprintf(2, "give promt is [%s]]\n", input);
 	// if (!(0 == ft_strlen(input)))
 	// 	add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
 	dprintf(2, "giveed promt\n");
