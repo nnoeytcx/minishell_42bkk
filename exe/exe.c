@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 18:25:09 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 14:48:40 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ unsigned int	exe_command(t_tok *token)
 			t->env = NULL;
 			return (t_c->process_status);
 		}
+		free2d(t_c->command_line);
 	}
 	while (t_c != NULL)
 	{

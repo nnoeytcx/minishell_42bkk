@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:15:27 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 16:04:20 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 14:15:13 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char	**get_cmd(t_strm *str_list)
 		tmp = tmp->next;
 	}
 	tmp = str_list;
+	dprintf(2, "calloc i = %d + 1\n", i);
 	res = ft_calloc(sizeof(char *), i + 1);
 	i = 0;
 	while (tmp)
@@ -106,6 +107,7 @@ char	**get_cmd(t_strm *str_list)
 		{
 			res[i] = ft_substr(tmp->value, 0, ft_strlen(tmp->value));
 			i++;
+			dprintf(2, "i = %d\n", i);
 		}
 		tmp = tmp->next;
 	}
