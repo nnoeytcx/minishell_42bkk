@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_builtin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 01:53:14 by pruenrua          #+#    #+#             */
+/*   Updated: 2023/12/30 01:53:23 by pruenrua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	int	len;
 
@@ -22,7 +34,7 @@ int is_builtin(char *cmd)
 	return (0);
 }
 
-int run_builtin(char **cmd_lst, t_tok *token)
+int	run_builtin(char **cmd_lst, t_tok *token)
 {
 	int	len;
 
@@ -36,7 +48,8 @@ int run_builtin(char **cmd_lst, t_tok *token)
 	if (str_n_compare(cmd_lst[0], "exit", len))
 		return (ft_exit(cmd_lst, token));
 	if (str_n_compare(cmd_lst[0], "export", len))
-		return (ft_export(cmd_lst ,token));
+		return (ft_export(cmd_lst, token));
 	if (str_n_compare(cmd_lst[0], "pwd", len))
 		return (ft_pwd(PRINT, cmd_lst));
+	return (0);
 }
