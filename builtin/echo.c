@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 15:32:28 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 17:39:29 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:26:05 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_echo(char **param)
 	}
 	while (param[i])
 	{
-		ft_putchar_fd(' ', 1);
 		ft_putstr_fd(param[i], 1);
+		ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (option != 1)

@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 17:44:08 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:02:57 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 	}
 	set_mode(set[1]);
 	get_value_from_struct(set[1], env);
-	//expand_from_env(set[1], env);
 	if (cmd_arg)
 		free2d(cmd_arg);
 	new_table->fd_in = STDIN_FILENO;

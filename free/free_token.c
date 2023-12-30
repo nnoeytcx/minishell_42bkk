@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:40 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:21:42 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	free_str_mode(t_strm **str_mode)
 	while (current)
 	{
 		next = current->next;
-		free(current->value);
+		if (current->value)
+			free(current->value);
 		free(current);
 		current = next;
 	}
@@ -60,7 +61,7 @@ int	free_cmd_tab(t_cmd **cmd_tab)
 	{
 		next = current->next;
 		free_str_mode(&current->str_mode);
-		free(current);
+		//free(current);
 		if (current->command_line)
 			free2d(current->command_line);
 		if (current->path_env)

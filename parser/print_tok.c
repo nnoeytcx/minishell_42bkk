@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vscode <vscode@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:12 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/26 14:50:54 by vscode           ###   ########seoul.kr  */
+/*   Updated: 2023/12/30 18:03:14 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_command_tab(t_cmd *cmd)
 		i = 0;
 		while (stt)
 		{
-			printf("[%s] mode [%d] -> ",stt->value, stt->type);
+			printf("[%s] mode [%d] -> ", stt->value, stt->type);
 			stt = stt->next;
 			i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 17:41:30 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:28:57 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	get_value_from_struct(t_strm *str_tab, t_env *env)
 	{
 		str = s->value;
 		printf("sent str : %s\n", str);
-		//str = get_expand(str);
 		str = trim_and_expand(str, env);
 		printf("return str : %s\n", str);
 		free(s->value);
@@ -82,6 +81,7 @@ char	*find_dollarsign(char *str, t_env *env)
 				substr = new_str;
 				new_str = ft_strjoy(substr, tmpstr);
 				free(substr);
+				free(tmpstr);
 			}
 			open = 1;
 			k = i + 1;
@@ -97,6 +97,7 @@ char	*find_dollarsign(char *str, t_env *env)
 				substr = new_str;
 				new_str = ft_strjoy(substr, tmpstr);
 				free(substr);
+				free(tmpstr);
 			}
 			open = 0;
 			len = 0;
@@ -116,6 +117,7 @@ char	*find_dollarsign(char *str, t_env *env)
 		free(substr);
 		substr = new_str;
 		new_str = ft_strjoy(substr, tmpstr);
+		free(tmpstr);
 		free(substr);
 	}
 	return (new_str);

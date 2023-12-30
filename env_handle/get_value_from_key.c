@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value_from_key.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:01:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 02:02:14 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:18:02 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ char	*get_value_from_key(char *key, t_env *token)
 
 	if (key == NULL)
 		return (NULL);
+	printf("key : %s\n", key);
 	tmp = token;
 	while (tmp->next)
 	{
-		if (!ft_strncmp(key, tmp->key, ft_strlen(tmp->key)))
+		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}

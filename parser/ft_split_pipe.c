@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:28 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/26 16:10:54 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:47:04 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	**ft_split_pipe(char const *s, char c)
 	i = 0;
 	big_i = 0;
 	word = count_on_me(s, c);
-	//dprintf(2, "word %d\n", word);
 	if (word <= 0 || word == -1)
 		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));
