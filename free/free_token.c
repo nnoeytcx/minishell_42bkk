@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 09:36:40 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:53:47 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ int	free_cmd_tab(t_cmd **cmd_tab)
 		next = current->next;
 		free_str_mode(&current->str_mode);
 		free(current);
-		free2d(current->command_line);
+		if (current->command_line)
+			free2d(current->command_line);
+		if (current->path_env)
+			free2d(current->path_env);
+		if (current->cmd_path)
+			free(current->cmd_path);
 		current = next;
 	}
 	*cmd_tab = NULL;
