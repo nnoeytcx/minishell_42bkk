@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 13:17:42 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:36:39 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ int	wait_all_child(t_cmd *cmd_tab)
 	cmd_tab_t = cmd_tab;
 	while (cmd_tab_t)
 	{
-		dprintf(2,"waiting for [%s][%d]\n",cmd_tab_t->str_mode->value, cmd_tab_t->process_id);
 		waitpid(cmd_tab_t->process_id, &status,  WUNTRACED);
-		cmd_tab_t->process_status = WEXITSTATUS(status);
-		dprintf(2,"\nwaiting for [%s][%d] finish return [%d]\n",cmd_tab_t->str_mode->value, cmd_tab_t->process_id, cmd_tab_t->process_status);
+		if (cmd_tab_t->process_status == -1)
+			cmd_tab_t->process_status = WEXITSTATUS(status);
 		cmd_tab_t = cmd_tab_t->next;
 	}
 	return (WEXITSTATUS(status));
@@ -71,20 +70,16 @@ void	run_command(t_cmd *t_c, char **env)
 {
 	t_c->path_env = get_envpath(env);
 	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
-	dprintf(2,"[%s]before : exe [%s]\nfd_in [%d]\nfd_out [%d]\n", t_c->str_mode->value,t_c->cmd_path,t_c->fd_in,t_c->fd_out);
 	if (t_c->fd_in != STDIN_FILENO)
 	{
-		dprintf(2, "[%s]dup in [%d] to [%d]\n",t_c->str_mode->value ,t_c->fd_in, 0);
 		dup2(t_c->fd_in, 0);
 		close(t_c->fd_in);
 	}
 	if (t_c->fd_out != STDOUT_FILENO)
 	{
-		dprintf(2, "[%s]dup out [%d] to [%d]\n", t_c->str_mode->value,t_c->fd_out, 1);
 		dup2(t_c->fd_out, 1);
 		close(t_c->fd_out);
 	}
-	dprintf(2, "\033[0;97m---- output -----\n\n");
 	if (-1 == execve(t_c->cmd_path, t_c->command_line, env))
 	{
 		perror("ERROR: ");
@@ -110,7 +105,6 @@ void	child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
 	run_command(t_c, env);
 }
 
-//must set the last cmd path  when use the command !!!!!!! _=[cmd path]
 unsigned int	exe_command(t_tok *token)
 {
 	t_tok	*t;
@@ -119,26 +113,27 @@ unsigned int	exe_command(t_tok *token)
 
 	t = token;
 	t_c = t->command;
-	dprintf(2, "before join\n");
 	t->env = join_env_token(t->env_token);
-	dprintf(2, "afte join\n");
 	loop_and_assign_heredoc(t_c);
-	dprintf(2,"pid in parent id -> %d\n", getpid());
+	if (t_c->next == NULL)
+	{
+		t_c->command_line = get_cmd(t_c->str_mode);
+		if (is_builtin(t_c->command_line[0]))
+		{
+			t_c->process_status = run_builtin(t_c->command_line, t);
+			free2d(t_c->command_line);
+			free2d(t->env);
+			return (t_c->process_status);
+		}
+	}
 	while (t_c != NULL)
 	{
 		t_c->command_line = get_cmd(t_c->str_mode);
 		dprintf(2, "[%s]\n", t_c->str_mode->value);
 		if (t_c->next != NULL)
 		{
-			dprintf(2, "[%s] have next cmd [%s]\n", t_c->str_mode->value,t_c->next->str_mode->value);
 			if (pipe(pipo) == -1)
 				return (printf("PIPE FAIL \n"));
-			dprintf(2, "[%s] create : pipe[0] = [%d] pipe[1] = [%d]\n\n",t_c->str_mode->value, pipo[0], pipo[1]);
-		}
-		if (is_builtin(t_c->command_line[0]) && t_c->next == NULL)
-		{
-			dprintf(2, "[%s] is _built in\n",t_c->command_line[0]);
-			return (run_builtin(t_c->command_line, t));
 		}
 		else
 		{
