@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:11:36 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 02:14:42 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 13:49:44 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ typedef struct s_amd
 {
 	struct s_str_with_mode	*str_mode;
 	char					**command_line;
+	char					**env;
+	char					**path_env;
+	char					*cmd_path;
 	int						process_id;
 	int						process_status;
 	int						fd_in;
@@ -47,5 +50,4 @@ typedef struct s_token
 	char					*pid;
 	struct s_amd			*command;
 }	t_tok;
-
 #endif
