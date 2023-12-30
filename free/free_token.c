@@ -3,85 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   free_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 18:21:42 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/30 14:59:08 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	free2d(char	**ptr)
+void	*ft_free(void *ptr)
+{
+	free(ptr);
+	return (NULL);
+}
+
+char	**free2d(char	**ptr)
 {
 	int	i;
 
 	i = 0;
 	if (!ptr)
-		return ;
+		return (NULL);
 	while (ptr[i])
 	{
-		free(ptr[i]);
-		ptr[i] = NULL;
+		ptr[i] = ft_free(ptr[i]);
 		i++;
 	}
-	free(ptr);
-	ptr = NULL;
+	ptr = ft_free(ptr);
+	return (NULL);
 }
 
-int	free_str_mode(t_strm **str_mode)
+t_strm	*free_str_mode(t_strm *str_mode)
 {
 	t_strm	*next;
 	t_strm	*current;
 
-	if (str_mode == NULL || *str_mode == NULL)
-		return (printf("CANT FREE the STR_MODE\n"), 1);
-	current = *str_mode;
+	if (str_mode == NULL || str_mode == NULL)
+		return (printf("CANT FREE the STR_MODE\n"), NULL);
+	current = str_mode;
 	while (current)
 	{
 		next = current->next;
 		if (current->value)
-			free(current->value);
-		free(current);
+			current->value = ft_free(current->value);
+		current = ft_free(current);
 		current = next;
 	}
-	*str_mode = NULL;
-	return (0);
+	return (NULL);
 }
 
-int	free_cmd_tab(t_cmd **cmd_tab)
+t_cmd	*free_cmd_tab(t_cmd *cmd_tab)
 {
 	t_cmd	*next;
 	t_cmd	*current;
 
-	if (cmd_tab == NULL || *cmd_tab == NULL)
-		return (printf("CAN FREE the CMD tab\n"),1);
-	current = *cmd_tab;
+	if (cmd_tab == NULL || cmd_tab == NULL)
+		return (printf("CAN FREE the CMD tab\n"),NULL);
+	current = cmd_tab;
+	int i = 0;
+	dprintf(2, "free CMD_TAB\n");
 	while (current)
 	{
 		next = current->next;
-		free_str_mode(&current->str_mode);
-		//free(current);
+		current->str_mode = free_str_mode(current->str_mode);
 		if (current->command_line)
-			free2d(current->command_line);
+			current->command_line = free2d(current->command_line);
 		if (current->path_env)
-			free2d(current->path_env);
+			current->path_env = free2d(current->path_env);
 		if (current->cmd_path)
-			free(current->cmd_path);
+			current->cmd_path = ft_free(current->cmd_path);
+		current = ft_free(current);
 		current = next;
+		i++;
 	}
-	*cmd_tab = NULL;
-	return (0);
+	dprintf(2, "free [%d]\n", i);
+	return (NULL);
 }
 
-int	free_env_list(t_env **env_lst)
+t_env	*free_env_list(t_env *env_lst)
 {
 	t_env	*next;
 	t_env	*current;
 
-	if (env_lst == NULL || *env_lst == NULL)
-		return (printf("CAN FREE the CMD tab\n"), 1);
-	current = *env_lst;
+	if (env_lst == NULL || env_lst == NULL)
+		return (printf("CAN FREE the CMD tab\n"), NULL);
+	current = env_lst;
 	while (current)
 	{
 		next = current->next;
@@ -90,16 +97,18 @@ int	free_env_list(t_env **env_lst)
 		free(current);
 		current = next;
 	}
-	*env_lst = NULL;
 	return (0);
 }
 
-void	free_token(t_tok *token)
+t_tok	*free_token(t_tok *token)
 {
-	free_cmd_tab(&token->command);
-	free_env_list(&token->env_token);
-	free(token->pid);
+	dprintf(2, "IN FREE \n");
+	token->command = free_cmd_tab(token->command);
+	dprintf(2, "FREE CMD\n");
+	token->env_token = free_env_list(token->env_token);
+	dprintf(2, "FREE ENV\n");
 	if (token->env)
-		free2d(token->env);
-	token = NULL;
+		token->env = free2d(token->env);
+	dprintf(2, "FREE ENVVV\n");
+	return (NULL);
 }
