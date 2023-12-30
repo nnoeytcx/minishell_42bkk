@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 02:02:40 by pruenrua          #+#    #+#             */
+/*   Updated: 2023/12/30 09:37:56 by pruenrua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
-t_env	*new_env(char	*key, char	*value, int	mode)
+t_env	*new_env(char *key, char *value, int mode)
 {
 	t_env	*new;
 
@@ -21,9 +33,9 @@ t_env	*new_env(char	*key, char	*value, int	mode)
 	return (new);
 }
 
-t_env	*create_env(char **env)
+t_env	*init_env(char **env)
 {
-	t_env 	*env_list;
+	t_env	*env_list;
 	t_env	*res;
 	int		i;
 
@@ -45,6 +57,5 @@ t_env	*create_env(char **env)
 			i++;
 		}
 	}
-	if_not_define("PATH", DEFAULT_PATH_VALUE, res);
 	return (res);
 }

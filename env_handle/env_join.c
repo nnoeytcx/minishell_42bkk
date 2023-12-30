@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_join.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 02:05:35 by pruenrua          #+#    #+#             */
+/*   Updated: 2023/12/30 02:05:58 by pruenrua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
-char **join_env_token(t_env *env_token)
+char    **join_env_token(t_env *env_token)
 {
-    t_env *tmp;
-    int i;
-    char    **res;
-    char    *key_w_eq;
+    t_env       *tmp;
+    int         i;
+    char        **res;
+    char        *key_w_eq;
 
     if (!env_token)
         return (NULL);
@@ -17,7 +29,7 @@ char **join_env_token(t_env *env_token)
         tmp = tmp->next;
     }
     tmp = env_token;
-    res = ft_calloc(sizeof(char *), i+1); // fix the oeve flow by +1
+    res = ft_calloc(sizeof(char *), i+1);
     i = 0;
     while (tmp)
     {

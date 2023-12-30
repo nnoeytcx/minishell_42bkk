@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   open_file.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
+/*   Updated: 2023/12/30 09:33:05 by pruenrua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 int	do_doctype(char *cutoffstr)
@@ -31,59 +43,53 @@ int	do_doctype(char *cutoffstr)
 	return (fd[0]);
 }
 
-void loop_and_assign_heredoc(t_cmd *t)
+void	loop_and_assign_heredoc(t_cmd *t)
 {
-    t_cmd *tmp;
-    t_strm *s_tmp;
+    t_cmd	*tmp;
+    t_strm	*s_tmp;
 
-    tmp = t;
-
-    while (t)
-    {
-        s_tmp = t->str_mode;
-        while (s_tmp)
-        {
-            if (s_tmp->type == h_doc_cut_str)
-                t->fd_in = do_doctype(s_tmp->value);
-            s_tmp = s_tmp->next;
-        }
-        t = t->next;
-    }
+	tmp = t;
+	while (t)
+	{
+		s_tmp = t->str_mode;
+		while (s_tmp)
+		{
+			if (s_tmp->type == h_doc_cut_str)
+				t->fd_in = do_doctype(s_tmp->value);
+			s_tmp = s_tmp->next;
+		}
+		t = t->next;
+	}
 }
 
-int loop_open_file(t_cmd *t, int mode)
+int	loop_open_file(t_cmd *t, int mode)
 {
-    int	fd;
-    t_strm *lst;
+	int		fd;
+	t_strm	*lst;
 
-    if (mode == OUT_FILE)
-        fd = t->fd_out;
-    if (mode == IN_FILE)
-        fd = t->fd_in;
-    lst = t->str_mode;
-    while (lst)
-    {
-        if (mode == OUT_FILE)
-        {
+	if (mode == OUT_FILE)
+		fd = t->fd_out;
+	if (mode == IN_FILE)
+		fd = t->fd_in;
+	lst = t->str_mode;
+	while (lst)
+	{
+		if (mode == OUT_FILE)
+		{
             if (lst->type == file_out_str)
-            {
-                fd = open(lst->value, O_RDWR | O_CREAT | O_TRUNC, 0664);
-            }
+				fd = open(lst->value, O_RDWR | O_CREAT | O_TRUNC, 0664);
             if (lst->type == file_out_append_str)
-            {
                 fd = open(lst->value, O_RDWR | O_CREAT | O_APPEND, 0664);
-            }
-        }
-        if (mode == IN_FILE && lst->type == file_in_str)
-            fd = open(lst->value, O_RDONLY);
-        if (-1 == fd)
+		}
+		if (mode == IN_FILE && lst->type == file_in_str)
+			fd = open(lst->value, O_RDONLY);
+		if (-1 == fd)
 	    {
-            perror("ERROR: ");
-            dprintf(2, "U know what!!?? [%s] not found\n", lst->value);
-            exit(1);
-        };
-        lst = lst->next;
-    }
-    
+			perror("ERROR: ");
+			dprintf(2, "U know what!!?? [%s] not found\n", lst->value);
+			exit(1);
+		}
+		lst = lst->next;
+	}
 	return (fd);
 }

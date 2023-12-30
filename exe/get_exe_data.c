@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_exe_data.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/30 02:15:27 by pruenrua          #+#    #+#             */
+/*   Updated: 2023/12/30 09:28:22 by pruenrua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 int	str_n_compare(const char *s1, const char *s2, size_t n)
@@ -47,7 +59,7 @@ char	*get_cmdpath(char *command, char **env)
 	char	*prepath;
 	char	*path_and_command;
 	char	*ready_cmd;
-	
+
 	i = 0;
 	if (!command)
 		return (NULL);
@@ -69,35 +81,33 @@ char	*get_cmdpath(char *command, char **env)
 	return (ft_substr(command, 0, ft_strlen(command)));
 }
 
-char    **get_cmd(t_strm *str_list)
+char	**get_cmd(t_strm *str_list)
 {
-    t_strm *tmp;
-    char    **res;
-    int     count;
-    int     i;
-	enum	type;
+	t_strm	*tmp;
+	char	**res;
+	int		i;
 
-    if (str_list == NULL)
-        return (NULL);
-    tmp = str_list;
-    count = 0;
-    while (tmp)
-    {
-        if (tmp->type == string)
-            count++;
-        tmp = tmp->next;
-    }
-    tmp = str_list;
-    res = ft_calloc(sizeof(char *), count + 1); //must freeeeeee
-    i = 0;
-    while (tmp)
-    {
-        if (tmp->type == string)
-        {
-            res[i] = ft_substr(tmp->value, 0, ft_strlen(tmp->value));
-            i++;
-        }
-        tmp = tmp->next;
-    }
-    return (res);
+	if (str_list == NULL)
+		return (NULL);
+	tmp = str_list;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->type == string)
+			i++;
+		tmp = tmp->next;
+	}
+	tmp = str_list;
+	res = ft_calloc(sizeof(char *), i + 1);
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->type == string)
+		{
+			res[i] = ft_substr(tmp->value, 0, ft_strlen(tmp->value));
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	return (res);
 }
