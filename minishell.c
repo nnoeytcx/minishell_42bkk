@@ -3,70 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 13:42:39 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:53:24 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./header/minishell.h"
 
-char *get_prompt(t_tok token)
+char	*get_prompt(t_tok token)
 {
-	char *temps_0;
-	char *temps_1;
-	char *prompt;
+	char	*tmps;
+	char	*prompt;
+	char	*ret_code;
 
-	temps_0 = get_value_from_key("USER", token.env_token);
-	prompt = ft_strjoin("\033[1;31m", temps_0);
-	free(temps_0);
-	temps_0 = get_value_from_key("PWD", token.env_token);
-	temps_1 = prompt;
-	prompt = ft_strjoin(prompt, "\033[1;32m -> \033[1;34m");
-	free(temps_1);
-	temps_1 = prompt;
-	prompt = ft_strjoin(prompt, temps_0);
-	free(temps_1);
-	free(temps_0);
-	temps_0 = ft_itoa(token.return_code);
-	temps_1 = prompt;
-	prompt = ft_strjoin(prompt, " \033[1;33m$");
-	free(temps_1);
-	temps_1 = prompt;
-	prompt = ft_strjoin(prompt,temps_0);
-	free(temps_0);
-	free(temps_1);
-	temps_1 = prompt;
-	prompt = ft_strjoin(prompt, "\033[1;37m > \033[0;97m");
-	free(temps_1);
-	return (prompt);
+	prompt = getcwd(NULL, 0);
+    tmps = prompt;
+    prompt = ft_strjoin(tmps, " $");
+    free(tmps);
+    tmps = prompt;
+    ret_code = ft_itoa(token.return_code);
+    prompt = ft_strjoin(tmps, ret_code);
+    free(tmps);
+    free(ret_code);
+    tmps = prompt;
+    prompt = ft_strjoin(tmps, " > ");
+    free(tmps);
+    return (prompt);
 }
 
 char *readline_input(t_tok token)
 {
-	char *input;
-	char *pwd;
-	// char *prompt;
+	char	*input;
+	char	*prompt;
 
-	// prompt = get_prompt(token);
-	// input = readline("minishell > "); //<< PROMPT in the header
-
-	// dprintf(2, "IN GNL;\n");
-	int i;
-	input = get_next_line(0);
-	while (input[i] != '\n')
-		i++;
-	input[i] = '\0';
-	// if (input == NULL) // << check case EOF or ^C kub 
-	// {
-	// 	rl_clear_history(); //<< safety 1st
-	// 	exit(1); // << have to figure out the exit code later
-	// }
-	dprintf(2, "give promt is [%s]]\n", input);
-	// if (!(0 == ft_strlen(input)))
-	// 	add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
-	dprintf(2, "giveed promt\n");
+	prompt = get_prompt(token);
+	input = readline(prompt); //<< PROMPT in the header
+	if (input == NULL) // << check case EOF or ^C kub 
+	{
+		clear_history(); //<< safety 1st
+		exit(1); // << have to figure out the exit code later
+	}
+	if (!(0 == ft_strlen(input)))
+		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
+	free(prompt);
 	return (input);	
 }
 
@@ -79,17 +60,13 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	token.command = NULL;
 	token.return_code = 0;
-	token.pid = get_pid();
-	dprintf(2, "getpid\n");
 	token.env_token = init_env(env);
-	dprintf(2, "env init\n");
 	while (1)
 	{
-
-		dprintf(2, "IN loop;\n");
 		input = readline_input(token);
 		dprintf(2,"prompt == [%s]\n", input);
-
+		//is_good_input();
+		//ฟังชั่นดีหรือไม่()
 		dprintf(2, "\033[1;33m------- PARSER -------\n");
 		lexer_parser(&token, input);
 		dprintf(2,"----out of parser----\n\033[0;97m");
