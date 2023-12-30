@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:19:16 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 14:54:05 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2023/12/30 15:20:24 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	err_cmd(int	*ecode, int errnum, char *cmd)
 	}
 }
 
-void	errorcmd(t_cmd *t_c, char **env, int errnum)
+void	errorcmd(t_cmd *t_c, t_tok *t, int errnum)
 {
 	int	ecode;
 
@@ -41,9 +41,7 @@ void	errorcmd(t_cmd *t_c, char **env, int errnum)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(t_c->command_line[0], 2);
 	ft_putstr_fd("\n", 2);
-	if (env)
-		env = free2d(env);
-	t_c = free_cmd_tab(t_c);
+	free_token(t);
 	printf("exit with ecode [%d]", ecode);
 	exit(ecode);
 }

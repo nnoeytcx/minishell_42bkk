@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 14:48:40 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2023/12/30 15:19:31 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	mom_connect_pipe(t_cmd *t_c, int pipe[2])
 	}
 }
 
-void	run_command(t_cmd *t_c, char **env)
+void	run_command(t_cmd *t_c, t_tok *t)
 {
-	t_c->path_env = get_envpath(env);
+	t_c->path_env = get_envpath(t->env);
 	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
 	if (t_c->fd_in != STDIN_FILENO)
 	{
@@ -80,15 +80,15 @@ void	run_command(t_cmd *t_c, char **env)
 		dup2(t_c->fd_out, 1);
 		close(t_c->fd_out);
 	}
-	if (-1 == execve(t_c->cmd_path, t_c->command_line, env))
+	if (-1 == execve(t_c->cmd_path, t_c->command_line, t->env))
 	{
 		perror("ERROR: ");
-		errorcmd(t_c, env, errno);
+		errorcmd(t_c, t, errno);
 	}
 	exit(1);
 }
 
-void	child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
+void	child_pipe_and_run(t_cmd *t_c, t_tok *t, int pipe[2])
 {
 	dprintf(2,"pid in chile id -> %d\n", getpid());
 	dprintf(2, "[%d][%s] BF loop open : in [%d] out [%d]\n",t_c->process_id,t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
@@ -102,7 +102,7 @@ void	child_pipe_and_run(t_cmd *t_c, char **env, int pipe[2])
 		dup2(pipe[1], 1);
 		close(pipe[1]);
 	}
-	run_command(t_c, env);
+	run_command(t_c, t);
 }
 
 unsigned int	exe_command(t_tok *token)
@@ -144,14 +144,14 @@ unsigned int	exe_command(t_tok *token)
 			if (t_c->process_id == -1)
 				return (printf("FORK ERROR\n"));
 			if (t_c->process_id == 0)
-				child_pipe_and_run(t_c, t->env, pipo);
+				child_pipe_and_run(t_c, t, pipo);
 			if (t_c->process_id > 0)
 				mom_connect_pipe(t_c, pipo);
 		}
 		t_c = t_c->next;
 	}
 	t_c = t->command;
-	free2d(t->env);
+	t->env = free2d(t->env);
 	return (wait_all_child(t_c));
 }
 

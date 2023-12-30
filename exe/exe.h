@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:24:13 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 13:19:10 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/30 15:20:01 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char			**get_cmd(t_strm *str_list);
 char			*get_cmdpath(char *command, char **env);
 char			**get_envpath(char **ep);
 unsigned int	exe_command(t_tok *token);
-void			errorcmd(t_cmd *t_c, char **env, int errnum);
+void			errorcmd(t_cmd *t_c, t_tok *t, int errnum);
 int				loop_open_file(t_cmd *t, int mode);
 char			*get_next_line(int fd);
 int				find_slash(char *str);

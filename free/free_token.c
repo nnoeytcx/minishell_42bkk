@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 14:59:08 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2023/12/30 15:25:14 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ t_env	*free_env_list(t_env *env_lst)
 	while (current)
 	{
 		next = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
+		current->key = ft_free(current->key);
+		current->value = ft_free(current->value);
+		current = ft_free(current);
 		current = next;
 	}
 	return (0);
@@ -110,5 +110,7 @@ t_tok	*free_token(t_tok *token)
 	if (token->env)
 		token->env = free2d(token->env);
 	dprintf(2, "FREE ENVVV\n");
+	clear_history();
+	dprintf(2, "cler history\n");
 	return (NULL);
 }
