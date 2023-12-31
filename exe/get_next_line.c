@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:44:41 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/05/29 22:25:23 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/31 06:43:13 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ static char	*del_oldline_and_move_to_next_line(char *st_mem)
 		free(st_mem);
 		return (0);
 	}
-	result = (char *)malloc(ft_strlen(&st_mem[i++]) + 1);
+	int len = ft_strlen(&st_mem[i++]) + 1;
+	dprintf(2,"GNL malloc [%d]\n",len);
+	result = (char *)malloc(len);
 	result[ft_strlen(&st_mem[i])] = '\0';
 	while (st_mem[i])
 	{
@@ -118,6 +120,8 @@ static char	*del_oldline_and_move_to_next_line(char *st_mem)
 		j++;
 	}
 	free(st_mem);
+	st_mem = NULL;
+	dprintf(2, "result is [%s]\n",result);
 	return (result);
 }
 
@@ -139,6 +143,9 @@ char	*get_next_line(int fd)
 	if (!st_mem)
 		return (0);
 	output = copy_line_to_output(st_mem);
+	dprintf(2, "-------------del old line move to next = [%s]\n", st_mem);
 	st_mem = del_oldline_and_move_to_next_line(st_mem);
+	dprintf(2, "-------------del old line move to next = [%s]\n", st_mem);
+
 	return (output);
 }
