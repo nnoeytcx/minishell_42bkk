@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 15:25:14 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2023/12/31 06:56:28 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ t_tok	*free_token(t_tok *token)
 	if (token->env)
 		token->env = free2d(token->env);
 	dprintf(2, "FREE ENVVV\n");
+	if (token->cur_input)
+		token->cur_input = ft_free(token->cur_input);
 	clear_history();
 	dprintf(2, "cler history\n");
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:11:36 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 13:49:44 by pruenrua         ###   ########.fr       */
+/*   Updated: 2023/12/31 06:54:33 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_token
 {
 	struct s_environment	*env_token;
 	char					**env;
+	char					*cur_input;
 	int						return_code;
 	char					*pid;
 	struct s_amd			*command;
