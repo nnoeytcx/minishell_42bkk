@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:11:17 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/01 17:08:07 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:32:07 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_strm			*new_str_with_mode(char *str);
 //print_tok.c
 void			print_tok(t_tok t);
 void			print_command_tab(t_cmd *cmd);
+char			*get_newstr_expand(int num[2], char *new_str, char const *s, t_env *env);
 
 //set_mode.c
 int				set_mode(t_strm *str);
