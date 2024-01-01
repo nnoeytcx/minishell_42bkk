@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 19:54:09 by pruenrua          #+#    #+#             */
-/*   Updated: 2022/08/31 20:48:41 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:12:40 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	count_on_me(char const *s, char c)
+static size_t	count_on_me(char const *s, char c)
 {
 	int	word;
 	int	skip;
@@ -33,7 +33,7 @@ size_t	count_on_me(char const *s, char c)
 	return (word);
 }
 
-size_t	how_long(char const *s, char c)
+static size_t	how_long(char const *s, char c)
 {
 	size_t	count;
 
