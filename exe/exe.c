@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 15:19:31 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/01 05:03:20 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ void	run_command(t_cmd *t_c, t_tok *t)
 void	child_pipe_and_run(t_cmd *t_c, t_tok *t, int pipe[2])
 {
 	dprintf(2,"pid in chile id -> %d\n", getpid());
+	dprintf(2,"command ->");
+	print_command_tab(t_c);
 	dprintf(2, "[%d][%s] BF loop open : in [%d] out [%d]\n",t_c->process_id,t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
-	t_c->fd_in = loop_open_file(t_c, IN_FILE);
-	t_c->fd_out = loop_open_file(t_c, OUT_FILE);
+	loop_open_file(t_c);
 	dprintf(2, "[%d][%s] AF loop open : in [%d] out [%d]\n",t_c->process_id, t_c->str_mode->value,t_c->fd_in, t_c->fd_out);
 
 	if (t_c->next != NULL)
@@ -115,39 +116,39 @@ unsigned int	exe_command(t_tok *token)
 	t_c = t->command;
 	t->env = join_env_token(t->env_token);
 	loop_and_assign_heredoc(t_c);
-	if (t_c->next == NULL)
-	{
-		t_c->command_line = get_cmd(t_c->str_mode);
-		if (is_builtin(t_c->command_line[0]))
-		{
-			t_c->process_status = run_builtin(t_c->command_line, t);
-			free2d(t_c->command_line);
-			t_c->command_line = NULL;
-			free2d(t->env);
-			t->env = NULL;
-			return (t_c->process_status);
-		}
-		free2d(t_c->command_line);
-	}
+	// if (t_c->next == NULL)
+	// {
+	// 	t_c->command_line = get_cmd(t_c->str_mode);
+	// 	if (is_builtin(t_c->command_line[0]))
+	// 	{
+	// 		t_c->process_status = run_builtin(t_c->command_line, t);
+	// 		free2d(t_c->command_line);
+	// 		t_c->command_line = NULL;
+	// 		free2d(t->env);
+	// 		t->env = NULL;
+	// 		return (t_c->process_status);
+	// 	}
+	// 	free2d(t_c->command_line);
+	// }
 	while (t_c != NULL)
 	{
 		t_c->command_line = get_cmd(t_c->str_mode);
-		dprintf(2, "[%s]\n", t_c->str_mode->value);
+		int i = -1;
+		while (t_c->command_line[++i])
+			dprintf(2, "in [%s]-> ", t_c->command_line[i]);
+		dprintf(2, "\n");
 		if (t_c->next != NULL)
 		{
 			if (pipe(pipo) == -1)
 				return (printf("PIPE FAIL \n"));
 		}
-		else
-		{
-			t_c->process_id = fork();
-			if (t_c->process_id == -1)
-				return (printf("FORK ERROR\n"));
-			if (t_c->process_id == 0)
-				child_pipe_and_run(t_c, t, pipo);
-			if (t_c->process_id > 0)
-				mom_connect_pipe(t_c, pipo);
-		}
+		t_c->process_id = fork();
+		if (t_c->process_id == -1)
+			return (printf("FORK ERROR\n"));
+		if (t_c->process_id == 0)
+			child_pipe_and_run(t_c, t, pipo);
+		if (t_c->process_id > 0)
+			mom_connect_pipe(t_c, pipo);
 		t_c = t_c->next;
 	}
 	t_c = t->command;

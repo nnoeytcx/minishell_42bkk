@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra
 
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all -s
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes -s
 # CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 LIB_RL_FLAG = -L/usr/include -lreadline 
