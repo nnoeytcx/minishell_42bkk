@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 16:49:53 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:15:15 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ char *readline_input(t_tok token)
 	prompt = ft_free(prompt);
 	return (input);	
 }
-int ปริ้น()
-{
-	printf("test\n");
-}
+
 int	main(int ac ,char **env)
 {
 	t_tok	token;
@@ -74,8 +71,6 @@ int	main(int ac ,char **env)
 	{
 		token.cur_input = readline_input(token);
 		dprintf(2,"prompt == [%s]\n", token.cur_input);
-		//is_good_input();
-		//ฟังชั่นดีหรือไม่()
 		dprintf(2, "\033[1;33m------- PARSER -------\n");
 		lexer_parser(&token, token.cur_input);
 		token.cur_input = ft_free(token.cur_input);
@@ -89,4 +84,5 @@ int	main(int ac ,char **env)
 		token.command = free_cmd_tab(token.command);
 	}
 	free_token(&token);
+	return (0);
 }

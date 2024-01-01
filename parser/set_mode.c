@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_mode.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/25 00:29:19 by tpoungla         ###   ########.fr       */
+/*   Updated: 2023/12/31 09:11:28 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,9 @@ int	set_mode(t_strm *str)
 	while (stm)
 	{
 		len = ft_strlen(stm->value);
-		if (stm->type == def)
+		if (stm->type == string)
 		{
-			if (0 == ft_strncmp("\"", stm->value, 1))
-				stm->type = double_quote_str;
-			else if (0 == ft_strncmp("\'", stm->value, 1))
-				stm->type = single_quote_str;
-			else if (0 == ft_strncmp(">", stm->value, len))
+			if (0 == ft_strncmp(">", stm->value, len))
 			{
 				stm->type = redout_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))
@@ -97,11 +93,8 @@ int	set_mode(t_strm *str)
 						parser_error(NULL);
 				}
 			}
-			else if (0 == ft_strncmp("$", stm->value, 1))
-				stm->type = variable;
-			else
-				stm->type = string;
 		}
+		dprintf(2, "set [%s] to [%d] mode\n", stm->value, stm->type);
 		stm = stm->next;
 	}
 	return (1);

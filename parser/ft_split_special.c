@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_special.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:38:36 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/26 15:42:06 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:14:22 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	inside_ccount(char const *s, int skip, char qt, int *word)
 	return (skip);
 }
 
-size_t	ccount_on_me(char const *s, char c)
+size_t	ccount_on_me(char const *s)
 {
 	int		word;
 	int		skip;
@@ -99,15 +99,11 @@ size_t	hhow_long(char const *s, char c)
 char	**ft_split_sp(char const *s, char c)
 {
 	char	**resplit;
-	size_t	i;
-	size_t	big_i;
 	int		word;
 
 	if (!s)
 		return (0);
-	i = 0;
-	big_i = 0;
-	word = ccount_on_me(s, c);
+	word = ccount_on_me(s);
 	if (word == -1)
 		return (NULL);
 	resplit = ft_calloc((sizeof(char *)), (word + 1));

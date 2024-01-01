@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 14:22:05 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2023/12/31 09:14:29 by pruenrua         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 		}
 		i++;
 	}
-	set_mode(set[1]);
 	get_value_from_struct(set[1], env);
+	set_mode(set[1]);
 	if (cmd_arg)
 		free2d(cmd_arg);
 	new_table->fd_in = STDIN_FILENO;

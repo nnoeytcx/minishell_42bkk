@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:11:17 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 17:43:42 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/01 17:08:07 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char			*trim_and_expand(char *str_tab, t_env *env);
 
 //ft_split_pipe.c
 char			**ft_split_pipe(char const *s, char c);
-static size_t	how_long(char const *s, char c);
-static size_t	count_on_me(char const *s, char c);
 char			**get_split(char const *s, char c, char **res);
+size_t			how_long(char const *s, char c);
+size_t			count_on_me(char const *s, char c);
 
 //ft_split_sp_util.c
 char			get_quote_trigger(char quote_trigger, char const *s);
@@ -41,7 +41,7 @@ int				is_quote(char c);
 //ft_split_special.c
 char			**ft_split_sp(char const *s, char c);
 size_t			hhow_long(char const *s, char c);
-size_t			ccount_on_me(char const *s, char c);
+size_t			ccount_on_me(char const *s);
 char			**gget_split(char const *s, char c, char **res);
 
 //parser.c
