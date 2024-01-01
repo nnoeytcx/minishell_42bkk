@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:11:17 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/01 17:32:07 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:13:48 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 
 //error_parser.c
 int				parser_error(char *str);
-
+int				ft_isspace(char c);
+int				check_quote_meta(const char *c);
+int				check_no_space(const char *c);
+int				is_good_input(const char *c);
 //expand.c
 int				expand_from_env(t_strm *str_tab, t_env *env);
 int				get_value_from_struct(t_strm *str_tab, t_env *env);
