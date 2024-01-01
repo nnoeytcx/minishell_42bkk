@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 16:44:10 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:49:53 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ char *readline_input(t_tok token)
 	char	*prompt;
 
 	prompt = get_prompt(token);
-	// input = readline(prompt); //<< PROMPT in the header
-	// if (input == NULL) // << check case EOF or ^C kub 
-	// {
-	// 	clear_history(); //<< safety 1st
-	// 	exit(1); // << have to figure out the exit code later
-	// }
-	// if (!(0 == ft_strlen(input)))
-	// 	add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
-	int i = 0;
-	ft_putstr_fd(prompt, 2);
+	input = readline(prompt); //<< PROMPT in the header
+	if (input == NULL) // << check case EOF or ^C kub 
+	{
+		rl_clear_history(); //<< safety 1st
+		exit(1); // << have to figure out the exit code later
+	}
+	if (!(0 == ft_strlen(input)))
+		add_history(input); // << กด ขึ้นเพื่อดู command ก่แนหน้าได้
+	// int i = 0;
+	// ft_putstr_fd(prompt, 2);
 
-	input = get_next_line(0);
-	while (input[i] != '\n')
-		i++;
-	input[i] = '\0';
+	// input = get_next_line(0);
+	// while (input[i] != '\n')
+	// 	i++;
+	// input[i] = '\0';
 	prompt = ft_free(prompt);
 	return (input);	
 }
