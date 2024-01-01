@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:51:43 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 14:16:59 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:42:21 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int	ft_cd(char **param, t_env *env_lst)
 {
-	char	*cwd;
 	char	*old_pwd;
 	char	*new_pwd;
 	int		i;

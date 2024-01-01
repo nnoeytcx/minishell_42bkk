@@ -6,12 +6,13 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 04:56:08 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/01 16:48:15 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-int here_doc_error(int fd, char *cut_str)
+
+int	here_doc_error(int fd, char *cut_str)
 {
 	close(fd);
 	ft_putstr_fd("bash: warning: here-document delimited by end-of-file (wanted ", 2);
@@ -57,10 +58,8 @@ int	do_doctype(char *cutoffstr)
 
 int	loop_and_assign_heredoc(t_cmd *t)
 {
-    t_cmd	*tmp;
     t_strm	*s_tmp;
 
-	tmp = t;
 	while (t)
 	{
 		s_tmp = t->str_mode;
@@ -87,7 +86,7 @@ int open_infile(char *filename, int cur_fd)
 	{
 		perror("ERROR: ");
 		dprintf(2, "U know what!!?? [%s] not found\n", filename);
-		//exit(1);
+		exit(1);
 	}
 	if (cur_fd != STDIN_FILENO)
 	{
@@ -97,16 +96,16 @@ int open_infile(char *filename, int cur_fd)
 	return (fd);
 }
 
-int open_outfile(char *filename, int cur_fd, int mode)
+int	open_outfile(char *filename, int cur_fd, int mode)
 {
 	int	fd;
 
 	fd = -1;
-	dprintf(2 , "open [%s] in outfile\n", filename);
+	dprintf(2, "open [%s] in outfile\n", filename);
 	if (mode == O_TRUNC)
-		fd = open(filename ,O_RDWR | O_CREAT | O_TRUNC, 0664);
+		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0664);
 	if (mode == O_APPEND)
-		fd = open(filename ,O_RDWR | O_CREAT | O_APPEND, 0664);
+		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0664);
 	if (-1 == fd)
 	{
 		perror("ERROR: ");
@@ -123,19 +122,18 @@ int open_outfile(char *filename, int cur_fd, int mode)
 
 int	loop_open_file(t_cmd *t)
 {
-	int		fd;
 	t_strm	*lst;
 
-	dprintf(2 , "------ open loop _______\n");
+	dprintf(2, "------ open loop _______\n");
 	print_command_tab(t);
 	lst = t->str_mode;
 	while (lst)
 	{
 		dprintf(2, "[%s] = [%d]\n", lst->value, lst->type);
-        if (lst->type == file_out_str)
-        	t->fd_out = open_outfile(lst->value, t->fd_out, O_TRUNC);
-        if (lst->type == file_out_append_str)
-            t->fd_out = open_outfile(lst->value, t->fd_out, O_APPEND);
+		if (lst->type == file_out_str)
+			t->fd_out = open_outfile(lst->value, t->fd_out, O_TRUNC);
+		if (lst->type == file_out_append_str)
+			t->fd_out = open_outfile(lst->value, t->fd_out, O_APPEND);
 		if (lst->type == file_in_str)
 			t->fd_in = open_infile(lst->value, t->fd_in);
 		lst = lst->next;

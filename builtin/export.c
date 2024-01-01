@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:06 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 01:53:07 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:43:12 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_export(char **param, t_tok *token)
 {
+	(void *)param;
+	(void *)token;
 	dprintf(2, "in exporttttttt\n");
 	return (0);
 }

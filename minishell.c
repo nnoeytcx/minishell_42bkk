@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/31 19:26:16 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/01 16:44:10 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ int ปริ้น()
 {
 	printf("test\n");
 }
-int	main(int ac, char **av, char **env)
+int	main(int ac ,char **env)
 {
-	char	*input;
 	t_tok	token;
 
 	if (ac != 1 || !env)
