@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/31 06:56:28 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/02 01:08:26 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ t_cmd	*free_cmd_tab(t_cmd *cmd_tab)
 	if (cmd_tab == NULL || cmd_tab == NULL)
 		return (printf("CAN FREE the CMD tab\n"),NULL);
 	current = cmd_tab;
-	int i = 0;
-	dprintf(2, "free CMD_TAB\n");
 	while (current)
 	{
 		next = current->next;
@@ -75,9 +73,7 @@ t_cmd	*free_cmd_tab(t_cmd *cmd_tab)
 			current->cmd_path = ft_free(current->cmd_path);
 		current = ft_free(current);
 		current = next;
-		i++;
 	}
-	dprintf(2, "free [%d]\n", i);
 	return (NULL);
 }
 
