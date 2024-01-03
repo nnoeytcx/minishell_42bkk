@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:01:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 18:09:30 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/03 10:26:17 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ char	*get_value_from_key(char *key, t_env *token)
 	if (key == NULL)
 		return (NULL);
 	tmp = token;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
+		if (is_same_str(key, tmp->key))
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
