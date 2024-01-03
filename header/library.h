@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:10:34 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 02:11:01 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/03 12:29:25 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <string.h>
+# include <signal.h>
 # include "./define_var.h"
 # include "../libft/libft.h"
 # include "./struct.h"
