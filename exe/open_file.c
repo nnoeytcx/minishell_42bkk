@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/02 23:56:40 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:13:43 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	do_doctype(char *cutoffstr)
 		buff = get_next_line(0);
 		if (buff == NULL)
 			break;
-		if (0 != cflen && str_n_compare(buff, cutoffstr, cflen))
+		if (0 != cflen && is_same_str(buff, cutoffstr))
 			break ;
 		else if (buff[0] == '\n' && cflen == 0)
 			break ;

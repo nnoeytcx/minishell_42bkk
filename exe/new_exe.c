@@ -85,6 +85,8 @@ void child_process_run(t_tok *t, t_cmd *cur_cmdtab, int pipo[2], int fd_in)
 		ft_putstr_fd(" ]->",2);
 	}
 	ft_putstr_fd("\n", 2);
+	//////// can check the bulit in in the child to check leaks
+	
 	if (cur_cmdtab->next)
 	{
 		close(pipo[0]);
@@ -102,8 +104,6 @@ unsigned int	fork_and_execve(t_tok *t)
 
 	tmp_fd = dup(STDIN_FILENO);
 	t_c = t->command;
-	// int tmp_fd = dup(STDIN_FILENO);
-	// int tmp_out = dup(STDOUT_FILENO);
 	while (t_c)
 	{
 		t_c->command_line = get_cmd(t_c->str_mode);
@@ -139,7 +139,7 @@ unsigned int execute_command(t_tok *token)
 		return (0);
 	t->command_count = count_command_tab(t_c);
 	t->env = join_env_token(t->env_token);
-	// if (t->command_count == 1 && command_is_builtin(t_c))
-	// 	return (run_builtin(t));
+	if (t->command_count == 1 && command_is_builtin(t_c))
+		return (run_single_builtin(t));
 	return (fork_and_execve(t));
 }

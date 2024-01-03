@@ -6,13 +6,22 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:47:51 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 05:03:20 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/02 18:50:33 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../header/minishell.h"
 
+int ft_close(int fd)
+{
+	//dprintf(2,"pid -> [%s] try to close [%d]" ,get_pid(), fd);
+	if (fd == -1)
+		return (-1);
+	dprintf(2, "pid -> [%s] close [%d]\n",get_pid(), fd);
+	close(fd);
+	return (-1);
+}
 char	*get_pid(void)
 {
 	int		fd;
@@ -32,7 +41,7 @@ char	*get_pid(void)
 	pid = ft_strrchr(input, '\t');
 	pid = ft_strdup(pid);
 	free(input);
-	close(fd);
+	fd = ft_close(fd);
 	return (pid);
 }
 
@@ -58,11 +67,12 @@ void	mom_connect_pipe(t_cmd *t_c, int pipe[2])
 	dprintf(2,"parent after fork id getpid = [%d] -> %d\n",getpid(), t_c->process_id);
 	if (t_c->next != NULL)
 	{
-	    close(pipe[1]);
+		dprintf(2, "in mom dup\n");
+		pipe[1] = ft_close(pipe[1]);
 	    dprintf(2, "[%s]BEFORE : in connect mom [%d] \n", t_c->str_mode->value,t_c->next->fd_in);
-	    t_c->next->fd_in = dup(pipe[0]);
+	    t_c->next->fd_in = pipe[0];
 	    dprintf(2, "[%s]AFTER : connect [%s]the fd [%d]\n", t_c->str_mode->value,t_c->next->str_mode->value, t_c->next->fd_in);
-	    close(pipe[0]);
+		pipe[0] = ft_close(pipe[0]);
 	}
 }
 
@@ -73,16 +83,22 @@ void	run_command(t_cmd *t_c, t_tok *t)
 	if (t_c->fd_in != STDIN_FILENO)
 	{
 		dup2(t_c->fd_in, 0);
-		close(t_c->fd_in);
+		dprintf(2, "exe in");
+		t_c->fd_in = ft_close(t_c->fd_in);
 	}
 	if (t_c->fd_out != STDOUT_FILENO)
 	{
 		dup2(t_c->fd_out, 1);
-		close(t_c->fd_out);
+		dprintf(2, "exe out ");
+		t_c->fd_out = ft_close(t_c->fd_out);
 	}
+	dprintf(2, "\n\n ----------------------- out put --------------------\n\n");
 	if (-1 == execve(t_c->cmd_path, t_c->command_line, t->env))
 	{
 		perror("ERROR: ");
+		close(0);
+		close(1);
+		close(2);
 		errorcmd(t_c, t, errno);
 	}
 	exit(1);
@@ -90,19 +106,18 @@ void	run_command(t_cmd *t_c, t_tok *t)
 
 void	child_pipe_and_run(t_cmd *t_c, t_tok *t, int pipe[2])
 {
-	dprintf(2,"pid in chile id -> %d\n", getpid());
+	if (t_c->next != NULL)
+	{
+		dprintf(2, "[%s] have next cmd dup [%d] to [%d]\n",t_c->command_line[0], pipe[1], 1);
+		dup2(pipe[1], 1);
+		dprintf(2, "child ");
+		pipe[1] = ft_close(pipe[1]);
+	}
+	dprintf(2,"pid in chile id -> %d pipe in [%d] out [%d]\n", getpid(), pipe[0], pipe[1]);
 	dprintf(2,"command ->");
-	print_command_tab(t_c);
 	dprintf(2, "[%d][%s] BF loop open : in [%d] out [%d]\n",t_c->process_id,t_c->str_mode->value, t_c->fd_in, t_c->fd_out);
 	loop_open_file(t_c);
 	dprintf(2, "[%d][%s] AF loop open : in [%d] out [%d]\n",t_c->process_id, t_c->str_mode->value,t_c->fd_in, t_c->fd_out);
-
-	if (t_c->next != NULL)
-	{
-		dprintf(2, "[%d][%s] have next cmd dup [%d] to [%d]\n",t_c->process_id,t_c->str_mode->value, pipe[1], 1);
-		dup2(pipe[1], 1);
-		close(pipe[1]);
-	}
 	run_command(t_c, t);
 }
 
@@ -112,35 +127,34 @@ unsigned int	exe_command(t_tok *token)
 	t_cmd	*t_c;
 	int		pipo[2];
 
+	pipo[0] = -2;
+	pipo[1] = -2;
 	t = token;
 	t_c = t->command;
 	t->env = join_env_token(t->env_token);
 	loop_and_assign_heredoc(t_c);
-	// if (t_c->next == NULL)
-	// {
-	// 	t_c->command_line = get_cmd(t_c->str_mode);
-	// 	if (is_builtin(t_c->command_line[0]))
-	// 	{
-	// 		t_c->process_status = run_builtin(t_c->command_line, t);
-	// 		free2d(t_c->command_line);
-	// 		t_c->command_line = NULL;
-	// 		free2d(t->env);
-	// 		t->env = NULL;
-	// 		return (t_c->process_status);
-	// 	}
-	// 	free2d(t_c->command_line);
-	// }
+	if (t_c->next == NULL)
+	{
+		t_c->command_line = get_cmd(t_c->str_mode);
+		if (is_builtin(t_c->command_line[0]))
+		{
+			t_c->process_status = run_builtin(t_c->command_line, t);
+			free2d(t_c->command_line);
+			t_c->command_line = NULL;
+			free2d(t->env);
+			t->env = NULL;
+			return (t_c->process_status);
+		}
+		free2d(t_c->command_line);
+	}
 	while (t_c != NULL)
 	{
 		t_c->command_line = get_cmd(t_c->str_mode);
-		int i = -1;
-		while (t_c->command_line[++i])
-			dprintf(2, "in [%s]-> ", t_c->command_line[i]);
-		dprintf(2, "\n");
 		if (t_c->next != NULL)
 		{
 			if (pipe(pipo) == -1)
 				return (printf("PIPE FAIL \n"));
+			dprintf(2, "pipe [%d] and [%d]\n", pipo[0], pipo[1]);
 		}
 		t_c->process_id = fork();
 		if (t_c->process_id == -1)
