@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/04 02:39:45 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 11:45:39 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	signal_hunter(int signal)
 	if (signal == SIGINT)
 	{
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		rl_replace_line("\n", 1);
 		rl_redisplay();
 		return ;
 	}
@@ -71,7 +71,7 @@ char *readline_input(t_tok token)
 		add_history(input);
 	// int i = 0;
 	// ft_putstr_fd(prompt, 2);
-
+	// int i = 0;
 	// input = get_next_line(0);
 	// dprintf(2, "input is [%s]\n",input);
 	// while (input[i] && input[i] != '\n')
@@ -80,8 +80,33 @@ char *readline_input(t_tok token)
 	// }
 	// input[i] = '\0';
 	// dprintf(2, "line is [%s]\n",input);
-	prompt = ft_free(prompt);
+	// prompt = ft_free(prompt);
 	return (input);	
+}
+
+int term_setup(int mode)
+{
+	struct termios terminal;
+
+	if (mode == PARENT_PROCESS)
+	{
+		if (-1 == tcgetattr(STDERR_FILENO, &terminal))
+			return (dprintf(2,"cannot get attr\n"));
+		terminal.c_lflag &= ~ECHOCTL;
+		if (-1 == tcsetattr(STDERR_FILENO, TCSANOW, &terminal))
+			return (dprintf(2,"cannot set ttr\n"));
+		sig.sa_handler = &signal_hunter;
+		sig.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &sig, NULL);
+		sigaction(SIGQUIT, &sig, NULL);
+	}
+	else if (CHILD_PROCESS)
+	{
+		sig.sa_handler = SIG_DFL;
+		sigaction(SIGINT, &sig, NULL);
+		sigaction(SIGQUIT, &sig, NULL);
+	}
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
@@ -91,15 +116,12 @@ int	main(int ac, char **av, char **env)
 	(void) av;
 	if (ac != 1 || !env)
 		return (1);
+	term_setup(PARENT_PROCESS);
 	token.command = NULL;
 	token.return_code = 0;
 	token.env_token = init_env(env);
 	dprintf(2, "pid is = [%d]\n", getpid());
 	token.home_dir = get_value_from_key("HOME", token.env_token);
-	sig.sa_handler = &signal_hunter;
-	sig.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sig, NULL);
-	sigaction(SIGQUIT, &sig, NULL);
 	while (1)
 	{
 		token.cur_input = readline_input(token);
@@ -107,8 +129,7 @@ int	main(int ac, char **av, char **env)
 		{
 			lexer_parser(&token, token.cur_input);
 			token.cur_input = ft_free(token.cur_input);
-			token.return_code = execute_command(&token);
-			dprintf(2,"\n-------------------------------------------------------------\n\n");
+			token.return_code = execute_command(&token);;
 		}
 		token.command = free_cmd_tab(token.command);
 	}
