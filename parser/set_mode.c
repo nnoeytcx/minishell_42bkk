@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_mode.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/31 09:11:28 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/05 13:57:12 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	set_mode(t_strm *str)
 						parser_error(str->next->value);
 					else
 						parser_error(NULL);
+					return (0);
 				}
 			}
 			else if (0 == ft_strncmp("<", stm->value, len))
@@ -65,6 +66,7 @@ int	set_mode(t_strm *str)
 						parser_error(str->next->value);
 					else
 						parser_error(NULL);
+					return (0);
 				}
 			}
 			else if (0 == ft_strncmp("<<", stm->value, len))
@@ -78,6 +80,21 @@ int	set_mode(t_strm *str)
 						parser_error(str->next->value);
 					else
 						parser_error(NULL);
+					return (0);
+				}
+			}
+			else if (0 == ft_strncmp("<<<", stm->value, len))
+			{
+				stm->type = h_doc_symbol;
+				if (stm->next && !is_sp_symbol(stm->next->value))
+					stm->next->type = h_doc_cut_str;
+				else
+				{
+					if (str->next)
+						parser_error(str->next->value);
+					else
+						parser_error(NULL);
+					return (0);
 				}
 			}
 			else if (0 == ft_strncmp(">>", stm->value, len))
@@ -91,6 +108,7 @@ int	set_mode(t_strm *str)
 						parser_error(str->next->value);
 					else
 						parser_error(NULL);
+					return (0);
 				}
 			}
 		}

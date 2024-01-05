@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/01 17:26:34 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:38:01 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_value_from_struct(t_strm *str_tab, t_env *env)
 	while (s)
 	{
 		str = s->value;
-		printf("tab : %s\n", str);
+		printf("tab : {%s}\n", str);
 		str = trim_and_expand(str, env);
 		free(s->value);
 		printf("new : %s\n", str);

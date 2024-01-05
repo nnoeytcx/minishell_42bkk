@@ -3,147 +3,279 @@
 #include <limits.h>
 #include <stdint.h>
 #include "../libft/libft.h"
+#include "../header/minishell.h"
 
-#define META_CHAR "> >> < << <<< | && & $"
-
-int	is_redirect(char c)
+char	*find_dollarsign(char *str, t_env *env)
 {
-	if (c == '>' || c == '<')
-		return (1);
-	return (0);
-}
+	int		i;
+	int		len;
+	int		k;
+	int		open;
+	char	*new_str;
+	char	*substr;
+	char	*tmpstr;
 
-char	get_quote_trigger(char quote_trigger, char const *s)
-{
-	if (quote_trigger == 0)
+	open = 0;
+	i = 0;
+	k = 0;
+	len = 0;
+	new_str = ft_strdup("");
+	while (str[i])
 	{
-		if (*s == '\'' || *s == '\"')
-			quote_trigger = *s;
+		len++;
+		if (str[i] == '$')
+		{
+			if (open == 1 && len - 1)
+			{
+				substr = ft_substr(str, k, len - 1);
+				tmpstr = get_new_str(substr, env);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoy(substr, tmpstr);
+				free(substr);
+				free(tmpstr);
+			}
+			open = 1;
+			k = i + 1;
+			len = 0;
+		}
+		if (is_submeta(str[i]) && len && open)
+		{
+			if (len - 1)
+			{
+				substr = ft_substr(str, k, len - 1);
+				tmpstr = get_new_str(substr, env);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoy(substr, tmpstr);
+				free(substr);
+				free(tmpstr);
+			}
+			open = 0;
+			len = 0;
+		}
+		if (open == 0)
+		{
+			tmpstr = new_str;
+			new_str = my_ft_strjoin(tmpstr, str[i]);
+			free(tmpstr);
+		}
+		i++;
 	}
-	else if (quote_trigger != 0)
+	if (len && open)
 	{
-		if (*s == '\'' && quote_trigger == *s)
-			quote_trigger = 0;
-		if (*s == '\"' && quote_trigger == *s)
-			quote_trigger = 0;
+		substr = ft_substr(str, k, len);
+		tmpstr = get_new_str(substr, env);
+		free(substr);
+		substr = new_str;
+		new_str = ft_strjoy(substr, tmpstr);
+		free(tmpstr);
+		free(substr);
 	}
-	return (quote_trigger);
+	return (new_str);
 }
 
-int	ft_isspace(char c)
+char	*get_expand(char *str_tab, t_env *env)
 {
-	if (c == '\r' || c == '\n' || c == '\f' )
-		return (1);
-	else if (c == '\v' || c == '\t' || c == ' ' )
-		return (1);
-	return (0);
-}
-
-int	is_quote(char c)
-{
-	if (c == '\'' || c == '\"')
-		return (1);
-	return (0);
-}
-
-int	check_quote_meta(const char *c)
-{
-	char	qt;
-
-	qt = 0;
-	while (*c)
-	{
-		qt = get_quote_trigger(qt, c);
-		c++;
-	}
-	if (qt != 0)
-		return (0);
-	return (1);
-}
-
-int	check_no_space(const char *c)
-{
-	int	i;
+	char	*s;
+	char	*tmpstr;
+	char	*substr;
+	char	tmp;
+	int		i;
+	int		len;
+	int		k;
+	char	*new_str;
 
 	i = 0;
-	while (c[i])
+	k = 0;
+	len = 0;
+	tmp = 0;
+	s = str_tab;
+	new_str = ft_strdup("");
+	while (s[i])
 	{
-		if (!ft_isspace(c[i]))
+		len++;
+		if (is_quote(s[i]) && tmp == s[i])
+		{
+			if (len)
+			{
+				substr = ft_substr(s, k, len);
+				tmpstr = find_dollarsign(substr, env);
+				free(substr);
+				substr = new_str;
+				new_str = ft_strjoy(substr, tmpstr);
+				free(tmpstr);
+				free(substr);
+			}
+			tmp = 0;
+			len = 0;
+			k = i + 1;
 			i++;
-		else
-			return (0);
+			continue ;
+		}
+		if (is_quote(s[i]) && tmp == 0)
+			tmp = s[i];
+		if (!is_quote(s[i]) && tmp == 0)
+		{
+			if (s[i + 1] && is_quote(s[i + 1]))
+			{
+				if (len)
+				{
+					substr = ft_substr(s, k, len);
+					tmpstr = find_dollarsign(substr, env);
+					free(substr);
+					substr = new_str;
+					new_str = ft_strjoy(substr, tmpstr);
+					free(tmpstr);
+					free(substr);
+				}
+				tmp = 0;
+				len = 0;
+				k = i + 1;
+			}
+		}
+		i++;
 	}
-	if (i == 0)
-		return (0);
-	return (1);
+	if (len)
+	{
+		substr = ft_substr(s, k, len);
+		tmpstr = find_dollarsign(substr, env);
+		free(substr);
+		substr = new_str;
+		new_str = ft_strjoy(substr, tmpstr);
+		free(tmpstr);
+		free(substr);
+	}
+	return (new_str);
 }
 
-int	is_good_input(const char *c)
+char	*trim_and_expand_heredoc(char *str_tab, t_env *env)
 {
-	if (!check_no_space(c))
-		return (0);
-	if (!check_quote_meta(c))
-		return (0);
-	return (1);
+	char	*s;
+	char	tmp;
+	char	*new_str;
+	char	*tmpstr;
+	//char	*substr;
+	int		i;
+	int		num[2];
+
+	i = 0;
+	num[0] = 0;
+	num[1] = 0;
+	tmp = 0;
+	s = str_tab;
+	new_str = ft_strdup("");
+	while (s[i])
+	{
+		num[0]++;
+		if (is_quote(s[i]) && tmp == s[i])
+		{
+			if (tmp == '\"')
+			{
+				num[1] += 1;
+				num[0] -= 2;
+				tmpstr = new_str;
+				new_str = my_ft_strjoin(tmpstr, '\"');
+				free(tmpstr);
+				new_str = get_newstr_expand(num, new_str, s, env);
+				tmpstr = new_str;
+				new_str = my_ft_strjoin(tmpstr, '\"');
+				free(tmpstr);
+				num[1] -= 1;
+				num[0] += 2;
+			}
+			else
+			{
+				if (num[0] > 2)
+				{
+					num[1] += 1;
+					num[0] -= 2;
+					tmpstr = new_str;
+					new_str = my_ft_strjoin(tmpstr, '\'');
+					free(tmpstr);
+					new_str = get_newstr_expand(num, new_str, s, env);
+					tmpstr = new_str;
+					new_str = my_ft_strjoin(tmpstr, '\'');
+					free(tmpstr);
+					num[1] -= 1;
+					num[0] += 2;
+				}
+			}
+			tmp = 0;
+			num[0] = 0;
+			num[1] = i + 1;
+			i++;
+			continue ;
+		}
+		if (is_quote(s[i]) && tmp == 0)
+			tmp = s[i];
+		if (!is_quote(s[i]) && tmp == 0)
+		{
+			if (s[i + 1] && is_quote(s[i + 1]))
+			{
+				new_str = get_newstr_expand(num, new_str, s, env);
+				tmp = 0;
+				num[0] = 0;
+				num[1] = i + 1;
+			}
+		}
+		i++;
+	}
+	if (num[0])
+		new_str = get_newstr_expand(num, new_str, s, env);
+	return (new_str);
 }
 
 int	main(void)
 {
-	char	*res;
+	char	**res;
+	t_env	*env;
+	int		i;
 
-	res = "     	 	 ";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "				";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "    ";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\'";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\"";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\'\'";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\"\"";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\'\"\'";
-	printf("%s [%d]\n", res, is_good_input(res));
-	res = "\"\'\"";
-	printf("%s [%d]\n", res, is_good_input(res));
+	env = NULL;
+	i = 0;
+	res = ft_split_sp("echo \'this is \'\"\'PATH\'\"\'\'", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		printf("%s\n", trim_and_expand(res[i], env));
+		i++;
+	}
 
-	// res = "echo \'this is \'\"\'$PATH\'\"\'\'";
-	// printf("%s %d\n", res, is_good_input(res));
-	// res = "echo \'this is \'\"\'$PATH\'\"\"\"";
-	// printf("%s %d\n", res, is_good_input(res));
-	// res = "echo \'this is \'\"\'$PATH\'\"\"\"$PATH";
-	// printf("%s %d\n", res, is_good_input(res));
-	// res = "echo $PATHerete$PATH";
-	// printf("%s %d\n", res, is_good_input(res));
-	// res = "echo \"\'$PATH$PATH\'\"";
-	// printf("%s %d\n", res, is_good_input(res));
-	// res = "echo \'\"$PATH$PATH\"\'";
-	// printf("%s\n", res);
-	// res = "echo \"\"$PATH$PATH\"\"";
-	// printf("%s\n", res);
-	// res = "echo \'\'$PATH$PATH\'\'";
-	// printf("%s\n", res);
-	// res = "echo \"$PATH\'$PATH\"";
-	// printf("%s\n", res);
-	// res = "echo \"$PATH<<<<\"";
-	// printf("%s\n", res);
-	// res = "echo \"$\?\?<<<<\"";
-	// printf("%s\n", res);
-	// res = "echo \"$\?$\?<<<<\"";
-	// printf("%s\n", res);
-	// res = "echo \"$$<<<<\"";
-	// printf("%s\n", res);
-	// res = "echo \"$$PATH<<<<\"";
-	// printf("%s\n", res);
-	// res = "echo \"this is $PATH\'\'\"\'\'";
-	// printf("%s\n", res);
-	// res = "echo \"this is $PATH\'\'\"";
-	// printf("%s\n", res);
-	// res = "echo \"this is $PATHPATH\"";
-	// printf("%s\n", res);
+	i = 0;
+	res = ft_split_sp("echo \'this is \'\"\'PATH\'\"\"\"", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		printf("%s\n", trim_and_expand(res[i], env));
+		i++;
+	}
+
+	i = 0;
+	res = ft_split_sp("echo \'this is \'\"\'PATH\'\"\"\"PATH", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		printf("%s\n", trim_and_expand(res[i], env));
+		i++;
+	}
+
+	i = 0;
+	res = ft_split_sp("\'echo \"this\" no\"is\" \'", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		printf("%s\n", trim_and_expand(res[i], env));
+		i++;
+	}
+
+	i = 0;
+	res = ft_split_sp("\"echo \'this is\' \"", ' ');
+	while (res[i])
+	{
+		printf("[%s] ", res[i]);
+		printf("%s\n", trim_and_expand(res[i], env));
+		i++;
+	}
+
 }

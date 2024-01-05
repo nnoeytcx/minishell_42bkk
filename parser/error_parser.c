@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:05:36 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/01 01:00:26 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/05 00:57:24 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-int	check_quote_meta(const char *c)
+int	is_meta(char c)
+{
+	if (c == '|' || c == '>' || c == '<' )
+		return (1);
+	return (0);
+}
+
+int	check_quote_close(const char *c)
 {
 	char	qt;
 
@@ -66,11 +73,60 @@ int	check_no_space(const char *c)
 	return (0);
 }
 
+int	ft_check_meta(const char *c)
+{
+	char	**res;
+	char	temp;
+	char	two;
+	int		i;
+	int		j;
+
+	i = 0;
+	two = 0;
+	res = ft_split_sp(c, ' ');
+	while (res[i])
+	{
+		j = 0;
+		temp = res[i][0];
+		if (i == 0 && temp == '|')
+		{
+			parser_error("|");
+			//printf("[%c]\n", temp);
+			return (0);// '|'
+		}
+		if (two)
+		{
+			//printf("[%c %c]\n", temp, two);
+			if (is_meta(temp) && (two == '<' || two == '>'))
+			{
+				parser_error("|");
+				//printf("[%c %c]\n", two, temp);
+				return (0);// '|'
+			}
+		}
+		while (res[i][j])
+		{
+			j++;
+		}
+		two = res[i][j - 1];
+		i++;
+	}
+	if (is_meta(two))
+	{
+		//printf("[%c]\n", two);
+		parser_error(NULL);
+		return (0);// newline
+	}
+	return (1);
+}
+
 int	is_good_input(const char *c)
 {
 	if (!check_no_space(c))
 		return (0);
-	if (!check_quote_meta(c))
+	if (!check_quote_close(c))
+		return (0);
+	if (!ft_check_meta(c))
 		return (0);
 	return (1);
 }
