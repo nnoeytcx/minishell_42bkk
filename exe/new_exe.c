@@ -55,25 +55,36 @@ void	parent_prepare_next_command(t_cmd *cur_cmd, int pipo[2], int *tmp_fd)
 int	wait_all_child(t_cmd *cmd_tab)
 {
 	t_cmd	*cmd_tab_t;
-	int		status;
+	int		exit_status;
 
-
-	status = 1;
+	exit_status = 1;
 	cmd_tab_t = cmd_tab;
 	while (cmd_tab_t)
 	{
-		dprintf(2,"wait for [%d]\n", getpid());
-		waitpid(cmd_tab_t->process_id, &status,  WUNTRACED);
+		waitpid(cmd_tab_t->process_id, &exit_status,  WUNTRACED);
+		dprintf(2, "the exit status %d\n", exit_status);
+		if (WIFSIGNALED(exit_status))
+		{
+			if (exit_status == 3)
+			{
+				dprintf(2, "QUIT : %d\n", exit_status);
+				exit_status = 131;
+			}
+			else
+				exit_status = 130;
+		}
+		else
+			exit_status = WEXITSTATUS(exit_status);
 		if (cmd_tab_t->process_status == -1)
-			cmd_tab_t->process_status = WEXITSTATUS(status);
-		dprintf(2,"wait for [%d] finish\n", getpid());
+			cmd_tab_t->process_status = exit_status;
 		cmd_tab_t = cmd_tab_t->next;
 	}
-	return (WEXITSTATUS(status));
+	return (exit_status);
 }
 
 void child_process_run(t_tok *t, t_cmd *cur_cmdtab, int pipo[2], int fd_in)
 {
+	term_setup(CHILD_PROCESS);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	ft_putstr_fd("in command \n",2);
@@ -86,7 +97,7 @@ void child_process_run(t_tok *t, t_cmd *cur_cmdtab, int pipo[2], int fd_in)
 	}
 	ft_putstr_fd("\n", 2);
 	//////// can check the bulit in in the child to check leaks
-	
+
 	if (cur_cmdtab->next)
 	{
 		close(pipo[0]);

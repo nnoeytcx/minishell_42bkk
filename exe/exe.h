@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:24:13 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/02 19:09:26 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 01:32:45 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ char			*get_next_line(int fd);
 int				find_slash(char *str);
 int				loop_and_assign_heredoc(t_cmd *t);
 int				str_n_compare(const char *s1, const char *s2, size_t n);
+
 #endif
