@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:54:32 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/05 18:14:11 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:33:14 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 void	del_envlst_from_key(char *key, t_env *env_lst)
 {
 	t_env	*tmp;
-	t_env	*prv_tmp;
-	t_env	*nex_tmp;
-
+	// t_env	*prv_tmp;
+	// t_env	*nex_tmp;
+	(void) env_lst;
+	tmp = env_lst;
 	while (tmp)
 	{
-		prv_tmp = tmp;
-		nex_tmp = tmp->next;
+		// prv_tmp = tmp;
+		// nex_tmp = tmp->next;
 		if (is_same_str(key, tmp->key))
 		{
+			dprintf(2,"in test del the %s\n", tmp->key);
 		}
 		tmp = tmp->next;
 	}

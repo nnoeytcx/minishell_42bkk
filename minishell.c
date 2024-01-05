@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 18:12:42 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:33:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	main(int ac, char **av, char **env)
 			print_tok(token);
 			dprintf(2,"\n-----------------------------\n");
 			dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
-			token.return_code = exe_command(&token);
+			token.return_code = execute_command(&token);
 			dprintf(2,"\n---------------------------------\n");
 			dprintf(2, "herasfasdfds\n");
 			token.command = free_cmd_tab(token.command);
