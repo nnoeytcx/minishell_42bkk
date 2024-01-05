@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:51:43 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 12:25:03 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:57:48 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ int	ft_cd(char **param, t_tok *token)
 			new_pwd = get_value_from_key("OLDPWD", token->env_token);
 			if (-1 == chdir(new_pwd))
 				status = 1;
-			free(new_pwd);
-		}else 
+			new_pwd = ft_free(new_pwd);
+		}
+		else 
 		{
 			if (-1 == chdir(param[1]))
 				status = 1;

@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:35 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 10:43:12 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:59:42 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_pwd(int mode, char **str, t_tok *token)
 	if (mode == PRINT)
 	{
 		printf("%s\n", pwd_ret);
-		free(pwd_ret);
+		pwd_ret = ft_free(pwd_ret);
 	}
 	if (mode == GET)
 		*str = pwd_ret;
