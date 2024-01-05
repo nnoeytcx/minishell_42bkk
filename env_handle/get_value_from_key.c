@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:01:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 10:26:17 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 13:40:51 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*getenv_value(char *env_v)
 		return (NULL);
 	while (*env_v != '=')
 		env_v++;
+	if (!env_v)
+		return (NULL);
 	env_v++;
 	value = ft_calloc(sizeof(char), ft_strlen(env_v) + 1);
 	i = 0;
@@ -44,7 +46,9 @@ char	*getenv_key(char *env_v)
 	i = 0;
 	while (env_v[i] != '=')
 		i++;
-	key = ft_calloc(sizeof(char), ft_strlen(env_v) + 1);
+	if (!env_v[i])
+		return (NULL);
+	key = ft_calloc(sizeof(char), i + 1);
 	j = 0;
 	while (env_v[j] && env_v[j] != '=')
 	{
