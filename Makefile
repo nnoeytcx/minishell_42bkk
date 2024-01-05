@@ -2,12 +2,12 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes -s
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all -s --track-fds=yes
 # CFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
-LIB_RL_FLAG = -L/usr/include -lreadline 
+LIB_RL_FLAG = -L/usr/include -lreadline
 
 RM = rm -rf
 
@@ -28,7 +28,7 @@ ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
 EXE_PATH = ./exe/
-EXE_FILE = exe.c get_exe_data.c exe_error.c open_file.c get_next_line.c
+EXE_FILE = new_exe.c get_exe_data.c exe_error.c open_file.c get_next_line.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR FREE
@@ -53,14 +53,9 @@ RM = rm -rf
 SRC =  ${LIBFT_SRC} ${ENV_SRC} ${FREE_SRC} ${PARSER_SRC} ${EXE_SRC} ${BUILTIN_SRC} minishell.c
 OBJ =  $(SRC:.c=.o)
 
-%.o: %.c ${HEADER_FILE}
-	@ echo "compiling $@ object file...."
-	@ ${CC} -c $< -o $@
-	# @ clear
-
 $(NAME) : $(OBJ)
-	@ $(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
-	@ echo "compile with [${CFLAGS}] finish\nRUN ./minishell to run minishell"
+	$(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
+	echo "compile with [${CFLAGS}] finish\nRUN ./minishell to run minishell"
 
 all : $(NAME)
 

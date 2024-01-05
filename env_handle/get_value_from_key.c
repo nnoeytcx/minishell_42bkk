@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value_from_key.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:01:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 18:18:02 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/05 13:40:51 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ char	*getenv_value(char *env_v)
 		return (NULL);
 	while (*env_v != '=')
 		env_v++;
+	if (!env_v)
+		return (NULL);
 	env_v++;
-	value = ft_calloc(sizeof(char), (1 + ft_strlen(env_v)));
+	value = ft_calloc(sizeof(char), ft_strlen(env_v) + 1);
 	i = 0;
 	while (env_v[i])
 	{
 		value[i] = env_v[i];
 		i++;
 	}
+	value[i] = '\0';
 	return (value);
 }
 
@@ -43,13 +46,16 @@ char	*getenv_key(char *env_v)
 	i = 0;
 	while (env_v[i] != '=')
 		i++;
-	key = ft_calloc(sizeof(char), ft_strlen(env_v));
+	if (!env_v[i])
+		return (NULL);
+	key = ft_calloc(sizeof(char), i + 1);
 	j = 0;
-	while (env_v[j] != '=')
+	while (env_v[j] && env_v[j] != '=')
 	{
 		key[j] = env_v[j];
 		j++;
 	}
+	key[j] = '\0';
 	return (key);
 }
 
@@ -59,11 +65,10 @@ char	*get_value_from_key(char *key, t_env *token)
 
 	if (key == NULL)
 		return (NULL);
-	printf("key : %s\n", key);
 	tmp = token;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
+		if (is_same_str(key, tmp->key))
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}

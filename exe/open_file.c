@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/01 16:48:15 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:13:43 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	do_doctype(char *cutoffstr)
 		buff = get_next_line(0);
 		if (buff == NULL)
 			break;
-		if (0 != cflen && str_n_compare(buff, cutoffstr, cflen))
+		if (0 != cflen && is_same_str(buff, cutoffstr))
 			break ;
 		else if (buff[0] == '\n' && cflen == 0)
 			break ;
@@ -52,7 +52,7 @@ int	do_doctype(char *cutoffstr)
 		buff = ft_free(buff);
 	else
 		fd[0] = here_doc_error(fd[0], cutoffstr);
-	close(fd[1]);
+	fd[1] = ft_close(fd[1]);
 	return (fd[0]);
 }
 
@@ -76,66 +76,67 @@ int	loop_and_assign_heredoc(t_cmd *t)
 	return (1);
 }
 
-int open_infile(char *filename, int cur_fd)
+int open_infile(char *filename, int *status)
 {
 	int	fd;
-
-	dprintf(2 , "open [%s] in inininfile\n", filename);
-	fd = open(filename, O_RDONLY);
+	
+	ft_putstr_fd("open[",2);
+	ft_putstr_fd(filename,2);
+	ft_putstr_fd("] in infilee\n",2);
+	fd = open(filename, O_RDONLY | O_CLOEXEC);
 	if (-1 == fd)
 	{
 		perror("ERROR: ");
 		dprintf(2, "U know what!!?? [%s] not found\n", filename);
-		exit(1);
+		*status = 1;
+		return (1);
 	}
-	if (cur_fd != STDIN_FILENO)
-	{
-		close(cur_fd);
-		return (fd);
-	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 	return (fd);
 }
 
-int	open_outfile(char *filename, int cur_fd, int mode)
+int	open_outfile(char *filename, int mode, int *status)
 {
 	int	fd;
 
-	fd = -1;
-	dprintf(2, "open [%s] in outfile\n", filename);
+	ft_putstr_fd("open[",2);
+	ft_putstr_fd(filename,2);
+	ft_putstr_fd("] in outfile\n",2);
 	if (mode == O_TRUNC)
-		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0664);
+		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0664);
 	if (mode == O_APPEND)
-		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0664);
+		fd = open(filename, O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0664);
 	if (-1 == fd)
 	{
 		perror("ERROR: ");
 		dprintf(2, "U know what!!?? [%s] not found\n", filename);
-		exit(1);
+		*status = 1;
+		return (1);
 	}
-	if (cur_fd != STDOUT_FILENO)
-	{
-		close(cur_fd);
-		return (fd);
-	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 	return (fd);
 }
 
 int	loop_open_file(t_cmd *t)
 {
 	t_strm	*lst;
+	int		status;
 
-	dprintf(2, "------ open loop _______\n");
-	print_command_tab(t);
+	status = 0;
+	ft_putstr_fd("\n---------- open loop -------\n\n",2);
 	lst = t->str_mode;
 	while (lst)
 	{
-		dprintf(2, "[%s] = [%d]\n", lst->value, lst->type);
+		if (status)
+			return (0);
 		if (lst->type == file_out_str)
-			t->fd_out = open_outfile(lst->value, t->fd_out, O_TRUNC);
+			open_outfile(lst->value, O_TRUNC, &status);
 		if (lst->type == file_out_append_str)
-			t->fd_out = open_outfile(lst->value, t->fd_out, O_APPEND);
+			open_outfile(lst->value, O_APPEND, &status);
 		if (lst->type == file_in_str)
-			t->fd_in = open_infile(lst->value, t->fd_in);
+			open_infile(lst->value, &status);
 		lst = lst->next;
 	}
 	return (1);

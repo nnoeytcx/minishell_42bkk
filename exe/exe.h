@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:24:13 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/31 20:01:11 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/05 01:32:45 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@
 
 # include "../header/library.h"
 
+int				ft_close(int fd);
 char			**get_cmd(t_strm *str_list);
 char			*get_cmdpath(char *command, char **env);
 char			**get_envpath(char **ep);
-unsigned int	exe_command(t_tok *token);
+unsigned int 	execute_command(t_tok *token);
 void			errorcmd(t_cmd *t_c, t_tok *t, int errnum);
 int				loop_open_file(t_cmd *t);
 char			*get_next_line(int fd);
 int				find_slash(char *str);
 int				loop_and_assign_heredoc(t_cmd *t);
 int				str_n_compare(const char *s1, const char *s2, size_t n);
+
 #endif

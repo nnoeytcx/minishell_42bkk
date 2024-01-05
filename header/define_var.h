@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:08:42 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 09:39:36 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 01:32:38 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,6 @@ typedef enum e_type
 # define FORK_ER "SYS : Can,t Fork\n"
 # define O_WSTR 0
 # define O_KEYV 1
+#define PARENT_PROCESS 1
+#define CHILD_PROCESS 2
 #endif
