@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/05 11:45:39 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/01 18:12:42 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ char	*get_prompt(t_tok token)
 	char	*prompt;
 	char	*ret_code;
 
-	prompt = get_value_from_key("PWD", token.env_token);
-	dprintf(2,"pwd on prompt is [%s]\n", prompt);
-	if (prompt == NULL)
+	prompt = get_value_from_key("PWD", token.env_token); // wave
+	dprintf(2,"pwd on prompt is [%s]\n", prompt); // wave
+	if (prompt == NULL) // wave
 		prompt = getcwd(NULL, 0);
     tmps = prompt;
     prompt = ft_strjoin(tmps, " $");
@@ -125,13 +125,24 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		token.cur_input = readline_input(token);
-		if (token.cur_input)
+		dprintf(2,"prompt == [%s]\n", token.cur_input);
+		if (is_good_input(token.cur_input))
 		{
+			dprintf(2, "\033[1;33m------- PARSER -------\n");
 			lexer_parser(&token, token.cur_input);
+			//
 			token.cur_input = ft_free(token.cur_input);
-			token.return_code = execute_command(&token);;
+			dprintf(2,"----out of parser----\n\033[0;97m");
+			print_tok(token);
+			dprintf(2,"\n-----------------------------\n");
+			dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
+			token.return_code = exe_command(&token);
+			dprintf(2,"\n---------------------------------\n");
+			dprintf(2, "herasfasdfds\n");
+			token.command = free_cmd_tab(token.command);
 		}
-		token.command = free_cmd_tab(token.command);
+		else
+			token.cur_input = ft_free(token.cur_input);
 	}
 	free_token(&token);
 	return (0);

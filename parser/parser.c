@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/31 09:14:29 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/05 01:00:04 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ t_strm	*new_str_with_mode(char *str)
 	new->type = def;
 	new->next = NULL;
 	return (new);
+}
+
+void	init_table(t_cmd *table, t_strm *set)
+{
+	if (!table)
+		return ;
+	table->str_mode = set;
+	table->command_line = NULL;
+	table->env = NULL;
+	table->path_env = NULL;
+	table->cmd_path = NULL;
+	table->process_id = -1;
+	table->process_status = -1;
+	table->fd_in = STDIN_FILENO;
+	table->fd_out = STDOUT_FILENO;
+	table->next = NULL;
 }
 
 t_cmd	*new_command_tab(char *input, t_env *env)
@@ -57,9 +73,7 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 	set_mode(set[1]);
 	if (cmd_arg)
 		free2d(cmd_arg);
-	new_table->fd_in = STDIN_FILENO;
-	new_table->fd_out = STDOUT_FILENO;
-	new_table->str_mode = set[1];
+	init_table(new_table, set[1]);
 	return (new_table);
 }
 

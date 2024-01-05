@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 18:28:57 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:38:01 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	get_value_from_struct(t_strm *str_tab, t_env *env)
 	while (s)
 	{
 		str = s->value;
-		printf("sent str : %s\n", str);
+		printf("tab : {%s}\n", str);
 		str = trim_and_expand(str, env);
-		printf("return str : %s\n", str);
 		free(s->value);
+		printf("new : %s\n", str);
 		s->value = str;
 		s->type = string;
 		s = s->next;
@@ -205,35 +205,32 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 	char	*tmpstr;
 	char	*substr;
 	int		i;
-	int		len;
-	int		k;
+	int		num[2];
 
 	i = 0;
-	k = 0;
-	len = 0;
+	num[0] = 0;
+	num[1] = 0;
 	tmp = 0;
 	s = str_tab;
 	new_str = ft_strdup("");
 	while (s[i])
 	{
-		len++;
+		num[0]++;
 		if (is_quote(s[i]) && tmp == s[i])
 		{
 			if (tmp == '\"')
 			{
-				substr = ft_substr(s, k + 1, len - 2);
-				tmpstr = get_expand(substr, env);
-				free(substr);
-				substr = new_str;
-				new_str = ft_strjoy(substr, tmpstr);
-				free(tmpstr);
-				free(substr);
+				num[1] += 1;
+				num[0] -= 2;
+				new_str = get_newstr_expand(num, new_str, s, env);
+				num[1] -= 1;
+				num[0] += 2;
 			}
 			else
 			{
-				if (len > 2)
+				if (num[0] > 2)
 				{
-					tmpstr = ft_substr(s, k + 1, len - 2);
+					tmpstr = ft_substr(s, num[1] + 1, num[0] - 2);
 					substr = new_str;
 					new_str = ft_strjoy(substr, tmpstr);
 					free(substr);
@@ -241,8 +238,8 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 				}
 			}
 			tmp = 0;
-			len = 0;
-			k = i + 1;
+			num[0] = 0;
+			num[1] = i + 1;
 			i++;
 			continue ;
 		}
@@ -252,29 +249,15 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 		{
 			if (s[i + 1] && is_quote(s[i + 1]))
 			{
-				substr = ft_substr(s, k, len);
-				tmpstr = get_expand(substr, env);
-				free(substr);
-				substr = new_str;
-				new_str = ft_strjoy(substr, tmpstr);
-				free(substr);
-				free(tmpstr);
+				new_str = get_newstr_expand(num, new_str, s, env);
 				tmp = 0;
-				len = 0;
-				k = i + 1;
+				num[0] = 0;
+				num[1] = i + 1;
 			}
 		}
 		i++;
 	}
-	if (len)
-	{
-		substr = ft_substr(s, k, len);
-		tmpstr = get_expand(substr, env);
-		free(substr);
-		substr = new_str;
-		new_str = ft_strjoy(substr, tmpstr);
-		free(substr);
-		free(tmpstr);
-	}
+	if (num[0])
+		new_str = get_newstr_expand(num, new_str, s, env);
 	return (new_str);
 }
