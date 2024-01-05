@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 15:43:39 by pruenrua          #+#    #+#             */
-/*   Updated: 2022/08/31 20:48:07 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:39:17 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	char	*cp;
 	char	*tcp;
 
+	if (!s1)
+		return (NULL);
 	cp = (char *)malloc(sizeof (char) * ft_strlen(s1) + 1);
 	if (cp == NULL)
 		return (NULL);
