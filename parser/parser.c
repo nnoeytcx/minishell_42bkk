@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 16:55:22 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:13:50 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ t_cmd	*new_command_tab(char *input, t_tok *token)
 {
 	t_cmd	*new_table;
 	t_strm	*set[3];
-	t_env	*env;
 	char	**cmd_arg;
 	int		i;
 
 	if (!input)
 		return (NULL);
-	env = token->env_token;
 	new_table = ft_calloc(sizeof(t_cmd), 1);
 	cmd_arg = ft_split_sp(input, ' ');
 	i = 0;

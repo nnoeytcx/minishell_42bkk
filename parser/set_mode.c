@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_mode.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 15:19:12 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:14:32 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ int	is_sp_symbol(char *str)
 int	set_mode(t_strm *str)
 {
 	t_strm	*stm;
-	int		len;
 
 	if (!str)
 		return (-1);
 	stm = str;
 	while (stm)
 	{
-		len = ft_strlen(stm->value);
 		if (stm->type == string)
 		{
 			if (is_same_str(">", stm->value))
