@@ -26,6 +26,8 @@ int		count_command_tab(t_cmd *cmd)
 
 void	run_command(t_cmd *t_c, t_tok *t)
 {
+	if (is_builtin(t_c->command_line[0]))
+		return (exit(run_builtin(t_c->command_line, t)));
 	t_c->path_env = get_envpath(t->env);
 	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
 	if (loop_open_file(t_c))
