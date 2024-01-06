@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_util.c                                      :+:      :+:    :+:   */
+/*   expand_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:32:49 by tpoungla          #+#    #+#             */
-/*   Updated: 2023/12/30 17:41:37 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:06:57 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,18 @@ char	*ft_strjoy(char const *s1, char const *s2)
 	return (str_joined);
 }
 
-char	*get_new_str(char *str, t_env *env)
+char	*get_new_str(char *str, t_tok *token)
 {
 	char	*new_str;
 	t_env	*e;
 
 	new_str = NULL;
-	e = env;
-	new_str = get_value_from_key(str, e);
+	e = token->env_token;
+	printf("[%s]\n", str);
+	if (str[0] == '?')
+		new_str = ft_itoa(token->return_code);
+	else
+		new_str = get_value_from_key(str, e);
 	return (new_str);
 }
 
