@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:49:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 10:42:29 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/07 02:12:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		ft_echo(char **param);
 int		ft_cd(char **param, t_tok *token);
 int		ft_exit(char **param, t_tok *token);
 int		ft_export(char **param, t_tok *token);
-int	is_same_str(char *s1, char *s2);
+int		ft_unset(char **param, t_tok *token);
+int		is_same_str(char *s1, char *s2);
 
 #endif

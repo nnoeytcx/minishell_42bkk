@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:14 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 10:43:07 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/07 02:03:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,19 @@ int	run_single_builtin(t_tok *t)
 
 int	run_builtin(char **cmd_lst, t_tok *token)
 {
-	int	len;
-
-	len = ft_strlen(cmd_lst[0]);
-	if (str_n_compare(cmd_lst[0], "cd", len))
+	if (is_same_str(cmd_lst[0], "cd"))
 		return (ft_cd(cmd_lst, token));
-	if (str_n_compare(cmd_lst[0], "echo", len))
+	if (is_same_str(cmd_lst[0], "echo"))
 		return (ft_echo(cmd_lst));
-	if (str_n_compare(cmd_lst[0], "env", len))
+	if (is_same_str(cmd_lst[0], "env"))
 		return (ft_env(token->env_token));
-	if (str_n_compare(cmd_lst[0], "exit", len))
+	if (is_same_str(cmd_lst[0], "exit"))
 		return (ft_exit(cmd_lst, token));
-	if (str_n_compare(cmd_lst[0], "export", len))
+	if (is_same_str(cmd_lst[0], "export"))
 		return (ft_export(cmd_lst, token));
-	if (str_n_compare(cmd_lst[0], "pwd", len))
+	if (is_same_str(cmd_lst[0], "pwd"))
 		return (ft_pwd(PRINT, cmd_lst, token));
+	if (is_same_str(cmd_lst[0], "unset"))
+		return (ft_unset(cmd_lst, token));
 	return (0);
 }
