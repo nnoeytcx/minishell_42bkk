@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:05:36 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/05 00:57:24 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:08:02 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ int	parser_error(char *str)
 		ft_putstr_fd("'\n", 2);
 	}
 	return (-1);
+}
+
+void	free_me(char **res)
+{
+	int	i;
+
+	i = 0;
+	while (res[i])
+	{
+		free (res[i]);
+		i++;
+	}
+	free (res);
 }
 
 int	ft_isspace(char c)
@@ -91,6 +104,7 @@ int	ft_check_meta(const char *c)
 		if (i == 0 && temp == '|')
 		{
 			parser_error("|");
+			free_me (res);
 			//printf("[%c]\n", temp);
 			return (0);// '|'
 		}
@@ -100,6 +114,7 @@ int	ft_check_meta(const char *c)
 			if (is_meta(temp) && (two == '<' || two == '>'))
 			{
 				parser_error("|");
+				free_me (res);
 				//printf("[%c %c]\n", two, temp);
 				return (0);// '|'
 			}
@@ -115,8 +130,10 @@ int	ft_check_meta(const char *c)
 	{
 		//printf("[%c]\n", two);
 		parser_error(NULL);
+		free_me (res);
 		return (0);// newline
 	}
+	free_me (res);
 	return (1);
 }
 

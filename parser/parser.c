@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/05 01:00:04 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:55:22 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ void	init_table(t_cmd *table, t_strm *set)
 	table->next = NULL;
 }
 
-t_cmd	*new_command_tab(char *input, t_env *env)
+t_cmd	*new_command_tab(char *input, t_tok *token)
 {
 	t_cmd	*new_table;
 	t_strm	*set[3];
+	t_env	*env;
 	char	**cmd_arg;
 	int		i;
 
 	if (!input)
 		return (NULL);
+	env = token->env_token;
 	new_table = ft_calloc(sizeof(t_cmd), 1);
 	cmd_arg = ft_split_sp(input, ' ');
 	i = 0;
@@ -69,7 +71,7 @@ t_cmd	*new_command_tab(char *input, t_env *env)
 		}
 		i++;
 	}
-	get_value_from_struct(set[1], env);
+	get_value_from_struct(set[1], token);
 	set_mode(set[1]);
 	if (cmd_arg)
 		free2d(cmd_arg);
@@ -91,7 +93,7 @@ int	lexer_parser(t_tok *token, char *input)
 	res = token->command;
 	while (split_cmd[i])
 	{
-		new = new_command_tab(split_cmd[i], token->env_token);
+		new = new_command_tab(split_cmd[i], token);
 		if (i == 0)
 		{
 			(*token).command = new;

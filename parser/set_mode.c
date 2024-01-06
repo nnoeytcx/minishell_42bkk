@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/05 13:57:12 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:19:12 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	set_mode(t_strm *str)
 		len = ft_strlen(stm->value);
 		if (stm->type == string)
 		{
-			if (0 == ft_strncmp(">", stm->value, len))
+			if (is_same_str(">", stm->value))
+			//if (0 == ft_strncmp(">", stm->value, len))
 			{
 				stm->type = redout_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))
@@ -55,7 +56,8 @@ int	set_mode(t_strm *str)
 					return (0);
 				}
 			}
-			else if (0 == ft_strncmp("<", stm->value, len))
+			else if (is_same_str("<", stm->value))
+			//else if (0 == ft_strncmp("<", stm->value, len))
 			{
 				stm->type = redin_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))
@@ -69,7 +71,8 @@ int	set_mode(t_strm *str)
 					return (0);
 				}
 			}
-			else if (0 == ft_strncmp("<<", stm->value, len))
+			else if (is_same_str("<<", stm->value))
+			//else if (0 == ft_strncmp("<<", stm->value, len))
 			{
 				stm->type = h_doc_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))
@@ -83,7 +86,8 @@ int	set_mode(t_strm *str)
 					return (0);
 				}
 			}
-			else if (0 == ft_strncmp("<<<", stm->value, len))
+			else if (is_same_str("<<<", stm->value))
+			//else if (0 == ft_strncmp("<<<", stm->value, len))
 			{
 				stm->type = h_doc_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))
@@ -97,7 +101,8 @@ int	set_mode(t_strm *str)
 					return (0);
 				}
 			}
-			else if (0 == ft_strncmp(">>", stm->value, len))
+			else if (is_same_str(">>", stm->value))
+			//else if (0 == ft_strncmp(">>", stm->value, len))
 			{
 				stm->type = append_symbol;
 				if (stm->next && !is_sp_symbol(stm->next->value))

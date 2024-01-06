@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/05 15:38:01 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:01:09 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	expand_from_env(t_strm *str_tab, t_env *env)
 	return (0);
 }
 
-int	get_value_from_struct(t_strm *str_tab, t_env *env)
+int	get_value_from_struct(t_strm *str_tab, t_tok *token)
 {
 	t_strm	*s;
 	char	*str;
@@ -44,7 +44,7 @@ int	get_value_from_struct(t_strm *str_tab, t_env *env)
 	{
 		str = s->value;
 		printf("tab : {%s}\n", str);
-		str = trim_and_expand(str, env);
+		str = trim_and_expand(str, token);
 		free(s->value);
 		printf("new : %s\n", str);
 		s->value = str;
@@ -53,7 +53,7 @@ int	get_value_from_struct(t_strm *str_tab, t_env *env)
 	}
 	return (0);
 }
-char	*find_dollarsign(char *str, t_env *env)
+char	*find_dollarsign(char *str, t_tok *token)
 {
 	int		i;
 	int		len;
@@ -76,7 +76,7 @@ char	*find_dollarsign(char *str, t_env *env)
 			if (open == 1 && len - 1)
 			{
 				substr = ft_substr(str, k, len - 1);
-				tmpstr = get_new_str(substr, env);
+				tmpstr = get_new_str(substr, token);
 				free(substr);
 				substr = new_str;
 				new_str = ft_strjoy(substr, tmpstr);
@@ -92,7 +92,7 @@ char	*find_dollarsign(char *str, t_env *env)
 			if (len - 1)
 			{
 				substr = ft_substr(str, k, len - 1);
-				tmpstr = get_new_str(substr, env);
+				tmpstr = get_new_str(substr, token);
 				free(substr);
 				substr = new_str;
 				new_str = ft_strjoy(substr, tmpstr);
@@ -113,7 +113,7 @@ char	*find_dollarsign(char *str, t_env *env)
 	if (len && open)
 	{
 		substr = ft_substr(str, k, len);
-		tmpstr = get_new_str(substr, env);
+		tmpstr = get_new_str(substr, token);
 		free(substr);
 		substr = new_str;
 		new_str = ft_strjoy(substr, tmpstr);
@@ -123,7 +123,7 @@ char	*find_dollarsign(char *str, t_env *env)
 	return (new_str);
 }
 
-char	*get_expand(char *str_tab, t_env *env)
+char	*get_expand(char *str_tab, t_tok *token)
 {
 	char	*s;
 	char	*tmpstr;
@@ -148,7 +148,7 @@ char	*get_expand(char *str_tab, t_env *env)
 			if (len)
 			{
 				substr = ft_substr(s, k, len);
-				tmpstr = find_dollarsign(substr, env);
+				tmpstr = find_dollarsign(substr, token);
 				free(substr);
 				substr = new_str;
 				new_str = ft_strjoy(substr, tmpstr);
@@ -170,7 +170,7 @@ char	*get_expand(char *str_tab, t_env *env)
 				if (len)
 				{
 					substr = ft_substr(s, k, len);
-					tmpstr = find_dollarsign(substr, env);
+					tmpstr = find_dollarsign(substr, token);
 					free(substr);
 					substr = new_str;
 					new_str = ft_strjoy(substr, tmpstr);
@@ -187,7 +187,7 @@ char	*get_expand(char *str_tab, t_env *env)
 	if (len)
 	{
 		substr = ft_substr(s, k, len);
-		tmpstr = find_dollarsign(substr, env);
+		tmpstr = find_dollarsign(substr, token);
 		free(substr);
 		substr = new_str;
 		new_str = ft_strjoy(substr, tmpstr);
@@ -197,7 +197,7 @@ char	*get_expand(char *str_tab, t_env *env)
 	return (new_str);
 }
 
-char	*trim_and_expand(char *str_tab, t_env *env)
+char	*trim_and_expand(char *str_tab, t_tok *token)
 {
 	char	*s;
 	char	tmp;
@@ -222,7 +222,7 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 			{
 				num[1] += 1;
 				num[0] -= 2;
-				new_str = get_newstr_expand(num, new_str, s, env);
+				new_str = get_newstr_expand(num, new_str, s, token);
 				num[1] -= 1;
 				num[0] += 2;
 			}
@@ -249,7 +249,7 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 		{
 			if (s[i + 1] && is_quote(s[i + 1]))
 			{
-				new_str = get_newstr_expand(num, new_str, s, env);
+				new_str = get_newstr_expand(num, new_str, s, token);
 				tmp = 0;
 				num[0] = 0;
 				num[1] = i + 1;
@@ -258,6 +258,6 @@ char	*trim_and_expand(char *str_tab, t_env *env)
 		i++;
 	}
 	if (num[0])
-		new_str = get_newstr_expand(num, new_str, s, env);
+		new_str = get_newstr_expand(num, new_str, s, token);
 	return (new_str);
 }
