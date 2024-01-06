@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/02 01:08:26 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:08:39 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ t_tok	*free_token(t_tok *token)
 	dprintf(2, "FREE ENVVV\n");
 	if (token->cur_input)
 		token->cur_input = ft_free(token->cur_input);
+	if (token->home_dir)
+		token->home_dir = ft_free(token->home_dir);
 	clear_history();
 	dprintf(2, "cler history\n");
 	return (NULL);

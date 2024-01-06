@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:51:43 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/05 15:57:48 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/06 08:29:28 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_cd(char **param, t_tok *token)
 	}
 	else
 	{
-		dprintf(2, "\nparam is [%s]\n", param[1]);
 		if (is_same_str("~", param[1]))
 		{
 			if (-1 == chdir(token->home_dir))
@@ -52,12 +51,12 @@ int	ft_cd(char **param, t_tok *token)
 				status = 1;
 			new_pwd = ft_free(new_pwd);
 		}
-		else 
+		else
 		{
 			if (-1 == chdir(param[1]))
 				status = 1;
 		}
-	};
+	}
 	dprintf(2, "status is == %d\n", status);
 	if (status == 1)
 		perror("CD : ");
@@ -65,8 +64,8 @@ int	ft_cd(char **param, t_tok *token)
 	if (new_pwd == NULL && errno == ENOENT && status == 0)
 	{
 		perror("getcwd : ");
-		new_pwd = ft_strjoin(old_pwd ,"/.");
-	};
+		new_pwd = ft_strjoin(old_pwd, "/.");
+	}
 	dprintf(2, "PWD : old [%s] new [%s]\n", old_pwd, new_pwd);
 	if (status == 1)
 		perror("CD : ");

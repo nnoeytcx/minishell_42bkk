@@ -5,7 +5,6 @@ int ft_close(int fd)
 {
 	if (fd == -1)
 		return (-1);
-	dprintf(2, "pid -> [%d] close [%d]\n",getpid(), fd);
 	close(fd);
 	return (-1);
 }
@@ -61,8 +60,7 @@ int	wait_all_child(t_cmd *cmd_tab)
 	cmd_tab_t = cmd_tab;
 	while (cmd_tab_t)
 	{
-		waitpid(cmd_tab_t->process_id, &exit_status,  WUNTRACED);
-		dprintf(2, "the exit status %d\n", exit_status);
+		waitpid(cmd_tab_t->process_id, &exit_status, WUNTRACED);
 		if (WIFSIGNALED(exit_status))
 		{
 			if (exit_status == 3)
@@ -84,7 +82,6 @@ int	wait_all_child(t_cmd *cmd_tab)
 
 void child_process_run(t_tok *t, t_cmd *cur_cmdtab, int pipo[2], int fd_in)
 {
-	term_setup(CHILD_PROCESS);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	ft_putstr_fd("in command \n",2);
