@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:32:49 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 17:06:57 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/06 17:49:22 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,21 @@ char	*ft_strjoy(char const *s1, char const *s2)
 char	*get_new_str(char *str, t_tok *token)
 {
 	char	*new_str;
+	char	*tmpstr;
+	char	*substr;
 	t_env	*e;
 
 	new_str = NULL;
 	e = token->env_token;
 	printf("[%s]\n", str);
 	if (str[0] == '?')
-		new_str = ft_itoa(token->return_code);
+	{
+		tmpstr = ft_itoa(token->return_code);
+		substr = ft_substr(str, 1, ft_strlen(str) - 1);
+		new_str = ft_strjoy(tmpstr, substr);
+		free(tmpstr);
+		free(substr);
+	}
 	else
 		new_str = get_value_from_key(str, e);
 	return (new_str);

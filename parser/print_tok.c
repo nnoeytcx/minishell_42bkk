@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:12 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 16:59:55 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/07 06:36:15 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ void	print_command_tab(t_cmd *cmd)
 	while (tmp != NULL)
 	{
 		stt = tmp->str_mode;
-		dprintf(2,"\n - {%d} cmd [%p] -\n\n", k, cmd);
+		dprintf(2, "\n - {%d} cmd [%p] -\n\n", k, cmd);
 		while (stt)
 		{
-			dprintf(2,"[%s] mode [%d] -> ", stt->value, stt->type);
+			dprintf(2, "[%s] mode [%d] -> ", stt->value, stt->type);
 			stt = stt->next;
 		}
-		//dprintf(2,"\n\npid[%d]\nstatus[%d]", tmp->process_id, tmp->process_status);
 		k++;
 		tmp = tmp->next;
 	}
-	dprintf (2,"\n\033[0;97m");
+	dprintf (2, "\n\033[0;97m");
 }
 
 void	print_tok(t_tok t)
@@ -42,7 +41,8 @@ void	print_tok(t_tok t)
 	print_command_tab((t.command));
 }
 
-char	*get_newstr_expand(int num[2], char *new_str, char const *s, t_tok *token)
+char	*get_newstr_expand(int num[2], char *new_str, \
+		char const *s, t_tok *token)
 {
 	char	*substr;
 	char	*tmpstr;
@@ -51,6 +51,11 @@ char	*get_newstr_expand(int num[2], char *new_str, char const *s, t_tok *token)
 
 	len = num[0];
 	k = num[1];
+	if (s[k] == '\"')
+	{
+		len -= 2;
+		k += 1;
+	}
 	substr = ft_substr(s, k, len);
 	tmpstr = get_expand(substr, token);
 	free(substr);
@@ -59,4 +64,33 @@ char	*get_newstr_expand(int num[2], char *new_str, char const *s, t_tok *token)
 	free(substr);
 	free(tmpstr);
 	return (new_str);
+}
+
+int	check_quote_close(const char *c)
+{
+	char	qt;
+
+	qt = 0;
+	while (*c)
+	{
+		qt = get_quote_trigger(qt, c);
+		c++;
+	}
+	if (qt != 0)
+		return (0);
+	return (1);
+}
+
+int	check_no_space(const char *c)
+{
+	int	i;
+
+	i = 0;
+	while (c[i])
+	{
+		if (!ft_isspace(c[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }

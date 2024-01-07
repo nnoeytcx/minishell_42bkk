@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 17:13:50 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/07 05:18:48 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+void	free_me(char **res)
+{
+	int	i;
+
+	i = 0;
+	while (res[i])
+	{
+		free (res[i]);
+		i++;
+	}
+	free (res);
+}
 
 t_strm	*new_str_with_mode(char *str)
 {
@@ -56,17 +69,7 @@ t_cmd	*new_command_tab(char *input, t_tok *token)
 	set[0] = new_table->str_mode;
 	while (cmd_arg[i])
 	{
-		if (i == 0)
-		{
-			set[0] = new_str_with_mode(cmd_arg[i]);
-			set[1] = set[0];
-		}
-		else
-		{
-			set[2] = new_str_with_mode(cmd_arg[i]);
-			set[0]->next = set[2];
-			set[0] = set[2];
-		}
+		in_cmd_tab(set, cmd_arg, i);
 		i++;
 	}
 	get_value_from_struct(set[1], token);
@@ -87,21 +90,16 @@ int	lexer_parser(t_tok *token, char *input)
 	split_cmd = ft_split_pipe(input, '|');
 	if (split_cmd == NULL)
 		return (1);
-	i = 0;
+	i = 1;
 	res = token->command;
+	new = new_command_tab(split_cmd[0], token);
+	(*token).command = new;
+	res = new;
 	while (split_cmd[i])
 	{
 		new = new_command_tab(split_cmd[i], token);
-		if (i == 0)
-		{
-			(*token).command = new;
-			res = new;
-		}
-		else
-		{
-			(*token).command->next = new;
-			(*token).command = (*token).command->next;
-		}
+		(*token).command->next = new;
+		(*token).command = (*token).command->next;
 		i++;
 	}
 	dprintf(2, "malloc [%d]\n", i);

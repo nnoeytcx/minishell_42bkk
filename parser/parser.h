@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:11:17 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 17:01:28 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/07 07:27:40 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,11 @@
 
 //error_parser.c
 int				parser_error(char *str);
-int				ft_isspace(char c);
-int				is_meta(char c);
-int				check_quote_close(const char *c);
-int				check_no_space(const char *c);
+int				parser_error2(char c);
+int				ft_check_meta(const char *c);
 int				is_good_input(const char *c);
-void			free_me(char **res);
 
 //expand.c
-int				expand_from_env(t_strm *str_tab, t_env *env);
 int				get_value_from_struct(t_strm *str_tab, t_tok *token);
 char			*find_dollarsign(char *str, t_tok *token);
 char			*get_expand(char *str_tab, t_tok *token);
@@ -56,16 +52,22 @@ int				lexer_parser(t_tok *token, char *input);
 void			init_table(t_cmd *table, t_strm *set);
 t_cmd			*new_command_tab(char *input, t_tok *token);
 t_strm			*new_str_with_mode(char *str);
+void			free_me(char **res);
 
 //print_tok.c
 void			print_tok(t_tok t);
 void			print_command_tab(t_cmd *cmd);
 char			*get_newstr_expand(int num[2], char *new_str, \
 				char const *s, t_tok *token);
+int				check_quote_close(const char *c);
+int				check_no_space(const char *c);
 
 //set_mode.c
 int				set_mode(t_strm *str);
-int				is_sp_symbol(char *str);
+int				ft_isspace(char c);
+int				is_meta(char c);
+char			*new_str_find(char *s, int num[2], t_tok *tok, char *new);
+char			*new_str_find2(char *s, int num[2], t_tok *tok, char *new);
 
 //expand_util.c
 char			*get_new_str(char *str, t_tok *token);
@@ -73,6 +75,10 @@ int				is_submeta(char c);
 char			*my_ft_strjoin(char const *s1, char c2);
 char			*ft_strjoy(char const *s1, char const *s2);
 
-//here_doc_na.c
-char			*trim_and_expand_heredoc(char *str_tab, t_env *env);
+//util.c
+int				in_check_meta(char **res, int i, char two);
+void			set_type(t_strm *stm, int type, int next_type);
+void			in_cmd_tab(t_strm	*set[3], char **cmd_arg, int i);
+char			*joy_str(char *s, int num[2], char *new_str);
+char			*new_str_getex(char *s, int num[2], t_tok *tok, char *new);
 #endif
