@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/03 15:13:43 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/07 09:22:59 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int open_infile(char *filename, int *status)
 	{
 		perror("ERROR: ");
 		dprintf(2, "U know what!!?? [%s] not found\n", filename);
-		*status = 1;
-		return (1);
+		*status = 0;
+		return (-1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -111,8 +111,8 @@ int	open_outfile(char *filename, int mode, int *status)
 	{
 		perror("ERROR: ");
 		dprintf(2, "U know what!!?? [%s] not found\n", filename);
-		*status = 1;
-		return (1);
+		*status = 0;
+		return (-1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -124,13 +124,11 @@ int	loop_open_file(t_cmd *t)
 	t_strm	*lst;
 	int		status;
 
-	status = 0;
+	status = 1;
 	ft_putstr_fd("\n---------- open loop -------\n\n",2);
 	lst = t->str_mode;
 	while (lst)
 	{
-		if (status)
-			return (0);
 		if (lst->type == file_out_str)
 			open_outfile(lst->value, O_TRUNC, &status);
 		if (lst->type == file_out_append_str)
@@ -139,7 +137,7 @@ int	loop_open_file(t_cmd *t)
 			open_infile(lst->value, &status);
 		lst = lst->next;
 	}
-	return (1);
+	return (status);
 }
 
 
