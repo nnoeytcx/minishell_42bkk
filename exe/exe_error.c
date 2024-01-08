@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:19:16 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 15:20:24 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/08 20:56:40 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,5 @@ void	errorcmd(t_cmd *t_c, t_tok *t, int errnum)
 	ft_putstr_fd(t_c->command_line[0], 2);
 	ft_putstr_fd("\n", 2);
 	free_token(t);
-	printf("exit with ecode [%d]", ecode);
 	exit(ecode);
 }

@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_exe_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:15:27 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/31 20:28:08 by pruenrua         ###   ########seoul.kr  */
+/*   Updated: 2024/01/07 15:19:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-int	str_n_compare(const char *s1, const char *s2, size_t n)
-{
-	while (n)
-	{
-		if (*s1 != *s2)
-			return (0);
-		if (*s1 == 0)
-			return (0);
-		n--;
-		s1++;
-		s2++;
-	}
-	return (1);
-}
 
 int	find_slash(char *str)
 {
