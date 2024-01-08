@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:58:49 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 09:38:01 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/08 20:59:56 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ void	if_not_define(char *env_name, char *value, t_env *env_lst);
 void	env_change_or_define(char *env_name, char *value, t_env *env_lst);
 t_env	*new_env(char *key, char *value, int mode);
 t_env	*init_env(char **env);
-
 
 #endif

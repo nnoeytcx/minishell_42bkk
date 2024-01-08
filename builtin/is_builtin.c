@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:14 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 02:03:37 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/07 20:16:47 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_same_str(char *s1, char *s2)
 	int	ret;
 
 	ret = 1;
+	if (!s1 || !s2)
+		return (0);
 	while (*s1 != '\0' && *s2 != '\0')
 	{
 		if (*s1 != *s2)

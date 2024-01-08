@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_join.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:05:35 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/02 00:09:39 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/08 20:48:31 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	**join_env_token(t_env *env_token)
 {
-    t_env	*tmp;
-    int		i;
-    char	**res;
-    char	*key_w_eq;
+	t_env		*tmp;
+	char		**res;
+	char		*key_w_eq;
+	int			i;
 
 	if (!env_token)
 		return (NULL);
@@ -42,4 +42,3 @@ char	**join_env_token(t_env *env_token)
 	res[i] = NULL;
 	return (res);
 }
-
