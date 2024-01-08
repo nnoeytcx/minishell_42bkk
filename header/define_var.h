@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_var.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:08:42 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/05 01:32:38 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/08 20:59:33 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef enum e_type
 	redin_append_symbol
 }	t_type;
 
-# define DEFAULT_PATH_VALUE "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:."
 # define SYNTAX_ERR "Minishell:  syntax error near unexpected token `"
 # define PROMPT "MINISHELL "
 # define SP_TOKEN "< > << >> $ |"
@@ -40,6 +39,7 @@ typedef enum e_type
 # define FORK_ER "SYS : Can,t Fork\n"
 # define O_WSTR 0
 # define O_KEYV 1
-#define PARENT_PROCESS 1
-#define CHILD_PROCESS 2
+# define PARENT_PROCESS 1
+# define CHILD_PROCESS 2
+
 #endif
