@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/08 21:07:25 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:31:06 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ char	*get_prompt(t_tok token)
 	char	*prompt;
 	char	*ret_code;
 
-	prompt = get_value_from_key("PWD", token.env_token);
-	if (prompt == NULL)
-		prompt = getcwd(NULL, 0);
+	if (ft_pwd(GET, &prompt, &token))
+		prompt = ft_strdup("minishell (PWD is MISSING)");
 	tmps = prompt;
 	prompt = ft_strjoin(tmps, " $");
 	tmps = ft_free(tmps);
@@ -96,16 +95,16 @@ int	main(int ac, char **av, char **env)
 {
 	t_tok	token;
 
-	(void) av;
-	if (ac != 1 || !env)
+	if (ac != 1 || !env || av[1])
 		return (1);
 	term_setup(PARENT_PROCESS);
 	token.command = NULL;
 	token.return_code = 0;
 	token.env_token = init_env(env);
-	token.home_dir = get_value_from_key("HOME", token.env_token);
 	while (1)
 	{
+		token.home_dir = get_value_from_key("HOME", token.env_token);
+		ft_pwd(GET, &token.pwd, &token);
 		token.cur_input = readline_input(token);
 		dprintf(2,"prompt == [%s]\n", token.cur_input);
 		if (is_good_input(token.cur_input))
@@ -122,8 +121,9 @@ int	main(int ac, char **av, char **env)
 			dprintf(2, "herasfasdfds\n");
 			token.command = free_cmd_tab(token.command);
 		}
-		else
-			token.cur_input = ft_free(token.cur_input);
+		token.cur_input = ft_free(token.cur_input);
+		token.pwd = ft_free(token.pwd);
+		token.home_dir = ft_free(token.home_dir);
 	}
 	free_token(&token);
 	return (0);

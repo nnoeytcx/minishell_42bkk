@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:11:36 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/06 17:11:27 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/09 22:20:13 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_token
 	char					*cur_input;
 	int						return_code;
 	int						command_count;
+	char					*pwd;
 	char					*home_dir;
 	struct s_amd			*command;
 }	t_tok;
