@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:51:43 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/09 23:36:22 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 12:07:52 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,15 @@ int	ft_cd(char **param, t_tok *token)
 
 	status = 0;
 	if (!check_arg(param))
-		return (ft_putstr_fd(CDAGUMENTS, 2), 1);
+		return (ft_putstr_fd(CDAGUMENTS, 2), 2);
 	old_pwd = get_old_pwd(token);
 	if (!(param + 1))
 		status = chdir(token->home_dir);
 	else
 		status = ft_chdir(param, token);
-	dprintf(2, "status is == %d\n", status);
 	if (status == -1)
 		perror("CD : ");
 	new_pwd = get_new_pwd(status, old_pwd);
-	dprintf(2, "PWD : old [%s] new [%s]\n", old_pwd, new_pwd);
 	if (status != -1)
 	{
 		env_change_or_define("OLDPWD", old_pwd, token->env_token);
@@ -122,5 +120,7 @@ int	ft_cd(char **param, t_tok *token)
 	}
 	new_pwd = ft_free(new_pwd);
 	old_pwd = ft_free(old_pwd);
+	if (status == -1)
+		status = 1;
 	return (status);
 }

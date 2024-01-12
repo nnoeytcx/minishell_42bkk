@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:35 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/09 23:31:30 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 12:07:02 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ int	ft_pwd(int mode, char **str, t_tok *token)
 		*str = pwd_ret;
 	return (0);
 }
-/* ref https://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html*/

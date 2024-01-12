@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:49:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 02:12:37 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:07:15 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 # define GET 1
 # define PRINT 2
+# define CDAGUMENTS "minishell: cd: too many arguments\n"
 
 int		is_builtin(char *cmd);
 int		run_builtin(char **cmd_lst, t_tok *token);

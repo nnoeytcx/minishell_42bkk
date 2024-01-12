@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:54:32 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 02:07:22 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 12:07:15 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	del_envlst_from_key(char *key, t_env **env_lst)
 		nex_tmp = cur_tmp->next;
 		if (is_same_str(key, cur_tmp->key))
 		{
-			dprintf(2,"in test del the %s\n", cur_tmp->key);
 			cur_tmp->key = ft_free(cur_tmp->key);
 			cur_tmp->value = ft_free(cur_tmp->value);
 			if (prv_tmp == NULL)
@@ -44,7 +43,6 @@ int	ft_unset(char **param, t_tok *token)
 	int	i;
 
 	i = 0;
-	dprintf(2, "IN unset!!!!\n");
 	while (param[i])
 		i++;
 	if (i == 1)
