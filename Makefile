@@ -6,8 +6,9 @@ LIB_RL_PATH = $(shell brew --prefix readline)
 
 CFLAGS = -I${LIB_RL_PATH}/include/ -Wall -Werror -Wextra -g 
 
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all -s --track-fds=yes
-# CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+VALGRIND = valgrind --leak-check=full -s --track-fds=yes
+
+# CFLAGS = -Wall -Werror -Wextra -fsanitize=address --show-leak-kinds=all 
 
 LIB_RL_FLAG =  -lreadline -L${LIB_RL_PATH}/lib/
 
@@ -38,7 +39,7 @@ PARSER_FILE = expand_util.c parser.c print_tok.c set_mode.c expand.c error_parse
 			ft_split_special.c ft_split_pipe.c ft_split_sp_util.c util.c
 
 BUILTIN_DIR = ./builtin/
-BUILTIN_FILE = pwd.c env.c cd.c echo.c exit.c export.c unset.c is_builtin.c
+BUILTIN_FILE = pwd.c env.c cd.c echo.c exit.c export.c unset.c is_builtin.c cd_helper.c 
 
 LIBFT_SRC = ${addprefix ${LIBFT_DIR}, ${LIBFT_FILE}}
 EXE_SRC = ${addprefix ${EXE_DIR}, ${EXE_FILE}}

@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:42:16 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:48:58 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:49:29 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ char	*get_prompt(t_tok token)
 
 void	init_token(t_tok *token, char **env)
 {
-	token->command = NULL;
-	token->return_code = 0;
 	token->env_token = init_env(env);
+	token->env = NULL;
+	token->cur_input = NULL;
+	token->command = NULL;
+	token->pwd = NULL;
+	token->home_dir = NULL;
+	token->return_code = 0;
 }

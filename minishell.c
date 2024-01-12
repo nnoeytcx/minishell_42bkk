@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:48:40 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:46:24 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ char	*readline_input(t_tok token)
 
 	prompt = get_prompt(token);
 	input = readline(prompt);
+	prompt = ft_free(prompt);
 	if (input == NULL)
-	{
-		rl_clear_history();
-		exit(1);
-	}
+		return (NULL);
 	if (!(0 == ft_strlen(input)))
 		add_history(input);
 	return (input);
@@ -82,6 +80,8 @@ int	main(int ac, char **av, char **env)
 		token.home_dir = get_value_from_key("HOME", token.env_token);
 		ft_pwd(GET, &token.pwd, &token);
 		token.cur_input = readline_input(token);
+		if (token.cur_input == NULL)
+			break ;
 		if (is_good_input(token.cur_input))
 		{
 			lexer_parser(&token, token.cur_input);
