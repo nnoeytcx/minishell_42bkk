@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_exe_data.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:15:27 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 15:19:37 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:05:04 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,22 @@ char	*get_cmdpath(char *command, char **env)
 	return (ft_substr(command, 0, ft_strlen(command)));
 }
 
+int	count_strmode(t_strm *str_lst, enum e_type mode)
+{
+	int		ret;
+	t_strm	*tmp;
+
+	ret = 0;
+	tmp = str_lst;
+	while (tmp)
+	{
+		if (tmp->type == mode)
+			ret++;
+		tmp = tmp->next;
+	}
+	return (ret);
+}
+
 char	**get_cmd(t_strm *str_list)
 {
 	t_strm	*tmp;
@@ -74,14 +90,7 @@ char	**get_cmd(t_strm *str_list)
 
 	if (str_list == NULL)
 		return (NULL);
-	tmp = str_list;
-	i = 0;
-	while (tmp)
-	{
-		if (tmp->type == string)
-			i++;
-		tmp = tmp->next;
-	}
+	i = count_strmode(str_list, string);
 	tmp = str_list;
 	res = ft_calloc(sizeof(char *), i + 1);
 	i = 0;

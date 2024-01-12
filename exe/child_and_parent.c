@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_and_parent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:25:44 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/08 20:56:19 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:11:57 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ int	wait_all_child(t_cmd *cmd_tab)
 			cmd_tab_t->process_status = exit_status;
 		cmd_tab_t = cmd_tab_t->next;
 	}
+	setsig_exe(0);
 	return (exit_status);
 }
 
 void	child_process_run(t_tok *t, t_cmd *cur_cmdtab, int pipo[2], int fd_in)
 {
+	setsig_exe(3);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	if (cur_cmdtab->next)

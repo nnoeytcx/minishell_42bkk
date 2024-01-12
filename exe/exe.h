@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:24:13 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 21:16:21 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:10:05 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ void		parent_prepare_next_command(t_cmd *cur_cmd, \
 int			wait_all_child(t_cmd *cmd_tab);
 void		child_process_run(t_tok *t, t_cmd *cur_cmdtab, \
 									int pipo[2], int fd_in);
-void	run_command(t_cmd *t_c, t_tok *t);
+void		run_command(t_cmd *t_c, t_tok *t);
+void		setsig_exe(int mode);
+
 #endif
