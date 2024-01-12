@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 15:32:28 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/06 08:30:18 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:07:04 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	ft_echo(char **param)
 	option = 0;
 	while (param[i])
 		i++;
-	if (i < 2)
-		return (0);
 	i = 1;
 	while (param[i] && str_n_compare(param[i], "-n", ft_strlen(param[i])))
 	{

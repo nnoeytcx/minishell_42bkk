@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:52:42 by pruenrua          #+#    #+#             */
-/*   Updated: 2023/12/30 01:52:44 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/10 19:41:13 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_env(t_env *env_list)
 
 	lst = env_list;
 	if (!env_list)
-		dprintf(2, "ENV : env variable is not set\n");
+		ft_putstr_fd("Error : variable is not set\n", 2);
 	lst = env_list;
 	while (lst)
 	{

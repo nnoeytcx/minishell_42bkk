@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/08 21:07:25 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:46:24 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,6 @@ void	signal_hunter(int signal)
 		return ;
 }
 
-char	*get_prompt(t_tok token)
-{
-	char	*tmps;
-	char	*prompt;
-	char	*ret_code;
-
-	prompt = get_value_from_key("PWD", token.env_token);
-	if (prompt == NULL)
-		prompt = getcwd(NULL, 0);
-	tmps = prompt;
-	prompt = ft_strjoin(tmps, " $");
-	tmps = ft_free(tmps);
-	tmps = prompt;
-	ret_code = ft_itoa(token.return_code);
-	prompt = ft_strjoin(tmps, ret_code);
-	tmps = ft_free(tmps);
-	ret_code = ft_free(ret_code);
-	tmps = prompt;
-	prompt = ft_strjoin(tmps, " > ");
-	tmps = ft_free(tmps);
-	return (prompt);
-}
-
 char	*readline_input(t_tok token)
 {
 	char	*input;
@@ -58,11 +35,9 @@ char	*readline_input(t_tok token)
 
 	prompt = get_prompt(token);
 	input = readline(prompt);
+	prompt = ft_free(prompt);
 	if (input == NULL)
-	{
-		rl_clear_history();
-		exit(1);
-	}
+		return (NULL);
 	if (!(0 == ft_strlen(input)))
 		add_history(input);
 	return (input);
@@ -96,34 +71,27 @@ int	main(int ac, char **av, char **env)
 {
 	t_tok	token;
 
-	(void) av;
-	if (ac != 1 || !env)
+	if (ac != 1 || !env || av[1])
 		return (1);
 	term_setup(PARENT_PROCESS);
-	token.command = NULL;
-	token.return_code = 0;
-	token.env_token = init_env(env);
-	token.home_dir = get_value_from_key("HOME", token.env_token);
+	init_token(&token, env);
 	while (1)
 	{
+		token.home_dir = get_value_from_key("HOME", token.env_token);
+		ft_pwd(GET, &token.pwd, &token);
 		token.cur_input = readline_input(token);
-		dprintf(2,"prompt == [%s]\n", token.cur_input);
+		if (token.cur_input == NULL)
+			break ;
 		if (is_good_input(token.cur_input))
 		{
-			dprintf(2, "\033[1;33m------- PARSER -------\n");
 			lexer_parser(&token, token.cur_input);
 			token.cur_input = ft_free(token.cur_input);
-			dprintf(2,"----out of parser----\n\033[0;97m");
-			print_tok(token);
-			dprintf(2,"\n-----------------------------\n");
-			dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
 			token.return_code = execute_command(&token);
-			dprintf(2,"\n---------------------------------\n");
-			dprintf(2, "herasfasdfds\n");
 			token.command = free_cmd_tab(token.command);
 		}
-		else
-			token.cur_input = ft_free(token.cur_input);
+		token.cur_input = ft_free(token.cur_input);
+		token.pwd = ft_free(token.pwd);
+		token.home_dir = ft_free(token.home_dir);
 	}
 	free_token(&token);
 	return (0);

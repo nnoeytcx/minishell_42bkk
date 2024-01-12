@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:14 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 20:16:47 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 00:11:53 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	run_single_builtin(t_tok *t)
 
 int	run_builtin(char **cmd_lst, t_tok *token)
 {
+	token->env = free2d(token->env);
 	if (is_same_str(cmd_lst[0], "cd"))
 		return (ft_cd(cmd_lst, token));
 	if (is_same_str(cmd_lst[0], "echo"))

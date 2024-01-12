@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:02:35 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/08 20:57:02 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 00:06:28 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+void	setsig_exe(int mode)
+{
+	if (mode == 1)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 0)
+	{
+		signal(SIGINT, &signal_hunter);
+		signal(SIGQUIT, &signal_hunter);
+	}
+	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
+}
 
 void	run_command(t_cmd *t_c, t_tok *t)
 {
@@ -20,11 +39,10 @@ void	run_command(t_cmd *t_c, t_tok *t)
 	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
 	if (loop_open_file(t_c))
 		execve(t_c->cmd_path, t_c->command_line, t->env);
-	perror("ERROR: ");
 	close(0);
 	close(1);
-	close(2);
 	errorcmd(t_c, t, errno);
+	close(2);
 	exit(1);
 }
 
@@ -36,14 +54,13 @@ int	fork_and_execve(t_tok *t)
 
 	tmp_fd = dup(STDIN_FILENO);
 	t_c = t->command;
+	setsig_exe(1);
 	while (t_c)
 	{
 		t_c->command_line = get_cmd(t_c->str_mode);
 		if (t_c->next != NULL)
-		{
 			if (pipe(pipo) == -1)
 				return (perror("PIPE : "), errno);
-		}
 		t_c->process_id = fork();
 		if (t_c->process_id == -1)
 			return (perror("FORK : "), errno);

@@ -6,33 +6,11 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/06 17:08:39 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:50:09 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-void	*ft_free(void *ptr)
-{
-	free(ptr);
-	return (NULL);
-}
-
-char	**free2d(char	**ptr)
-{
-	int	i;
-
-	i = 0;
-	if (!ptr)
-		return (NULL);
-	while (ptr[i])
-	{
-		ptr[i] = ft_free(ptr[i]);
-		i++;
-	}
-	ptr = ft_free(ptr);
-	return (NULL);
-}
 
 t_strm	*free_str_mode(t_strm *str_mode)
 {
@@ -98,19 +76,19 @@ t_env	*free_env_list(t_env *env_lst)
 
 t_tok	*free_token(t_tok *token)
 {
-	dprintf(2, "IN FREE \n");
 	token->command = free_cmd_tab(token->command);
-	dprintf(2, "FREE CMD\n");
 	token->env_token = free_env_list(token->env_token);
-	dprintf(2, "FREE ENV\n");
 	if (token->env)
 		token->env = free2d(token->env);
-	dprintf(2, "FREE ENVVV\n");
 	if (token->cur_input)
 		token->cur_input = ft_free(token->cur_input);
 	if (token->home_dir)
 		token->home_dir = ft_free(token->home_dir);
+	if (token->pwd)
+		token->pwd = ft_free(token->pwd);
 	clear_history();
-	dprintf(2, "cler history\n");
+	close(0);
+	close(1);
+	close(2);
 	return (NULL);
 }
