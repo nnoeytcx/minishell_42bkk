@@ -30,12 +30,12 @@ ENV_SRC = ${addprefix ${ENV_PATH}, ${ENV_FILE}}
 
 ## FOR EXE
 EXE_PATH = ./exe/
-EXE_FILE = execute.c get_exe_data.c exe_error.c open_file.c get_next_line.c execute_util.c child_and_parent.c here_doc_event.c
+EXE_FILE = execute.c get_exe_data.c exe_error.c open_file.c execute_util.c child_and_parent.c here_doc_event.c
 EXE_SRC = ${addprefix ${EXE_PATH}, ${EXE_FILE}}
 
 ## FOR FREE
 FREE_PATH = ./free/
-FREE_FILE = free_token.c
+FREE_FILE = free_token.c free.c
 FREE_SRC  = ${addprefix ${FREE_PATH}, ${FREE_FILE}}
 
 ## FOR PARSER
