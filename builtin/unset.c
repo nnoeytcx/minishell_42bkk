@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:54:32 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 12:07:15 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 00:27:50 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	del_envlst_from_key(char *key, t_env **env_lst)
 				*env_lst = nex_tmp;
 			else
 				prv_tmp->next = nex_tmp;
+			free(cur_tmp);
+			return ;
 		}
 		prv_tmp = cur_tmp;
 		cur_tmp = cur_tmp->next;

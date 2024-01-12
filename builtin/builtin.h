@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:49:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:07:15 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:59:58 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # define PRINT 2
 # define CDAGUMENTS "minishell: cd: too many arguments\n"
 
+char	*get_new_pwd(int status, char *old_pwd);
+char	*get_old_pwd(t_tok *token);
 int		is_builtin(char *cmd);
 int		run_builtin(char **cmd_lst, t_tok *token);
 int		run_single_builtin(t_tok *t);
