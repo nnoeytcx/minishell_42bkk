@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:29 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/07 07:46:37 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:09:43 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*find_dollarsign(char *str, t_tok *token)
 		}
 		i++;
 	}
-	if (num[1] && open)
+	if (num[1] - 1 && open)
 		new_str = new_str_find2(str, num, token, new_str);
 	return (new_str);
 }

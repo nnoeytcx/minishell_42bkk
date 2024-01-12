@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/07 07:46:23 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:08:59 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,15 @@ char	*new_str_find(char *s, int num[2], t_tok *tok, char *new)
 
 	k = num[0];
 	len = num[1] - 1;
+	printf("[len = %d] ", len);
 	if (!len)
+	{
+		printf("{%s} ", new);
+		tmpstr = new;
+		new = my_ft_strjoin(new, '$');
+		free (tmpstr);
 		return (new);
+	}
 	substr = ft_substr(s, k, len);
 	tmpstr = get_new_str(substr, tok);
 	free(substr);
@@ -85,6 +92,15 @@ char	*new_str_find2(char *s, int num[2], t_tok *tok, char *new)
 
 	k = num[0];
 	len = num[1];
+	printf("[len2 = %d] ", len);
+	if (!len)
+	{
+		printf("2{%s} ", new);
+		tmpstr = new;
+		new = my_ft_strjoin(new, '$');
+		free (tmpstr);
+		return (new);
+	}
 	substr = ft_substr(s, k, len);
 	tmpstr = get_new_str(substr, tok);
 	free(substr);
