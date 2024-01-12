@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/09 23:31:06 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:48:40 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,6 @@ void	signal_hunter(int signal)
 	}
 	if (signal == SIGQUIT)
 		return ;
-}
-
-char	*get_prompt(t_tok token)
-{
-	char	*tmps;
-	char	*prompt;
-	char	*ret_code;
-
-	if (ft_pwd(GET, &prompt, &token))
-		prompt = ft_strdup("minishell (PWD is MISSING)");
-	tmps = prompt;
-	prompt = ft_strjoin(tmps, " $");
-	tmps = ft_free(tmps);
-	tmps = prompt;
-	ret_code = ft_itoa(token.return_code);
-	prompt = ft_strjoin(tmps, ret_code);
-	tmps = ft_free(tmps);
-	ret_code = ft_free(ret_code);
-	tmps = prompt;
-	prompt = ft_strjoin(tmps, " > ");
-	tmps = ft_free(tmps);
-	return (prompt);
 }
 
 char	*readline_input(t_tok token)
@@ -98,27 +76,17 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1 || !env || av[1])
 		return (1);
 	term_setup(PARENT_PROCESS);
-	token.command = NULL;
-	token.return_code = 0;
-	token.env_token = init_env(env);
+	init_token(&token, env);
 	while (1)
 	{
 		token.home_dir = get_value_from_key("HOME", token.env_token);
 		ft_pwd(GET, &token.pwd, &token);
 		token.cur_input = readline_input(token);
-		dprintf(2,"prompt == [%s]\n", token.cur_input);
 		if (is_good_input(token.cur_input))
 		{
-			dprintf(2, "\033[1;33m------- PARSER -------\n");
 			lexer_parser(&token, token.cur_input);
 			token.cur_input = ft_free(token.cur_input);
-			dprintf(2,"----out of parser----\n\033[0;97m");
-			print_tok(token);
-			dprintf(2,"\n-----------------------------\n");
-			dprintf(2,"\n\033[1;31m--------------[exe]--------------\n");
 			token.return_code = execute_command(&token);
-			dprintf(2,"\n---------------------------------\n");
-			dprintf(2, "herasfasdfds\n");
 			token.command = free_cmd_tab(token.command);
 		}
 		token.cur_input = ft_free(token.cur_input);
