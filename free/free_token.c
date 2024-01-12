@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:06:58 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/12 23:50:09 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ t_tok	*free_token(t_tok *token)
 		token->cur_input = ft_free(token->cur_input);
 	if (token->home_dir)
 		token->home_dir = ft_free(token->home_dir);
+	if (token->pwd)
+		token->pwd = ft_free(token->pwd);
 	clear_history();
+	close(0);
+	close(1);
+	close(2);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:06:06 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:06:24 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 00:06:20 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**free2d(char	**ptr)
 		return (NULL);
 	while (ptr[i])
 	{
-		ptr[i] = ft_free(ptr[i]);
+		free(ptr[i]);
 		i++;
 	}
 	ptr = ft_free(ptr);
