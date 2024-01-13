@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 15:25:44 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/10 20:11:57 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/14 03:34:48 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	term_error(int exit_st)
 	{
 		ft_putstr_fd("QUIT : ", 2);
 		ft_putnbr_fd(exit_st, 2);
+		fr_putchar_fd('\n', 2);
 		exit_status = 131;
 	}
 	else
