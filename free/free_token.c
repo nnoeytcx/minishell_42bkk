@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:06:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 23:50:09 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:45:59 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cmd	*free_cmd_tab(t_cmd *cmd_tab)
 	t_cmd	*current;
 
 	if (cmd_tab == NULL || cmd_tab == NULL)
-		return (printf("CAN FREE the CMD tab\n"),NULL);
+		return (NULL);
 	current = cmd_tab;
 	while (current)
 	{

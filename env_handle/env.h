@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:58:49 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/08 20:59:56 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:52:42 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 char	*get_value_from_key(char *key, t_env *token);
 char	*getenv_value(char *env_v);
 char	*getenv_key(char *env_v);
-void	print_env(t_tok token);
 char	**join_env_token(t_env *env_token);
 
 void	if_not_define(char *env_name, char *value, t_env *env_lst);

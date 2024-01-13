@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 23:46:24 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:57:59 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	main(int ac, char **av, char **env)
 	init_token(&token, env);
 	while (1)
 	{
-		token.home_dir = get_value_from_key("HOME", token.env_token);
 		ft_pwd(GET, &token.pwd, &token);
 		token.cur_input = readline_input(token);
 		if (token.cur_input == NULL)
@@ -90,8 +89,6 @@ int	main(int ac, char **av, char **env)
 			token.command = free_cmd_tab(token.command);
 		}
 		token.cur_input = ft_free(token.cur_input);
-		token.pwd = ft_free(token.pwd);
-		token.home_dir = ft_free(token.home_dir);
 	}
 	free_token(&token);
 	return (0);

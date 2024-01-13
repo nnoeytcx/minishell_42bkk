@@ -25,7 +25,7 @@ LIBFT_FILE = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isasc
 			ft_tolower.c ft_toupper.c
 
 ENV_DIR = ./env_handle/
-ENV_FILE = env_util.c get_value_from_key.c init_env.c env_join.c env_edit.c
+ENV_FILE = get_value_from_key.c init_env.c env_join.c env_edit.c
 
 EXE_DIR = ./exe/
 EXE_FILE = execute.c get_exe_data.c exe_error.c open_file.c execute_util.c \

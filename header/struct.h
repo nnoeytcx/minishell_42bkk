@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:11:36 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/09 22:20:13 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:43:49 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct s_environment
 	char					*value;
 	struct s_environment	*next;
 }	t_env;
-
 
 typedef struct s_str_with_mode
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt_and_init.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:42:16 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 23:49:29 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 14:45:34 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*get_prompt(t_tok token)
 	char	*prompt;
 	char	*ret_code;
 
+	prompt = NULL;
 	if (ft_pwd(GET, &prompt, &token))
 		prompt = ft_strdup("minishell (PWD is MISSING)");
 	tmps = prompt;

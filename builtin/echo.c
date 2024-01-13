@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 15:32:28 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/13 12:46:37 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:46:31 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ int	ft_echo(char **param)
 	}
 	if (option != 1)
 		printf("\n");
-
 	return (0);
 }
