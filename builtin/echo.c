@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 15:32:28 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/13 01:31:22 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 12:46:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_echo(char **param)
 	while (param[i])
 		i++;
 	i = 1;
-	while (param[i] && str_n_compare(param[i], "-n", ft_strlen(param[i])))
+	while (param[i] && is_same_str(param[i], "-n"))
 	{
 		option = 1;
 		i++;
@@ -35,5 +35,6 @@ int	ft_echo(char **param)
 	}
 	if (option != 1)
 		printf("\n");
+
 	return (0);
 }
