@@ -29,7 +29,7 @@ ENV_FILE = get_value_from_key.c init_env.c env_join.c env_edit.c
 
 EXE_DIR = ./exe/
 EXE_FILE = execute.c get_exe_data.c exe_error.c open_file.c execute_util.c \
-		child_and_parent.c here_doc_event.c
+		child_and_parent.c here_doc_event.c 
 
 FREE_DIR = ./free/
 FREE_FILE = free_token.c free.c
@@ -39,7 +39,7 @@ PARSER_FILE = in_file.c expand_util.c parser.c print_tok.c set_mode.c expand.c e
 			ft_split_special.c ft_split_pipe.c ft_split_sp_util.c util.c
 
 BUILTIN_DIR = ./builtin/
-BUILTIN_FILE = pwd.c env.c cd.c echo.c exit.c export.c unset.c is_builtin.c cd_helper.c 
+BUILTIN_FILE = pwd.c env.c cd.c echo.c exit.c export.c unset.c is_builtin.c cd_helper.c builtin_run.c
 
 LIBFT_SRC = ${addprefix ${LIBFT_DIR}, ${LIBFT_FILE}}
 EXE_SRC = ${addprefix ${EXE_DIR}, ${EXE_FILE}}
