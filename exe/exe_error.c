@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 14:19:16 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:10:25 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/14 03:48:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	err_cmd(int	*ecode, int errnum, char *cmd, t_tok *t)
 	int		path_len;
 
 	path = get_value_from_key("PATH", t->env_token);
-	path_len = ft_strlen(path);
+	if (path)
+		path_len = ft_strlen(path);
 	if (errnum == 13 && find_slash(cmd))
 	{
 		ft_putstr_fd(strerror(errnum), 2);
 		*ecode = 126;
 	}
-	else if (find_slash(cmd) || path_len == 0)
+	else if (find_slash(cmd) || path == NULL || path_len == 0)
 	{
 		*ecode = 127;
 		ft_putstr_fd("no such file or directory", 2);
