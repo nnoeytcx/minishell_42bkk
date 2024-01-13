@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:38:26 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/13 13:57:59 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:13:37 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	main(int ac, char **av, char **env)
 
 	if (ac != 1 || !env || av[1])
 		return (1);
-	term_setup(PARENT_PROCESS);
-	init_token(&token, env);
+	minishell_init(&token, env);
 	while (1)
 	{
 		ft_pwd(GET, &token.pwd, &token);
