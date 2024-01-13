@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 02:01:52 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/05 13:40:51 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/14 03:56:24 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ char	*getenv_key(char *env_v)
 	if (env_v == NULL)
 		return (NULL);
 	i = 0;
-	while (env_v[i] != '=')
+	while (env_v[i] && env_v[i] == '=')
+		i++;
+	while (env_v[i] && env_v[i] != '=')
 		i++;
 	if (!env_v[i])
 		return (NULL);
