@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:31:09 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/13 13:37:40 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 14:12:29 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	*in_find(int num[4], char *new_str, \
 				new_str = new_str_find(str, num, token, new_str);
 			init_arr_number(num, num[3] + 1, 0, 1);
 		}
-		if (is_submeta(str[num[3]]) && num[1] && num[2])
+		if ((is_submeta(str[num[3]]) || ft_isspace(str[num[3]])) && num[1] \
+				&& num[2])
 		{
 			new_str = new_str_find(str, num, token, new_str);
 			init_arr_number(num, num[0], 0, 0);

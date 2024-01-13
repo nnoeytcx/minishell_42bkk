@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:12 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/13 13:32:25 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 15:07:12 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ int	check_quote_close(const char *c)
 		c++;
 	}
 	if (qt != 0)
+	{
+		ft_putstr_fd("your prompt is not close with ", 2);
+		ft_putchar_fd(qt, 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
+	}
 	return (1);
 }
 
