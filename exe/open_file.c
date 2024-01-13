@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 09:28:53 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/12 13:13:21 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:05:02 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	open_infile(char *filename, int *status)
 	if (-1 == fd)
 	{
 		*status = 0;
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(filename, 2);
+		perror(" ");
 		return (-1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -38,6 +41,9 @@ int	open_outfile(char *filename, int mode, int *status)
 	if (-1 == fd)
 	{
 		*status = 0;
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(filename, 2);
+		perror(" ");
 		return (-1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -73,7 +79,7 @@ int	here_doc_error(int fd, char *cut_str)
 	ft_putstr_fd(HERE_DOC_EOF_ERR, 2);
 	ft_putstr_fd("`", 2);
 	ft_putstr_fd(cut_str, 2);
-	ft_putstr_fd("')", 2);
+	ft_putstr_fd("')\n", 2);
 	return (-1);
 }
 

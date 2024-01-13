@@ -6,7 +6,7 @@
 /*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 21:12:08 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/07 22:11:33 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:06:10 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ch_stop_here(void)
 	if (g_signal == 1)
 	{
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		rl_replace_line("\n", 1);
 		rl_redisplay();
 		rl_done = 1;
 	}

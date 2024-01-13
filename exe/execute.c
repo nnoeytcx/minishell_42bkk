@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 16:02:35 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/13 00:06:28 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/14 01:32:09 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,19 @@ void	setsig_exe(int mode)
 
 void	run_command(t_cmd *t_c, t_tok *t)
 {
-	if (is_builtin(t_c->command_line[0]))
-		return (exit(run_builtin(t_c->command_line, t)));
 	t_c->path_env = get_envpath(t->env);
 	t_c->cmd_path = get_cmdpath(t_c->command_line[0], t_c->path_env);
-	if (loop_open_file(t_c))
+	if ((loop_open_file(t_c) != 0) && (t->command_count > 0))
+	{
+		if (is_builtin(t_c->command_line[0]))
+			return (exit(run_builtin(t_c->command_line, t, 1)));
 		execve(t_c->cmd_path, t_c->command_line, t->env);
+		errorcmd(t_c, t, errno);
+	}
+	else
+		free_token(t);
 	close(0);
 	close(1);
-	errorcmd(t_c, t, errno);
 	close(2);
 	exit(1);
 }
@@ -86,7 +90,7 @@ int	execute_command(t_tok *token)
 		return (0);
 	t->command_count = count_command_tab(t_c);
 	t->env = join_env_token(t->env_token);
-	if (t->command_count == 1 && command_is_builtin(t_c))
+	if (t->command_count == 1 && command_is_sin_builtin(t_c))
 		return (run_single_builtin(t));
 	return (fork_and_execve(t));
 }
