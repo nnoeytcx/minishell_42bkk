@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:32:49 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/06 17:49:22 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:21:47 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*get_new_str(char *str, t_tok *token)
 
 	new_str = NULL;
 	e = token->env_token;
-	printf("[%s]\n", str);
 	if (str[0] == '?')
 	{
 		tmpstr = ft_itoa(token->return_code);
@@ -69,7 +68,7 @@ int	is_submeta(char c)
 	return (0);
 }
 
-char	*my_ft_strjoin(char const *s1, char c2)
+char	*my_ft_strjoin(char *s1, char c2)
 {
 	char	*j_str;
 	char	*str_joined;
@@ -88,4 +87,11 @@ char	*my_ft_strjoin(char const *s1, char c2)
 	j_str++;
 	*j_str = '\0';
 	return (str_joined);
+}
+
+void	check_open_q(char c, int *num)
+{
+	if (is_quote(c) && num[2] == 0)
+		num[2] = c;
+	return ;
 }

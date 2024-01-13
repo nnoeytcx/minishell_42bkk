@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:05 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/12 23:08:59 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:18:05 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	set_mode(t_strm *str)
 			else if (is_same_str(">>", stm->value))
 				set_type(stm, append_symbol, file_out_append_str);
 		}
-		dprintf(2, "set [%s] to [%d] mode\n", stm->value, stm->type);
 		stm = stm->next;
 	}
 	return (1);
@@ -64,12 +63,10 @@ char	*new_str_find(char *s, int num[2], t_tok *tok, char *new)
 
 	k = num[0];
 	len = num[1] - 1;
-	printf("[len = %d] ", len);
 	if (!len)
 	{
-		printf("{%s} ", new);
 		tmpstr = new;
-		new = my_ft_strjoin(new, '$');
+		new = my_ft_strjoin(tmpstr, '$');
 		free (tmpstr);
 		return (new);
 	}
@@ -92,12 +89,10 @@ char	*new_str_find2(char *s, int num[2], t_tok *tok, char *new)
 
 	k = num[0];
 	len = num[1];
-	printf("[len2 = %d] ", len);
 	if (!len)
 	{
-		printf("2{%s} ", new);
 		tmpstr = new;
-		new = my_ft_strjoin(new, '$');
+		new = my_ft_strjoin(tmpstr, '$');
 		free (tmpstr);
 		return (new);
 	}

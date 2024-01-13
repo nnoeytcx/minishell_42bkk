@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:12 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/07 06:36:15 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 13:32:25 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,11 @@ void	print_command_tab(t_cmd *cmd)
 	while (tmp != NULL)
 	{
 		stt = tmp->str_mode;
-		dprintf(2, "\n - {%d} cmd [%p] -\n\n", k, cmd);
 		while (stt)
-		{
-			dprintf(2, "[%s] mode [%d] -> ", stt->value, stt->type);
 			stt = stt->next;
-		}
 		k++;
 		tmp = tmp->next;
 	}
-	dprintf (2, "\n\033[0;97m");
-}
-
-void	print_tok(t_tok t)
-{
-	printf("\n\033[1;34m-----token-----\n");
-	print_command_tab((t.command));
 }
 
 char	*get_newstr_expand(int num[2], char *new_str, \

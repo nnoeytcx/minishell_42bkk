@@ -6,7 +6,7 @@
 /*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:14 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/07 05:18:48 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 01:46:25 by tpoungla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	lexer_parser(t_tok *token, char *input)
 		(*token).command = (*token).command->next;
 		i++;
 	}
-	dprintf(2, "malloc [%d]\n", i);
 	(*token).command = res;
 	free2d(split_cmd);
 	return (0);

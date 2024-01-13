@@ -35,7 +35,7 @@ FREE_DIR = ./free/
 FREE_FILE = free_token.c free.c
 
 PARSER_DIR = ./parser/
-PARSER_FILE = expand_util.c parser.c print_tok.c set_mode.c expand.c error_parser.c \
+PARSER_FILE = in_file.c expand_util.c parser.c print_tok.c set_mode.c expand.c error_parser.c \
 			ft_split_special.c ft_split_pipe.c ft_split_sp_util.c util.c
 
 BUILTIN_DIR = ./builtin/
