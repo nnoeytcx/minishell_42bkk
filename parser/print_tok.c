@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 00:04:12 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/13 15:07:12 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/14 03:09:41 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 void	print_command_tab(t_cmd *cmd)
 {
-	int		k;
 	t_cmd	*tmp;
 	t_strm	*stt;
 
-	k = 0;
 	tmp = cmd;
 	while (tmp != NULL)
 	{
 		stt = tmp->str_mode;
 		while (stt)
 			stt = stt->next;
-		k++;
 		tmp = tmp->next;
 	}
 }
