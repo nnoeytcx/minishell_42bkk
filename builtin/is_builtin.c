@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruenrua <pruenrua@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 01:53:14 by pruenrua          #+#    #+#             */
-/*   Updated: 2024/01/13 01:31:08 by pruenrua         ###   ########.fr       */
+/*   Updated: 2024/01/14 01:52:36 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,34 @@ int	command_is_builtin(t_cmd *t_c)
 	return (ret);
 }
 
+int	command_is_sin_builtin(t_cmd *t_c)
+{
+	char	**cmd;
+	int		ret;
+
+	ret = 0;
+	cmd = get_cmd(t_c->str_mode);
+	if (is_sin_builtin(cmd[0]))
+		ret = 1;
+	cmd = free2d(cmd);
+	return (ret);
+}
+
+int	is_sin_builtin(char *cmd)
+{
+	if (is_same_str(cmd, "cd"))
+		return (1);
+	if (is_same_str(cmd, "env"))
+		return (1);
+	if (is_same_str(cmd, "exit"))
+		return (1);
+	if (is_same_str(cmd, "export"))
+		return (1);
+	if (is_same_str(cmd, "unset"))
+		return (1);
+	return (0);
+}
+
 int	is_builtin(char *cmd)
 {
 	if (is_same_str(cmd, "cd"))
@@ -60,35 +88,5 @@ int	is_builtin(char *cmd)
 		return (1);
 	if (is_same_str(cmd, "unset"))
 		return (1);
-	return (0);
-}
-
-int	run_single_builtin(t_tok *t)
-{
-	int		ret;
-
-	t->command->command_line = get_cmd(t->command->str_mode);
-	ret = 0;
-	ret = run_builtin(t->command->command_line, t);
-	return (ret);
-}
-
-int	run_builtin(char **cmd_lst, t_tok *token)
-{
-	token->env = free2d(token->env);
-	if (is_same_str(cmd_lst[0], "cd"))
-		return (ft_cd(cmd_lst, token));
-	if (is_same_str(cmd_lst[0], "echo"))
-		return (ft_echo(cmd_lst));
-	if (is_same_str(cmd_lst[0], "env"))
-		return (ft_env(token->env_token));
-	if (is_same_str(cmd_lst[0], "exit"))
-		return (ft_exit(cmd_lst, token));
-	if (is_same_str(cmd_lst[0], "export"))
-		return (ft_export(cmd_lst, token));
-	if (is_same_str(cmd_lst[0], "pwd"))
-		return (ft_pwd(PRINT, cmd_lst, token));
-	if (is_same_str(cmd_lst[0], "unset"))
-		return (ft_unset(cmd_lst, token));
 	return (0);
 }
