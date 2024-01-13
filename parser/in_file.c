@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_file.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpoungla <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pruenrua <pruenrua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:31:09 by tpoungla          #+#    #+#             */
-/*   Updated: 2024/01/13 14:12:29 by tpoungla         ###   ########.fr       */
+/*   Updated: 2024/01/13 20:56:06 by pruenrua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*in_find(int num[4], char *new_str, \
 		if (num[2] == 0)
 			new_str = get_join_c(new_str, str[num[3]]);
 	}
-	if (num[1] - 1 && num[2])
+	if (num[2])
 		new_str = new_str_find2(str, num, token, new_str);
 	return (new_str);
 }
