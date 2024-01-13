@@ -6,9 +6,7 @@ LIB_RL_PATH = $(shell brew --prefix readline)
 
 CFLAGS = -I${LIB_RL_PATH}/include/ -Wall -Werror -Wextra -g 
 
-VALGRIND = valgrind --leak-check=full -s --track-fds=yes
-
-# CFLAGS = -Wall -Werror -Wextra -fsanitize=address --show-leak-kinds=all 
+# CFLAGS = -Wall -Werror -Wextra -fsanitize=address --show-leak-kinds=all --leak-check=full -s --track-fds=yes
 
 LIB_RL_FLAG =  -lreadline -L${LIB_RL_PATH}/lib/
 
@@ -55,12 +53,6 @@ $(NAME) : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIB_RL_FLAG) -o $(NAME)
 
 all : $(NAME)
-
-valgrind : ${NAME}
-	${VALGRIND} ./${NAME}
-
-leaks :
-	leaks -atExit -- ./${NAME}
 
 clean :
 	@ $(RM) $(OBJ)
